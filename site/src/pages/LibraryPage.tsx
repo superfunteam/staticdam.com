@@ -134,32 +134,18 @@ export default function LibraryPage() {
 
   return (
     <>
-      <div className="mb-6 flex items-center justify-between">
-        <h2 className="text-2xl font-bold">
-          {selectedFilter
-            ? `${selectedFilter.includes(':') ? selectedFilter.split(':')[1] : selectedFilter} (${filteredImages.length})`
-            : `Library (${images.length})`
-          }
-        </h2>
-        <div className="flex items-center gap-4">
-          <span className="text-sm text-muted-foreground">
-            {selectedFilter
-              ? `${filteredImages.length} of ${images.length} images`
-              : `${images.length} images`
-            }
-          </span>
-          {selectedImages.size > 0 && (
-            <>
-              <span className="text-sm font-medium">
-                {selectedImages.size} selected
-              </span>
-              <Button onClick={startEditing} size="sm">
-                Edit Metadata
-              </Button>
-            </>
-          )}
+      {selectedImages.size > 0 && (
+        <div className="mb-6 flex items-center justify-end">
+          <div className="flex items-center gap-4">
+            <span className="text-sm font-medium">
+              {selectedImages.size} selected
+            </span>
+            <Button onClick={startEditing} size="sm">
+              Edit Metadata
+            </Button>
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="grid auto-rows-min gap-4 md:grid-cols-3 lg:grid-cols-4">
         {filteredImages.map((image) => (

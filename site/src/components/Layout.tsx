@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom'
-import { DamSidebar } from '@/components/dam-sidebar'
+import { DamSidebar, useFilter } from '@/components/dam-sidebar'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -15,6 +15,64 @@ import {
   SidebarTrigger,
 } from '@/components/ui/sidebar'
 
+function DynamicBreadcrumb() {
+  const { selectedFilter, filteredImages, setSelectedFilter } = useFilter()
+
+  if (!selectedFilter) {
+    return (
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbPage>Library ({filteredImages.length})</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+    )
+  }
+
+  // Parse filter type and value
+  let filterType = 'Unknown'
+  let filterValue = selectedFilter
+  let count = filteredImages.length
+
+  if (selectedFilter.startsWith('folder:')) {
+    filterType = 'Folder'
+    filterValue = selectedFilter.replace('folder:', '')
+  } else if (selectedFilter.startsWith('category:')) {
+    filterType = 'Category'
+    filterValue = selectedFilter.replace('category:', '')
+  } else if (selectedFilter.startsWith('tag:')) {
+    filterType = 'Subject'
+    filterValue = selectedFilter.replace('tag:', '')
+  }
+
+  return (
+    <Breadcrumb>
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbLink
+            href="#"
+            onClick={(e) => {
+              e.preventDefault()
+              setSelectedFilter(null)
+            }}
+          >
+            Library
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbPage>{filterType}</BreadcrumbPage>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbPage>{filterValue} ({count})</BreadcrumbPage>
+        </BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
+  )
+}
+
 export default function Layout() {
   return (
     <SidebarProvider>
@@ -27,19 +85,7 @@ export default function Layout() {
               orientation="vertical"
               className="mr-2 data-[orientation=vertical]:h-4"
             />
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="#">
-                    StaticDAM
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator className="hidden md:block" />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Library</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
+            <DynamicBreadcrumb />
           </div>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
