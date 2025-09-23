@@ -5,11 +5,7 @@
     "h": 0,
     "bytes": 0,
     "category": "portraits",
-    "subject": "Jimmy",
-    "tags": [
-      "person",
-      "headshot"
-    ]
+    "subject": "Jimmy"
   },
   {
     "path": "assets/personas/national-cancer-institute-S-3AnKlICmY-unsplash_side.png",
@@ -17,66 +13,59 @@
     "h": 0,
     "bytes": 0,
     "category": "portraits",
-    "subject": "Jimmy",
-    "tags": [
-      "person",
-      "headshot"
-    ]
+    "subject": "Jimmy"
   },
   {
     "path": "assets/personas/national-cancer-institute-S-3AnKlICmY-unsplash.jpg",
-    "w": 10800,
-    "h": 7200,
+    "w": 800,
+    "h": 533,
     "bytes": 0,
     "category": "portraits",
     "subject": "Jimmy",
     "tags": [
-      "person",
-      "headshot"
+      "Jimmy"
     ]
   },
   {
     "path": "assets/personas/nsys-group-WIPoOLzoFvk-unsplash.jpg",
-    "w": 6960,
-    "h": 4640,
+    "w": 800,
+    "h": 533,
     "bytes": 0,
     "category": "portraits",
     "subject": "Marcus",
     "tags": [
-      "person",
-      "headshot"
+      "Marcus"
     ]
   },
   {
     "path": "assets/personas/ronnakorn-triraganon-zyYEWx4mNPo-unsplash.jpg",
-    "w": 5472,
-    "h": 3648,
+    "w": 800,
+    "h": 533,
     "bytes": 0,
     "category": "portraits",
     "subject": "Sven",
     "tags": [
-      "person",
-      "headshot"
+      "Sven"
     ]
   },
   {
     "path": "assets/personas/vitaly-gariev-GInTp0NE14w-unsplash.jpg",
-    "w": 3800,
-    "h": 2138,
+    "w": 800,
+    "h": 450,
     "bytes": 0,
     "category": "portraits",
     "subject": "Sasha",
     "tags": [
-      "person",
-      "headshot"
+      "Sasha"
     ]
   },
   {
     "path": "assets/warehouses/adrian-sulyok-sczNLg6rrhQ-unsplash.jpg",
-    "w": 4822,
-    "h": 3215,
+    "w": 800,
+    "h": 533,
     "bytes": 0,
     "category": "warehouse",
+    "subject": "supply chain,logistics,storage",
     "tags": [
       "supply chain",
       "logistics",
@@ -85,10 +74,11 @@
   },
   {
     "path": "assets/warehouses/alberto-rodriguez--aCrA9FmT8Y-unsplash.jpg",
-    "w": 7952,
-    "h": 5304,
+    "w": 800,
+    "h": 534,
     "bytes": 0,
     "category": "warehouse",
+    "subject": "supply chain,logistics,storage",
     "tags": [
       "supply chain",
       "logistics",
@@ -97,10 +87,11 @@
   },
   {
     "path": "assets/warehouses/centre-for-ageing-better-ZlOlRnWk8zU-unsplash.jpg",
-    "w": 6046,
-    "h": 4024,
+    "w": 800,
+    "h": 532,
     "bytes": 0,
     "category": "warehouse",
+    "subject": "supply chain,logistics,storage",
     "tags": [
       "supply chain",
       "logistics",
@@ -109,10 +100,11 @@
   },
   {
     "path": "assets/warehouses/marcin-jozwiak-oh0DITWoHi4-unsplash.jpg",
-    "w": 5464,
-    "h": 3640,
+    "w": 800,
+    "h": 533,
     "bytes": 0,
     "category": "warehouse",
+    "subject": "supply chain,logistics,storage",
     "tags": [
       "supply chain",
       "logistics",
@@ -121,10 +113,11 @@
   },
   {
     "path": "assets/warehouses/pickawood-6tAIO3pxde4-unsplash.jpg",
-    "w": 5477,
-    "h": 3651,
+    "w": 800,
+    "h": 533,
     "bytes": 0,
     "category": "warehouse",
+    "subject": "supply chain,logistics,storage",
     "tags": [
       "supply chain",
       "logistics",
