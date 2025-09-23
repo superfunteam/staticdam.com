@@ -73,6 +73,11 @@ export function FilterProvider({ children }: { children: React.ReactNode }) {
       return images.filter(img => img.tags?.includes(tag))
     }
 
+    if (selectedFilter.startsWith('product:')) {
+      const product = selectedFilter.replace('product:', '')
+      return images.filter(img => img.product?.includes(product))
+    }
+
     return images
   }, [images, selectedFilter])
 
@@ -366,18 +371,14 @@ export function DamSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <CollapsibleContent>
                     <SidebarMenuSub>
                       {metadata.products.map((product) => {
+                        const count = metadata.productCounts.get(product)
                         return (
                           <SidebarMenuSubItem key={product}>
                             <SidebarMenuSubButton
-                              onClick={() => toggleFilter('product', product)}
-                              className={`${
-                                filters.product.includes(product) ? 'bg-accent text-accent-foreground' : ''
-                              }`}
+                              onClick={() => setSelectedFilter(`product:${product}`)}
+                              isActive={selectedFilter === `product:${product}`}
                             >
-                              <span>{product}</span>
-                              <span className="text-xs text-muted-foreground ml-auto">
-                                {metadata.productCounts.get(product)}
-                              </span>
+                              <span>{product} ({count})</span>
                             </SidebarMenuSubButton>
                           </SidebarMenuSubItem>
                         )
