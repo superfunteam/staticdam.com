@@ -30,15 +30,16 @@ jobs:
         with:
           version: 8
 
-      - name: Install ImageMagick
+      - name: Install ImageMagick with WebP support
         run: |
           sudo apt-get update
-          sudo apt-get install -y imagemagick
+          sudo apt-get install -y imagemagick libwebp-dev
 
-      - name: Verify ImageMagick installation
+      - name: Verify ImageMagick installation and WebP support
         run: |
           convert -version
           echo "ImageMagick convert command is available"
+          convert -list format | grep -i webp || echo "WebP not found in ImageMagick delegates"
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile=false

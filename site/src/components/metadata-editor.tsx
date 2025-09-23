@@ -8,9 +8,9 @@ import type { ImageMetadata } from '@/types'
 
 // Utility function to get thumbnail path
 function getThumbnailPath(imagePath: string): string {
-  // Convert assets/folder/image.jpg -> assets-thumbs/folder/image.webp
+  // Convert assets/folder/image.jpg -> assets-thumbs/folder/image.jpg
   const pathWithoutExt = imagePath.replace(/\.[^/.]+$/, '')
-  const thumbnailPath = pathWithoutExt.replace(/^assets\//, 'assets-thumbs/') + '.webp'
+  const thumbnailPath = pathWithoutExt.replace(/^assets\//, 'assets-thumbs/') + '.jpg'
   return `/${thumbnailPath}`
 }
 

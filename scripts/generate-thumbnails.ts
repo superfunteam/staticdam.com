@@ -35,13 +35,13 @@ function shouldGenerateThumbnail(originalPath: string, thumbnailPath: string): b
 }
 
 function getOutputPath(inputPath: string): string {
-  // Convert assets/folder/image.jpg -> assets-thumbs/folder/image.webp
+  // Convert assets/folder/image.jpg -> assets-thumbs/folder/image.jpg
   const relativePath = inputPath.replace(/^assets\//, '')
   const dir = dirname(relativePath)
   const nameWithoutExt = basename(relativePath, extname(relativePath))
 
   const outputDir = dir === '.' ? 'assets-thumbs' : `assets-thumbs/${dir}`
-  return `${outputDir}/${nameWithoutExt}.webp`
+  return `${outputDir}/${nameWithoutExt}.jpg`
 }
 
 async function generateThumbnail(inputPath: string): Promise<ThumbnailResult> {
@@ -64,15 +64,13 @@ async function generateThumbnail(inputPath: string): Promise<ThumbnailResult> {
       mkdirSync(outputDir, { recursive: true })
     }
 
-    // Generate WebP thumbnail at 800px width with lossless compression
+    // Generate JPG thumbnail at 800px width with high quality
     // -resize 800x800> only resizes if image is larger than 800px
-    // -define webp:lossless=true for lossless compression
-    // -quality 100 for maximum quality in lossless mode
+    // -quality 90 for high quality JPG compression
     const args = [
       inputPath,
       '-resize', '800x800>',
-      '-define', 'webp:lossless=true',
-      '-quality', '100',
+      '-quality', '90',
       outputPath
     ]
 
