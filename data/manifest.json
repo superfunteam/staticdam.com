@@ -1,5 +1,32 @@
 [
   {
+    "path": "assets/personas/national-cancer-institute-S-3AnKlICmY-unsplash.jpg",
+    "w": 10800,
+    "h": 7200,
+    "bytes": 0,
+    "tags": [
+      "Jimmy"
+    ]
+  },
+  {
+    "path": "assets/personas/nsys-group-WIPoOLzoFvk-unsplash.jpg",
+    "w": 6960,
+    "h": 4640,
+    "bytes": 0
+  },
+  {
+    "path": "assets/personas/ronnakorn-triraganon-zyYEWx4mNPo-unsplash.jpg",
+    "w": 5472,
+    "h": 3648,
+    "bytes": 0
+  },
+  {
+    "path": "assets/personas/vitaly-gariev-GInTp0NE14w-unsplash.jpg",
+    "w": 3800,
+    "h": 2138,
+    "bytes": 0
+  },
+  {
     "path": "assets/warehouses/adrian-sulyok-sczNLg6rrhQ-unsplash.jpg",
     "w": 4822,
     "h": 3215,
