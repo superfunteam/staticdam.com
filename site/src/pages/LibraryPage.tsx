@@ -1,8 +1,8 @@
-import { useState, useMemo } from 'react'
+import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/components/ui/use-toast'
-import { DamSidebar } from '@/components/dam-sidebar'
+import { useFilter } from '@/components/dam-sidebar'
 import type { ImageMetadata } from '@/types'
 
 export default function LibraryPage() {
@@ -10,8 +10,8 @@ export default function LibraryPage() {
   const [isEditing, setIsEditing] = useState(false)
   const [password, setPassword] = useState('')
   const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [selectedFilter, setSelectedFilter] = useState<string | null>(null)
   const { toast } = useToast()
+  const { selectedFilter, filteredImages } = useFilter()
 
   const { data: images = [], isLoading } = useQuery<ImageMetadata[]>({
     queryKey: ['manifest'],
@@ -22,62 +22,26 @@ export default function LibraryPage() {
     },
   })
 
-  // Filter images based on selected filter
-  const filteredImages = useMemo(() => {
-    if (!selectedFilter) return images
-
-    if (selectedFilter.startsWith('folder:')) {
-      const folder = selectedFilter.replace('folder:', '')
-      return images.filter(img => img.path.includes(`/${folder}/`))
-    }
-
-    if (selectedFilter.startsWith('category:')) {
-      const category = selectedFilter.replace('category:', '')
-      return images.filter(img => img.category === category)
-    }
-
-    if (selectedFilter.startsWith('tag:')) {
-      const tag = selectedFilter.replace('tag:', '')
-      return images.filter(img => img.tags?.includes(tag))
-    }
-
-    return images
-  }, [images, selectedFilter])
-
   if (isLoading) {
     return (
-      <>
-        <DamSidebar
-          images={[]}
-          selectedFilter={selectedFilter}
-          onFilterChange={setSelectedFilter}
-        />
-        <div className="flex items-center justify-center h-full">
-          <div className="text-center">
-            <div className="text-lg">Loading images...</div>
-          </div>
+      <div className="flex items-center justify-center h-full">
+        <div className="text-center">
+          <div className="text-lg">Loading images...</div>
         </div>
-      </>
+      </div>
     )
   }
 
   if (!images.length) {
     return (
-      <>
-        <DamSidebar
-          images={[]}
-          selectedFilter={selectedFilter}
-          onFilterChange={setSelectedFilter}
-        />
-        <div className="flex items-center justify-center h-full">
-          <div className="text-center">
-            <div className="text-lg mb-4">No images found</div>
-            <div className="text-sm text-muted-foreground">
-              Upload images to the assets folder to get started
-            </div>
+      <div className="flex items-center justify-center h-full">
+        <div className="text-center">
+          <div className="text-lg mb-4">No images found</div>
+          <div className="text-sm text-muted-foreground">
+            Upload images to the assets folder to get started
           </div>
         </div>
-      </>
+      </div>
     )
   }
 
@@ -141,41 +105,35 @@ export default function LibraryPage() {
 
   return (
     <>
-      <DamSidebar
-        images={images}
-        selectedFilter={selectedFilter}
-        onFilterChange={setSelectedFilter}
-      />
-      <div className="p-6">
-        <div className="mb-6 flex items-center justify-between">
-          <h2 className="text-2xl font-bold">
+      <div className="mb-6 flex items-center justify-between">
+        <h2 className="text-2xl font-bold">
+          {selectedFilter
+            ? `${selectedFilter.includes(':') ? selectedFilter.split(':')[1] : selectedFilter} (${filteredImages.length})`
+            : `Library (${images.length})`
+          }
+        </h2>
+        <div className="flex items-center gap-4">
+          <span className="text-sm text-muted-foreground">
             {selectedFilter
-              ? `${selectedFilter.includes(':') ? selectedFilter.split(':')[1] : selectedFilter} (${filteredImages.length})`
-              : `Library (${images.length})`
+              ? `${filteredImages.length} of ${images.length} images`
+              : `${images.length} images`
             }
-          </h2>
-          <div className="flex items-center gap-4">
-            <span className="text-sm text-muted-foreground">
-              {selectedFilter
-                ? `${filteredImages.length} of ${images.length} images`
-                : `${images.length} images`
-              }
-            </span>
-            {selectedImages.size > 0 && (
-              <>
-                <span className="text-sm font-medium">
-                  {selectedImages.size} selected
-                </span>
-                <Button onClick={startEditing} size="sm">
-                  Edit Metadata
-                </Button>
-              </>
-            )}
-          </div>
+          </span>
+          {selectedImages.size > 0 && (
+            <>
+              <span className="text-sm font-medium">
+                {selectedImages.size} selected
+              </span>
+              <Button onClick={startEditing} size="sm">
+                Edit Metadata
+              </Button>
+            </>
+          )}
         </div>
+      </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-          {filteredImages.map((image) => (
+      <div className="grid auto-rows-min gap-4 md:grid-cols-3 lg:grid-cols-4">
+        {filteredImages.map((image) => (
           <div
             key={image.path}
             className={`group relative cursor-pointer rounded-lg overflow-hidden border-2 transition-all ${
@@ -185,15 +143,15 @@ export default function LibraryPage() {
             }`}
             onClick={() => toggleSelect(image.path)}
           >
-            <div className="aspect-square bg-gray-100">
+            <div className="aspect-square bg-gray-100 rounded-xl">
               <img
                 src={`/${image.path}`}
                 alt={image.subject || image.path.split('/').pop()}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover rounded-xl"
                 loading="lazy"
               />
             </div>
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-xl">
               <div className="absolute bottom-2 left-2 right-2">
                 <div className="text-white text-sm truncate">
                   {image.path.split('/').pop()}
@@ -241,7 +199,6 @@ export default function LibraryPage() {
           </div>
         </div>
       )}
-      </div>
     </>
   )
 }

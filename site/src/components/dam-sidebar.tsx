@@ -1,5 +1,6 @@
 import * as React from "react"
 import { Folder, Tag, Image, Hash } from "lucide-react"
+import { useQuery } from '@tanstack/react-query'
 
 import {
   Sidebar,
@@ -15,13 +16,71 @@ import {
 } from "@/components/ui/sidebar"
 import type { ImageMetadata } from "@/types"
 
-interface DamSidebarProps {
-  images: ImageMetadata[]
+// Create a context for filter state
+const FilterContext = React.createContext<{
   selectedFilter: string | null
-  onFilterChange: (filter: string | null) => void
+  setSelectedFilter: (filter: string | null) => void
+  filteredImages: ImageMetadata[]
+}>({
+  selectedFilter: null,
+  setSelectedFilter: () => {},
+  filteredImages: []
+})
+
+export const useFilter = () => React.useContext(FilterContext)
+
+export function FilterProvider({ children }: { children: React.ReactNode }) {
+  const [selectedFilter, setSelectedFilter] = React.useState<string | null>(null)
+
+  const { data: images = [] } = useQuery<ImageMetadata[]>({
+    queryKey: ['manifest'],
+    queryFn: async () => {
+      const res = await fetch('/data/manifest.json')
+      if (!res.ok) throw new Error('Failed to load manifest')
+      return res.json()
+    },
+  })
+
+  // Filter images based on selected filter
+  const filteredImages = React.useMemo(() => {
+    if (!selectedFilter) return images
+
+    if (selectedFilter.startsWith('folder:')) {
+      const folder = selectedFilter.replace('folder:', '')
+      return images.filter(img => img.path.includes(`/${folder}/`))
+    }
+
+    if (selectedFilter.startsWith('category:')) {
+      const category = selectedFilter.replace('category:', '')
+      return images.filter(img => img.category === category)
+    }
+
+    if (selectedFilter.startsWith('tag:')) {
+      const tag = selectedFilter.replace('tag:', '')
+      return images.filter(img => img.tags?.includes(tag))
+    }
+
+    return images
+  }, [images, selectedFilter])
+
+  return (
+    <FilterContext.Provider value={{ selectedFilter, setSelectedFilter, filteredImages }}>
+      {children}
+    </FilterContext.Provider>
+  )
 }
 
-export function DamSidebar({ images, selectedFilter, onFilterChange, ...props }: DamSidebarProps & React.ComponentProps<typeof Sidebar>) {
+export function DamSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { selectedFilter, setSelectedFilter } = useFilter()
+
+  const { data: images = [] } = useQuery<ImageMetadata[]>({
+    queryKey: ['manifest'],
+    queryFn: async () => {
+      const res = await fetch('/data/manifest.json')
+      if (!res.ok) throw new Error('Failed to load manifest')
+      return res.json()
+    },
+  })
   // Extract unique folders from image paths
   const folders = React.useMemo(() => {
     const folderSet = new Set<string>()
@@ -72,7 +131,7 @@ export function DamSidebar({ images, selectedFilter, onFilterChange, ...props }:
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton
-                  onClick={() => onFilterChange(null)}
+                  onClick={() => setSelectedFilter(null)}
                   isActive={selectedFilter === null}
                   className="w-full"
                 >
@@ -95,7 +154,7 @@ export function DamSidebar({ images, selectedFilter, onFilterChange, ...props }:
                   return (
                     <SidebarMenuItem key={folder}>
                       <SidebarMenuButton
-                        onClick={() => onFilterChange(`folder:${folder}`)}
+                        onClick={() => setSelectedFilter(`folder:${folder}`)}
                         isActive={selectedFilter === `folder:${folder}`}
                         className="w-full"
                       >
@@ -121,7 +180,7 @@ export function DamSidebar({ images, selectedFilter, onFilterChange, ...props }:
                   return (
                     <SidebarMenuItem key={category}>
                       <SidebarMenuButton
-                        onClick={() => onFilterChange(`category:${category}`)}
+                        onClick={() => setSelectedFilter(`category:${category}`)}
                         isActive={selectedFilter === `category:${category}`}
                         className="w-full"
                       >
@@ -147,7 +206,7 @@ export function DamSidebar({ images, selectedFilter, onFilterChange, ...props }:
                   return (
                     <SidebarMenuItem key={tag}>
                       <SidebarMenuButton
-                        onClick={() => onFilterChange(`tag:${tag}`)}
+                        onClick={() => setSelectedFilter(`tag:${tag}`)}
                         isActive={selectedFilter === `tag:${tag}`}
                         className="w-full"
                       >

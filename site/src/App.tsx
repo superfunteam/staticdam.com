@@ -1,11 +1,12 @@
 import { Routes, Route } from 'react-router-dom'
 import { Toaster } from '@/components/ui/toaster'
+import { FilterProvider } from '@/components/dam-sidebar'
 import Layout from '@/components/Layout'
 import LibraryPage from '@/pages/LibraryPage'
 
 function App() {
   return (
-    <>
+    <FilterProvider>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<LibraryPage />} />
@@ -13,7 +14,7 @@ function App() {
         </Route>
       </Routes>
       <Toaster />
-    </>
+    </FilterProvider>
   )
 }
 
