@@ -27,6 +27,9 @@ interface MetadataUpdate {
 export function MetadataEditor({ selectedImages, images, isOpen, onClose, onSave }: MetadataEditorProps) {
   const [updates, setUpdates] = useState<Record<string, any>>({})
   const [newKeywords, setNewKeywords] = useState<Record<string, string>>({})
+  const [newCategories, setNewCategories] = useState<Record<string, string>>({})
+  const [newSubjects, setNewSubjects] = useState<Record<string, string>>({})
+  const [newProducts, setNewProducts] = useState<Record<string, string>>({})
   const { toast } = useToast()
 
   if (!isOpen) return null
@@ -62,6 +65,75 @@ export function MetadataEditor({ selectedImages, images, isOpen, onClose, onSave
     const imageUpdates = updates[imagePath] || {}
     const currentTags = imageUpdates.tags ?? image?.tags ?? []
     updateField(imagePath, 'tags', currentTags.filter(t => t !== tagToRemove))
+  }
+
+  // Category functions
+  const addCategory = (imagePath: string) => {
+    const category = newCategories[imagePath]?.trim()
+    if (!category) return
+
+    const image = selectedImageData.find(img => img.path === imagePath)
+    const imageUpdates = updates[imagePath] || {}
+    const currentCategories = imageUpdates.category ? [imageUpdates.category] : (image?.category ? [image.category] : [])
+
+    if (!currentCategories.includes(category)) {
+      updateField(imagePath, 'category', [...currentCategories, category])
+      setNewCategories(prev => ({ ...prev, [imagePath]: '' }))
+    }
+  }
+
+  const removeCategory = (imagePath: string, categoryToRemove: string) => {
+    const image = selectedImageData.find(img => img.path === imagePath)
+    const imageUpdates = updates[imagePath] || {}
+    const currentCategories = imageUpdates.category ? [imageUpdates.category] : (image?.category ? [image.category] : [])
+    const filtered = currentCategories.filter(c => c !== categoryToRemove)
+    updateField(imagePath, 'category', filtered.length > 0 ? filtered : [])
+  }
+
+  // Subject functions
+  const addSubject = (imagePath: string) => {
+    const subject = newSubjects[imagePath]?.trim()
+    if (!subject) return
+
+    const image = selectedImageData.find(img => img.path === imagePath)
+    const imageUpdates = updates[imagePath] || {}
+    const currentSubjects = imageUpdates.subject ? [imageUpdates.subject] : (image?.subject ? [image.subject] : [])
+
+    if (!currentSubjects.includes(subject)) {
+      updateField(imagePath, 'subject', [...currentSubjects, subject])
+      setNewSubjects(prev => ({ ...prev, [imagePath]: '' }))
+    }
+  }
+
+  const removeSubject = (imagePath: string, subjectToRemove: string) => {
+    const image = selectedImageData.find(img => img.path === imagePath)
+    const imageUpdates = updates[imagePath] || {}
+    const currentSubjects = imageUpdates.subject ? [imageUpdates.subject] : (image?.subject ? [image.subject] : [])
+    const filtered = currentSubjects.filter(s => s !== subjectToRemove)
+    updateField(imagePath, 'subject', filtered.length > 0 ? filtered : [])
+  }
+
+  // Product functions
+  const addProduct = (imagePath: string) => {
+    const product = newProducts[imagePath]?.trim()
+    if (!product) return
+
+    const image = selectedImageData.find(img => img.path === imagePath)
+    const imageUpdates = updates[imagePath] || {}
+    const currentProducts = imageUpdates.product ? (Array.isArray(imageUpdates.product) ? imageUpdates.product : [imageUpdates.product]) : (image?.product ? (Array.isArray(image.product) ? image.product : [image.product]) : [])
+
+    if (!currentProducts.includes(product)) {
+      updateField(imagePath, 'product', [...currentProducts, product])
+      setNewProducts(prev => ({ ...prev, [imagePath]: '' }))
+    }
+  }
+
+  const removeProduct = (imagePath: string, productToRemove: string) => {
+    const image = selectedImageData.find(img => img.path === imagePath)
+    const imageUpdates = updates[imagePath] || {}
+    const currentProducts = imageUpdates.product ? (Array.isArray(imageUpdates.product) ? imageUpdates.product : [imageUpdates.product]) : (image?.product ? (Array.isArray(image.product) ? image.product : [image.product]) : [])
+    const filtered = currentProducts.filter(p => p !== productToRemove)
+    updateField(imagePath, 'product', filtered.length > 0 ? filtered : [])
   }
 
   const handleSave = async () => {
@@ -116,6 +188,9 @@ export function MetadataEditor({ selectedImages, images, isOpen, onClose, onSave
               const imageName = image.path.split('/').pop()
               const imageUpdates = updates[image.path] || {}
               const currentTags = imageUpdates.tags ?? image.tags ?? []
+              const currentCategories = imageUpdates.category ? [imageUpdates.category] : (image?.category ? [image.category] : [])
+              const currentSubjects = imageUpdates.subject ? [imageUpdates.subject] : (image?.subject ? [image.subject] : [])
+              const currentProducts = imageUpdates.product ? (Array.isArray(imageUpdates.product) ? imageUpdates.product : [imageUpdates.product]) : (image?.product ? (Array.isArray(image.product) ? image.product : [image.product]) : [])
 
               return (
                 <div key={image.path} className="border rounded-lg p-4">
@@ -128,41 +203,114 @@ export function MetadataEditor({ selectedImages, images, isOpen, onClose, onSave
                     <div className="flex-1">
                       <h3 className="font-medium text-sm mb-2">{imageName}</h3>
 
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        {/* Category */}
-                        <div>
-                          <Label htmlFor={`category-${image.path}`} className="text-xs">Category</Label>
-                          <Input
-                            id={`category-${image.path}`}
-                            value={imageUpdates.category ?? image.category ?? ''}
-                            onChange={(e) => updateField(image.path, 'category', e.target.value)}
-                            placeholder="e.g., portraits, products"
-                            className="mt-1"
-                          />
+                      {/* Category */}
+                      <div className="mb-4">
+                        <Label className="text-xs">Category</Label>
+                        <div className="flex flex-wrap gap-2 mt-2 mb-2">
+                          {currentCategories.map((category: string) => (
+                            <span
+                              key={category}
+                              className="inline-flex items-center gap-1 px-2 py-1 bg-green-100 text-green-800 text-xs rounded"
+                            >
+                              {category}
+                              <button
+                                onClick={() => removeCategory(image.path, category)}
+                                className="text-green-600 hover:text-green-800"
+                              >
+                                <X className="h-3 w-3" />
+                              </button>
+                            </span>
+                          ))}
                         </div>
-
-                        {/* Subject */}
-                        <div>
-                          <Label htmlFor={`subject-${image.path}`} className="text-xs">Subject</Label>
+                        <div className="flex gap-2">
                           <Input
-                            id={`subject-${image.path}`}
-                            value={imageUpdates.subject ?? image.subject ?? ''}
-                            onChange={(e) => updateField(image.path, 'subject', e.target.value)}
-                            placeholder="e.g., Jimmy, Marcus"
-                            className="mt-1"
+                            value={newCategories[image.path] || ''}
+                            onChange={(e) => setNewCategories(prev => ({ ...prev, [image.path]: e.target.value }))}
+                            placeholder="Add category..."
+                            className="flex-1"
+                            onKeyDown={(e) => e.key === 'Enter' && addCategory(image.path)}
                           />
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => addCategory(image.path)}
+                          >
+                            <Plus className="h-4 w-4" />
+                          </Button>
                         </div>
+                      </div>
 
-                        {/* Product */}
-                        <div>
-                          <Label htmlFor={`product-${image.path}`} className="text-xs">Product</Label>
+                      {/* Subject */}
+                      <div className="mb-4">
+                        <Label className="text-xs">Subject</Label>
+                        <div className="flex flex-wrap gap-2 mt-2 mb-2">
+                          {currentSubjects.map((subject: string) => (
+                            <span
+                              key={subject}
+                              className="inline-flex items-center gap-1 px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded"
+                            >
+                              {subject}
+                              <button
+                                onClick={() => removeSubject(image.path, subject)}
+                                className="text-purple-600 hover:text-purple-800"
+                              >
+                                <X className="h-3 w-3" />
+                              </button>
+                            </span>
+                          ))}
+                        </div>
+                        <div className="flex gap-2">
                           <Input
-                            id={`product-${image.path}`}
-                            value={imageUpdates.product ?? image.product ?? ''}
-                            onChange={(e) => updateField(image.path, 'product', e.target.value)}
-                            placeholder="e.g., laptop, chair"
-                            className="mt-1"
+                            value={newSubjects[image.path] || ''}
+                            onChange={(e) => setNewSubjects(prev => ({ ...prev, [image.path]: e.target.value }))}
+                            placeholder="Add subject..."
+                            className="flex-1"
+                            onKeyDown={(e) => e.key === 'Enter' && addSubject(image.path)}
                           />
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => addSubject(image.path)}
+                          >
+                            <Plus className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </div>
+
+                      {/* Product */}
+                      <div className="mb-4">
+                        <Label className="text-xs">Product</Label>
+                        <div className="flex flex-wrap gap-2 mt-2 mb-2">
+                          {currentProducts.map((product: string) => (
+                            <span
+                              key={product}
+                              className="inline-flex items-center gap-1 px-2 py-1 bg-orange-100 text-orange-800 text-xs rounded"
+                            >
+                              {product}
+                              <button
+                                onClick={() => removeProduct(image.path, product)}
+                                className="text-orange-600 hover:text-orange-800"
+                              >
+                                <X className="h-3 w-3" />
+                              </button>
+                            </span>
+                          ))}
+                        </div>
+                        <div className="flex gap-2">
+                          <Input
+                            value={newProducts[image.path] || ''}
+                            onChange={(e) => setNewProducts(prev => ({ ...prev, [image.path]: e.target.value }))}
+                            placeholder="Add product..."
+                            className="flex-1"
+                            onKeyDown={(e) => e.key === 'Enter' && addProduct(image.path)}
+                          />
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => addProduct(image.path)}
+                          >
+                            <Plus className="h-4 w-4" />
+                          </Button>
                         </div>
                       </div>
 
