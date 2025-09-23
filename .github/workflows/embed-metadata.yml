@@ -1,0 +1,94 @@
+name: Embed Metadata
+
+on:
+  repository_dispatch:
+    types: [embed_metadata]
+
+jobs:
+  embed:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install exiftool
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libimage-exiftool-perl
+
+      - name: Process edits
+        run: |
+          cat > process-edits.sh << 'EOF'
+          #!/bin/bash
+          set -e
+
+          EDITS='${{ toJson(github.event.client_payload.edits) }}'
+          MODE='${{ github.event.client_payload.mode }}'
+
+          echo "$EDITS" | jq -c '.[]' | while IFS= read -r edit; do
+            PATH_VAL=$(echo "$edit" | jq -r '.path')
+            CATEGORY=$(echo "$edit" | jq -r '.category // empty')
+            TAGS=$(echo "$edit" | jq -r '.tags[]? // empty' | tr '\n' ',' | sed 's/,$//')
+            SUBJECT=$(echo "$edit" | jq -r '.subject // empty')
+            PRODUCT=$(echo "$edit" | jq -r '.product // empty')
+
+            if [ -f "$PATH_VAL" ]; then
+              ARGS=""
+
+              if [ "$MODE" = "replace" ]; then
+                ARGS="$ARGS -XMP-photoshop:Category= -XMP-dc:Subject= -IPTC:Keywords= -XMP-photoshop:Headline= -XMP:HierarchicalSubject-=*"
+              fi
+
+              if [ -n "$CATEGORY" ]; then
+                ARGS="$ARGS -XMP-photoshop:Category=\"$CATEGORY\""
+              fi
+
+              if [ -n "$TAGS" ]; then
+                IFS=',' read -ra TAG_ARRAY <<< "$TAGS"
+                TAGS_FMT="("
+                for tag in "${TAG_ARRAY[@]}"; do
+                  TAGS_FMT="${TAGS_FMT}\"$tag\","
+                done
+                TAGS_FMT="${TAGS_FMT%,})"
+                ARGS="$ARGS -XMP-dc:Subject=\"$TAGS_FMT\" -IPTC:Keywords=\"$TAGS_FMT\""
+              fi
+
+              if [ -n "$SUBJECT" ]; then
+                ARGS="$ARGS -XMP-photoshop:Headline=\"$SUBJECT\" -XMP-dc:Title=\"$SUBJECT\""
+              fi
+
+              if [ -n "$PRODUCT" ]; then
+                ARGS="$ARGS -XMP:HierarchicalSubject+=\"product|$PRODUCT\""
+              fi
+
+              if [ -n "$ARGS" ]; then
+                eval "exiftool -overwrite_original $ARGS \"$PATH_VAL\""
+                echo "Updated: $PATH_VAL"
+              fi
+            else
+              echo "File not found: $PATH_VAL"
+            fi
+          done
+          EOF
+          chmod +x process-edits.sh
+          ./process-edits.sh
+
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add assets/
+          git diff --staged --quiet || git commit -m "${{ github.event.client_payload.message || 'feat(meta): embed metadata' }}"
+          git push || echo "No changes to push"
+
+      - name: Trigger manifest rebuild
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          event-type: rebuild_manifest

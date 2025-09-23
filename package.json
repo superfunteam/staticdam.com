@@ -1,0 +1,21 @@
+{
+  "name": "staticdam",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm -F site dev",
+    "build": "pnpm -F site build",
+    "build:manifest": "tsx scripts/build-manifest.ts",
+    "test:functions": "pnpm -F functions test"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.4.0"
+  },
+  "engines": {
+    "node": ">=18",
+    "pnpm": ">=8"
+  }
+}
