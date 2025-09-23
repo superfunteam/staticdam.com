@@ -2,6 +2,9 @@
   command = "npm install && cd site && npm install && npm run build"
   publish = "site/dist"
 
+[[plugins]]
+  package = "@netlify/plugin-functions-install-core"
+
 [functions]
   directory = "netlify/functions"
   node_bundler = "esbuild"
