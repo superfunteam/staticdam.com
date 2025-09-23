@@ -40,7 +40,7 @@ async function extractMetadata(filePath: string): Promise<ManifestEntry | null> 
       path: filePath.replace(/^\.\//, ''),
       w: exif['EXIF:ImageWidth'] || exif['File:ImageWidth'] || exif['PNG:ImageWidth'] || exif['EXIF:ExifImageWidth'] || 0,
       h: exif['EXIF:ImageHeight'] || exif['File:ImageHeight'] || exif['PNG:ImageHeight'] || exif['EXIF:ExifImageHeight'] || 0,
-      bytes: exif['File:FileSize'] || 0,
+      bytes: exif['File:FileSize'] || exif['System:FileSize'] || 0,
     }
 
     if (exif['EXIF:DateTimeOriginal'] || exif['EXIF:CreateDate']) {
