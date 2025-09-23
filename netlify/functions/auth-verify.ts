@@ -1,4 +1,4 @@
-const { verify } = require('@node-rs/argon2')
+const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
 
 // Auth verification endpoint
@@ -11,10 +11,10 @@ exports.handler = async (event) => {
     }
   }
 
-  const sharedHash = process.env.SHARED_WRITE_HASH
+  const expectedPassword = process.env.SHARED_WRITE_PASSWORD
   const signingKey = process.env.SESSION_SIGNING_KEY
 
-  if (!sharedHash || !signingKey) {
+  if (!expectedPassword || !signingKey) {
     return {
       statusCode: 500,
       body: JSON.stringify({ error: 'Server not configured' }),
@@ -30,7 +30,7 @@ exports.handler = async (event) => {
       }
     }
 
-    const isValid = await verify(sharedHash, token)
+    const isValid = token === expectedPassword
     if (!isValid) {
       return {
         statusCode: 401,
