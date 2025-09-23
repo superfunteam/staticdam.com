@@ -9,7 +9,10 @@
     "path": "assets/Product Images/SIO-hero=Benchmarking-1.png",
     "w": 2748,
     "h": 1556,
-    "bytes": 5460886
+    "bytes": 5461368,
+    "product": [
+      "procurement"
+    ]
   },
   {
     "path": "assets/Product Images/SIO-hero=Carbon Analytics.png",
@@ -21,7 +24,10 @@
     "path": "assets/Product Images/SIO-hero=Data Enrichment.png",
     "w": 2748,
     "h": 1556,
-    "bytes": 3996520
+    "bytes": 3996993,
+    "product": [
+      "ai"
+    ]
   },
   {
     "path": "assets/Product Images/SIO-hero=Diversity Analytics.png",
@@ -33,13 +39,19 @@
     "path": "assets/Product Images/SIO-hero=GHG Emissions.png",
     "w": 2748,
     "h": 1556,
-    "bytes": 2497247
+    "bytes": 2497736,
+    "product": [
+      "supplier diversity"
+    ]
   },
   {
     "path": "assets/Product Images/SIO-hero=Online Data Enrichment.png",
     "w": 2748,
     "h": 1556,
-    "bytes": 4548366
+    "bytes": 4548839,
+    "product": [
+      "ai"
+    ]
   },
   {
     "path": "assets/Product Images/SIO-hero=program-impact.png",
@@ -69,13 +81,19 @@
     "path": "assets/Product Images/SIO-hero=Sustainability & ESG Reporting.png",
     "w": 2748,
     "h": 1556,
-    "bytes": 4554496
+    "bytes": 4555156,
+    "product": [
+      "procurement"
+    ]
   },
   {
     "path": "assets/Product Images/SIO-hero=Tier 2 reporting for suppliers.png",
     "w": 2748,
     "h": 1556,
-    "bytes": 3421467
+    "bytes": 3421956,
+    "product": [
+      "supplier diversity"
+    ]
   },
   {
     "path": "assets/Product Images/SIO-hero=Tier 2 Spend Reporting.png",
@@ -87,55 +105,130 @@
     "path": "assets/Purchased Stock/AdobeStock_1004057177.jpeg",
     "w": 6471,
     "h": 4315,
-    "bytes": 4828967
+    "bytes": 4829051,
+    "category": [
+      "photography",
+      "stock"
+    ],
+    "tags": [
+      "business",
+      "technology"
+    ]
   },
   {
     "path": "assets/Purchased Stock/AdobeStock_118799701.jpeg",
     "w": 5677,
     "h": 3785,
-    "bytes": 6076085
+    "bytes": 6076433,
+    "category": [
+      "corporate",
+      "people"
+    ],
+    "tags": [
+      "business",
+      "finance"
+    ],
+    "person": [
+      "Michael"
+    ]
   },
   {
     "path": "assets/Purchased Stock/AdobeStock_1215496859.jpeg",
     "w": 6913,
     "h": 4609,
-    "bytes": 8494817
+    "bytes": 8494909,
+    "category": [
+      "photography",
+      "architecture"
+    ],
+    "tags": [
+      "technology",
+      "innovation"
+    ]
   },
   {
     "path": "assets/Purchased Stock/AdobeStock_130637542.jpeg",
     "w": 5542,
     "h": 3695,
-    "bytes": 5474857
+    "bytes": 5474937,
+    "category": [
+      "corporate",
+      "stock"
+    ],
+    "tags": [
+      "business",
+      "teamwork"
+    ]
   },
   {
     "path": "assets/Purchased Stock/AdobeStock_1321189556.jpeg",
     "w": 5888,
     "h": 3328,
-    "bytes": 1949831
+    "bytes": 1949915,
+    "category": [
+      "photography",
+      "people"
+    ],
+    "tags": [
+      "technology",
+      "finance"
+    ]
   },
   {
     "path": "assets/Purchased Stock/AdobeStock_136009640.jpeg",
     "w": 2564,
     "h": 1875,
-    "bytes": 1690163
+    "bytes": 1690251,
+    "category": [
+      "corporate",
+      "architecture"
+    ],
+    "tags": [
+      "business",
+      "innovation"
+    ]
   },
   {
     "path": "assets/Purchased Stock/AdobeStock_146025396.jpeg",
     "w": 7360,
     "h": 4912,
-    "bytes": 11911328
+    "bytes": 11911406,
+    "category": [
+      "stock",
+      "people"
+    ],
+    "tags": [
+      "technology",
+      "teamwork"
+    ]
   },
   {
     "path": "assets/Purchased Stock/AdobeStock_200536843.jpeg",
     "w": 5472,
     "h": 3648,
-    "bytes": 5241928
+    "bytes": 5242012,
+    "category": [
+      "corporate",
+      "photography"
+    ],
+    "tags": [
+      "finance",
+      "teamwork"
+    ]
   },
   {
     "path": "assets/Purchased Stock/AdobeStock_207342473.jpeg",
     "w": 1688,
     "h": 1125,
-    "bytes": 604881
+    "bytes": 604965,
+    "category": [
+      "stock",
+      "architecture"
+    ],
+    "tags": [
+      "innovation",
+      "business"
+    ]
   },
   {
     "path": "assets/Purchased Stock/AdobeStock_216888065.jpeg",
@@ -207,7 +300,10 @@
     "path": "assets/Purchased Stock/AdobeStock_244031424.jpeg",
     "w": 6144,
     "h": 4080,
-    "bytes": 10230296
+    "bytes": 10230562,
+    "person": [
+      "Sarah"
+    ]
   },
   {
     "path": "assets/Purchased Stock/AdobeStock_251553061_Woman_Black_Confident.jpeg",
@@ -255,7 +351,10 @@
     "path": "assets/Purchased Stock/AdobeStock_317539258.jpeg",
     "w": 6000,
     "h": 3388,
-    "bytes": 9473191
+    "bytes": 9473459,
+    "person": [
+      "Jessica"
+    ]
   },
   {
     "path": "assets/Purchased Stock/AdobeStock_325735908.jpeg",
@@ -321,7 +420,10 @@
     "path": "assets/Purchased Stock/AdobeStock_468349390.jpeg",
     "w": 5120,
     "h": 2880,
-    "bytes": 3948445
+    "bytes": 3948710,
+    "person": [
+      "Emma"
+    ]
   },
   {
     "path": "assets/Purchased Stock/AdobeStock_496931632.jpeg",
@@ -339,7 +441,10 @@
     "path": "assets/Purchased Stock/AdobeStock_519791377.jpeg",
     "w": 6720,
     "h": 4480,
-    "bytes": 8140578
+    "bytes": 8140844,
+    "person": [
+      "David"
+    ]
   },
   {
     "path": "assets/Purchased Stock/AdobeStock_521556761.jpeg",
@@ -417,7 +522,10 @@
     "path": "assets/Purchased Stock/alternate-sourcing-business.jpg",
     "w": 2731,
     "h": 2731,
-    "bytes": 3903330
+    "bytes": 3906253,
+    "person": [
+      "James"
+    ]
   },
   {
     "path": "assets/Purchased Stock/category planner.jpeg",

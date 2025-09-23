@@ -64,8 +64,8 @@ async function extractMetadata(filePath: string): Promise<ManifestEntry | null> 
     // Extract metadata from dedicated EXIF fields (no prefixes)
 
     // Categories from dedicated field
-    if (exif['IPTC:SupplementalCategory']) {
-      const categories = exif['IPTC:SupplementalCategory']
+    if (exif['IPTC:SupplementalCategories']) {
+      const categories = exif['IPTC:SupplementalCategories']
       if (typeof categories === 'string') {
         entry.category = categories.split(',').map(c => c.trim()).filter(Boolean)
       } else if (Array.isArray(categories)) {
@@ -87,7 +87,14 @@ async function extractMetadata(filePath: string): Promise<ManifestEntry | null> 
     }
 
     // People from dedicated field
-    if (exif['IPTC:PersonInImage']) {
+    if (exif['XMP-iptcExt:PersonInImage']) {
+      const persons = exif['XMP-iptcExt:PersonInImage']
+      if (typeof persons === 'string') {
+        entry.person = persons.split(',').map(p => p.trim()).filter(Boolean)
+      } else if (Array.isArray(persons)) {
+        entry.person = persons.filter(Boolean)
+      }
+    } else if (exif['IPTC:PersonInImage']) {
       const persons = exif['IPTC:PersonInImage']
       if (typeof persons === 'string') {
         entry.person = persons.split(',').map(p => p.trim()).filter(Boolean)
@@ -97,8 +104,8 @@ async function extractMetadata(filePath: string): Promise<ManifestEntry | null> 
     }
 
     // Products from hierarchical subject (used flat)
-    if (exif['XMP-lr:hierarchicalSubject']) {
-      const products = exif['XMP-lr:hierarchicalSubject']
+    if (exif['XMP-lr:HierarchicalSubject']) {
+      const products = exif['XMP-lr:HierarchicalSubject']
       if (Array.isArray(products)) {
         entry.product = products.filter(Boolean)
       } else if (typeof products === 'string') {
