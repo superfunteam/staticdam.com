@@ -19,6 +19,7 @@
     "pnpm": ">=8"
   },
   "dependencies": {
-    "@node-rs/argon2": "^2.0.2"
+    "@node-rs/argon2": "^2.0.2",
+    "glob": "^10.4.5"
   }
 }
