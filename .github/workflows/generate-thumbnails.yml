@@ -57,6 +57,7 @@ jobs:
           if git diff --staged --quiet; then
             echo "No thumbnail changes to commit"
           else
+            git pull --rebase
             git commit -m "feat(thumbs): generate thumbnails for images [skip ci]"
             git push
             echo "Thumbnails committed and pushed"

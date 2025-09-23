@@ -38,8 +38,8 @@ async function extractMetadata(filePath: string): Promise<ManifestEntry | null> 
 
     const entry: ManifestEntry = {
       path: filePath.replace(/^\.\//, ''),
-      w: exif['EXIF:ImageWidth'] || exif['File:ImageWidth'] || 0,
-      h: exif['EXIF:ImageHeight'] || exif['File:ImageHeight'] || 0,
+      w: exif['EXIF:ImageWidth'] || exif['File:ImageWidth'] || exif['PNG:ImageWidth'] || exif['EXIF:ExifImageWidth'] || 0,
+      h: exif['EXIF:ImageHeight'] || exif['File:ImageHeight'] || exif['PNG:ImageHeight'] || exif['EXIF:ExifImageHeight'] || 0,
       bytes: exif['File:FileSize'] || 0,
     }
 
