@@ -1,77 +1,5 @@
 [
   {
-    "path": "assets/personas/national-cancer-institute-S-3AnKlICmY-unsplash_back.png",
-    "w": 1248,
-    "h": 832,
-    "bytes": 2825955,
-    "category": "portraits",
-    "subject": "Jimmy",
-    "tags": [
-      "person",
-      "headshot"
-    ]
-  },
-  {
-    "path": "assets/personas/national-cancer-institute-S-3AnKlICmY-unsplash_side.png",
-    "w": 1248,
-    "h": 832,
-    "bytes": 2902953,
-    "category": "portraits",
-    "subject": "Jimmy",
-    "tags": [
-      "person",
-      "headshot"
-    ]
-  },
-  {
-    "path": "assets/personas/national-cancer-institute-S-3AnKlICmY-unsplash.jpg",
-    "w": 10800,
-    "h": 7200,
-    "bytes": 14191381,
-    "category": "portraits",
-    "subject": "Jimmy",
-    "tags": [
-      "person",
-      "headshot"
-    ]
-  },
-  {
-    "path": "assets/personas/nsys-group-WIPoOLzoFvk-unsplash.jpg",
-    "w": 6960,
-    "h": 4640,
-    "bytes": 6231564,
-    "category": "portraits",
-    "subject": "Marcus",
-    "tags": [
-      "person",
-      "headshot"
-    ]
-  },
-  {
-    "path": "assets/personas/ronnakorn-triraganon-zyYEWx4mNPo-unsplash.jpg",
-    "w": 5472,
-    "h": 3648,
-    "bytes": 2654168,
-    "category": "portraits",
-    "subject": "Sven",
-    "tags": [
-      "person",
-      "headshot"
-    ]
-  },
-  {
-    "path": "assets/personas/vitaly-gariev-GInTp0NE14w-unsplash.jpg",
-    "w": 3800,
-    "h": 2138,
-    "bytes": 752889,
-    "category": "portraits",
-    "subject": "Sasha",
-    "tags": [
-      "person",
-      "headshot"
-    ]
-  },
-  {
     "path": "assets/Product Images/SIO-hero=Benchmarking 2.png",
     "w": 2748,
     "h": 1556,
@@ -204,6 +132,78 @@
     "bytes": 17541543
   },
   {
+    "path": "assets/Purchased Stock/AdobeStock_220105682.jpeg",
+    "w": 8688,
+    "h": 5792,
+    "bytes": 18604410
+  },
+  {
+    "path": "assets/Purchased Stock/AdobeStock_220313424.jpeg",
+    "w": 7710,
+    "h": 4312,
+    "bytes": 11771083
+  },
+  {
+    "path": "assets/Purchased Stock/AdobeStock_220829245.jpeg",
+    "w": 8281,
+    "h": 5521,
+    "bytes": 12971351
+  },
+  {
+    "path": "assets/Purchased Stock/AdobeStock_224334998.jpeg",
+    "w": 6046,
+    "h": 4035,
+    "bytes": 7045468
+  },
+  {
+    "path": "assets/Purchased Stock/AdobeStock_227360110.jpeg",
+    "w": 8363,
+    "h": 5575,
+    "bytes": 16922822
+  },
+  {
+    "path": "assets/Purchased Stock/AdobeStock_233961393.jpeg",
+    "w": 8688,
+    "h": 4596,
+    "bytes": 12006632
+  },
+  {
+    "path": "assets/Purchased Stock/AdobeStock_238495011.jpeg",
+    "w": 6091,
+    "h": 4005,
+    "bytes": 5971039
+  },
+  {
+    "path": "assets/Purchased Stock/AdobeStock_242711927.jpeg",
+    "w": 8688,
+    "h": 5792,
+    "bytes": 13041412
+  },
+  {
+    "path": "assets/Purchased Stock/AdobeStock_243500089.jpeg",
+    "w": 5000,
+    "h": 2813,
+    "bytes": 4065786
+  },
+  {
+    "path": "assets/Purchased Stock/AdobeStock_244031424.jpeg",
+    "w": 6144,
+    "h": 4080,
+    "bytes": 10230296
+  },
+  {
+    "path": "assets/Purchased Stock/AdobeStock_251553061_Woman_Black_Confident.jpeg",
+    "w": 5360,
+    "h": 3574,
+    "bytes": 4981348
+  },
+  {
+    "path": "assets/Purchased Stock/AdobeStock_292953404.jpeg",
+    "w": 6000,
+    "h": 4000,
+    "bytes": 5792281
+  },
+  {
     "path": "assets/Purchased Stock/AdobeStock_43901554.jpeg",
     "w": 4288,
     "h": 2848,
@@ -214,65 +214,5 @@
     "w": 4288,
     "h": 2848,
     "bytes": 6343694
-  },
-  {
-    "path": "assets/warehouses/adrian-sulyok-sczNLg6rrhQ-unsplash.jpg",
-    "w": 4822,
-    "h": 3215,
-    "bytes": 3926153,
-    "category": "warehouse",
-    "tags": [
-      "supply chain",
-      "logistics",
-      "storage"
-    ]
-  },
-  {
-    "path": "assets/warehouses/alberto-rodriguez--aCrA9FmT8Y-unsplash.jpg",
-    "w": 7952,
-    "h": 5304,
-    "bytes": 6863408,
-    "category": "warehouse",
-    "tags": [
-      "supply chain",
-      "logistics",
-      "storage"
-    ]
-  },
-  {
-    "path": "assets/warehouses/centre-for-ageing-better-ZlOlRnWk8zU-unsplash.jpg",
-    "w": 6046,
-    "h": 4024,
-    "bytes": 3904645,
-    "category": "warehouse",
-    "tags": [
-      "supply chain",
-      "logistics",
-      "storage"
-    ]
-  },
-  {
-    "path": "assets/warehouses/marcin-jozwiak-oh0DITWoHi4-unsplash.jpg",
-    "w": 5464,
-    "h": 3640,
-    "bytes": 4592232,
-    "category": "warehouse",
-    "tags": [
-      "supply chain",
-      "logistics",
-      "storage"
-    ]
-  },
-  {
-    "path": "assets/warehouses/pickawood-6tAIO3pxde4-unsplash.jpg",
-    "w": 5477,
-    "h": 3651,
-    "bytes": 3327628,
-    "category": "warehouse",
-    "tags": [
-      "supply chain",
-      "logistics",
-      "storage"
-    ]
   }
 ]
