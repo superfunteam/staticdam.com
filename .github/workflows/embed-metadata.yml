@@ -33,38 +33,32 @@ jobs:
 
           echo "$EDITS" | jq -c '.[]' | while IFS= read -r edit; do
             PATH_VAL=$(echo "$edit" | jq -r '.path')
-            CATEGORY=$(echo "$edit" | jq -r '.category // empty')
+            CATEGORY=$(echo "$edit" | jq -r '.category[]? // empty' | tr '\n' ',' | sed 's/,$//')
             TAGS=$(echo "$edit" | jq -r '.tags[]? // empty' | tr '\n' ',' | sed 's/,$//')
-            SUBJECT=$(echo "$edit" | jq -r '.subject // empty')
-            PRODUCT=$(echo "$edit" | jq -r '.product // empty')
+            PERSON=$(echo "$edit" | jq -r '.person[]? // empty' | tr '\n' ',' | sed 's/,$//')
+            PRODUCT=$(echo "$edit" | jq -r '.product[]? // empty' | tr '\n' ',' | sed 's/,$//')
 
             if [ -f "$PATH_VAL" ]; then
               ARGS=""
 
               if [ "$MODE" = "replace" ]; then
-                ARGS="$ARGS -XMP-photoshop:Category= -XMP-dc:Subject= -IPTC:Keywords= -XMP-photoshop:Headline= -XMP:HierarchicalSubject-=*"
+                ARGS="$ARGS -IPTC:SupplementalCategories= -IPTC:Keywords= -XMP-iptcExt:PersonInImage= -XMP-lr:HierarchicalSubject="
               fi
 
               if [ -n "$CATEGORY" ]; then
-                ARGS="$ARGS -XMP-photoshop:Category=\"$CATEGORY\""
+                ARGS="$ARGS -IPTC:SupplementalCategories=\"$CATEGORY\""
               fi
 
               if [ -n "$TAGS" ]; then
-                IFS=',' read -ra TAG_ARRAY <<< "$TAGS"
-                TAGS_FMT="("
-                for tag in "${TAG_ARRAY[@]}"; do
-                  TAGS_FMT="${TAGS_FMT}\"$tag\","
-                done
-                TAGS_FMT="${TAGS_FMT%,})"
-                ARGS="$ARGS -XMP-dc:Subject=\"$TAGS_FMT\" -IPTC:Keywords=\"$TAGS_FMT\""
+                ARGS="$ARGS -IPTC:Keywords=\"$TAGS\""
               fi
 
-              if [ -n "$SUBJECT" ]; then
-                ARGS="$ARGS -XMP-photoshop:Headline=\"$SUBJECT\" -XMP-dc:Title=\"$SUBJECT\""
+              if [ -n "$PERSON" ]; then
+                ARGS="$ARGS -XMP-iptcExt:PersonInImage=\"$PERSON\""
               fi
 
               if [ -n "$PRODUCT" ]; then
-                ARGS="$ARGS -XMP:HierarchicalSubject+=\"product|$PRODUCT\""
+                ARGS="$ARGS -XMP-lr:HierarchicalSubject=\"$PRODUCT\""
               fi
 
               if [ -n "$ARGS" ]; then

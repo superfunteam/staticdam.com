@@ -105,10 +105,10 @@ export function DamSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const folderSet = new Set<string>()
     const tagSet = new Set<string>()
     const categorySet = new Set<string>()
-    const subjectSet = new Set<string>()
+    const personSet = new Set<string>()
     const folderCounts = new Map<string, number>()
     const categoryCounts = new Map<string, number>()
-    const subjectCounts = new Map<string, number>()
+    const personCounts = new Map<string, number>()
     const tagCounts = new Map<string, number>()
 
     images.forEach(image => {
@@ -131,8 +131,8 @@ export function DamSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       // Extract persons
       if (image.person) {
         image.person.forEach(person => {
-          subjectSet.add(person)
-          subjectCounts.set(person, (subjectCounts.get(person) || 0) + 1)
+          personSet.add(person)
+          personCounts.set(person, (personCounts.get(person) || 0) + 1)
         })
       }
 
@@ -149,10 +149,10 @@ export function DamSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       folders: Array.from(folderSet).sort(),
       tags: Array.from(tagSet).sort(),
       categories: Array.from(categorySet).sort(),
-      persons: Array.from(subjectSet).sort(),
+      persons: Array.from(personSet).sort(),
       folderCounts,
       categoryCounts,
-      personCounts: subjectCounts,
+      personCounts,
       tagCounts
     }
   }, [images])

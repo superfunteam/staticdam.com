@@ -54,31 +54,31 @@ All metadata fields support multiple values and are stored in dedicated EXIF fie
 
 | Field | EXIF Field | Purpose | Example Values |
 |-------|------------|---------|----------------|
-| `category` | `IPTC:SupplementalCategory` | Image categories | `["portrait", "warehouse", "outdoor"]` |
-| `person` | `IPTC:PersonInImage` | People in the image | `["Jimmy", "Marcus", "Sasha"]` |
+| `category` | `IPTC:SupplementalCategories` | Image categories | `["portrait", "warehouse", "outdoor"]` |
+| `person` | `XMP-iptcExt:PersonInImage` | People in the image | `["Jimmy", "Marcus", "Sasha"]` |
 | `tags` | `IPTC:Keywords` | Descriptive keywords | `["professional", "equipment", "lighting"]` |
-| `product` | `XMP-lr:hierarchicalSubject` | Product associations | `["laptop", "camera", "monitor"]` |
+| `product` | `XMP-lr:HierarchicalSubject` | Product associations | `["laptop", "camera", "monitor"]` |
 
 ### Adding Metadata
 
 Each metadata type uses its own dedicated EXIF field - no prefixes or mixing required:
 
 ```bash
-# Categories (IPTC:SupplementalCategory)
-exiftool -IPTC:SupplementalCategory="portrait" image.jpg
-exiftool -IPTC:SupplementalCategory="warehouse" image.jpg
+# Categories (IPTC:SupplementalCategories)
+exiftool -IPTC:SupplementalCategories="portrait" image.jpg
+exiftool -IPTC:SupplementalCategories="warehouse" image.jpg
 
-# People (IPTC:PersonInImage)
-exiftool -IPTC:PersonInImage="Jimmy" image.jpg
-exiftool -IPTC:PersonInImage="Marcus" image.jpg
+# People (XMP-iptcExt:PersonInImage)
+exiftool -XMP-iptcExt:PersonInImage="Jimmy" image.jpg
+exiftool -XMP-iptcExt:PersonInImage="Marcus" image.jpg
 
 # Tags (IPTC:Keywords)
 exiftool -IPTC:Keywords="professional" image.jpg
 exiftool -IPTC:Keywords="equipment" image.jpg
 
-# Products (XMP-lr:hierarchicalSubject)
-exiftool -XMP-lr:hierarchicalSubject="laptop" image.jpg
-exiftool -XMP-lr:hierarchicalSubject="camera" image.jpg
+# Products (XMP-lr:HierarchicalSubject)
+exiftool -XMP-lr:HierarchicalSubject="laptop" image.jpg
+exiftool -XMP-lr:HierarchicalSubject="camera" image.jpg
 ```
 
 ### Benefits of Dedicated Fields
