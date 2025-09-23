@@ -5,10 +5,10 @@ const { App } = require('@octokit/app')
 interface EditPayload {
   edits: Array<{
     path: string
-    category?: string
+    category?: string[]
     tags?: string[]
-    subject?: string
-    product?: string
+    person?: string[]
+    product?: string[]
   }>
   mode: 'merge' | 'replace'
 }

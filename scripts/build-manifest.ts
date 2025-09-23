@@ -61,49 +61,56 @@ async function extractMetadata(filePath: string): Promise<ManifestEntry | null> 
       }
     }
 
-    // Extract all keywords from IPTC:Keywords or XMP-dc:Keywords
-    let allKeywords: string[] = []
+    // Extract metadata from dedicated EXIF fields (no prefixes)
+
+    // Categories from dedicated field
+    if (exif['IPTC:SupplementalCategory']) {
+      const categories = exif['IPTC:SupplementalCategory']
+      if (typeof categories === 'string') {
+        entry.category = categories.split(',').map(c => c.trim()).filter(Boolean)
+      } else if (Array.isArray(categories)) {
+        entry.category = categories.filter(Boolean)
+      }
+    }
+
+    // Tags from keywords field
     if (exif['IPTC:Keywords']) {
       const keywords = exif['IPTC:Keywords']
       if (typeof keywords === 'string') {
-        allKeywords = keywords.split(',').map(k => k.trim()).filter(Boolean)
+        entry.tags = keywords.split(',').map(k => k.trim()).filter(Boolean)
       } else if (Array.isArray(keywords)) {
-        allKeywords = keywords.filter(Boolean)
+        entry.tags = keywords.filter(Boolean)
       }
     } else if (exif['XMP-dc:Keywords']) {
       const keywords = exif['XMP-dc:Keywords']
-      allKeywords = Array.isArray(keywords) ? keywords : [keywords].filter(Boolean)
+      entry.tags = Array.isArray(keywords) ? keywords : [keywords].filter(Boolean)
     }
 
-    // Parse prefixed keywords for semantic metadata
-    const categories: string[] = []
-    const persons: string[] = []
-    const tags: string[] = []
-
-    allKeywords.forEach(keyword => {
-      if (keyword.startsWith('category:')) {
-        categories.push(keyword.replace('category:', '').trim())
-      } else if (keyword.startsWith('person:')) {
-        persons.push(keyword.replace('person:', '').trim())
-      } else {
-        // Regular descriptive tags (no prefix)
-        tags.push(keyword)
+    // People from dedicated field
+    if (exif['IPTC:PersonInImage']) {
+      const persons = exif['IPTC:PersonInImage']
+      if (typeof persons === 'string') {
+        entry.person = persons.split(',').map(p => p.trim()).filter(Boolean)
+      } else if (Array.isArray(persons)) {
+        entry.person = persons.filter(Boolean)
       }
-    })
+    }
 
-    // Set arrays only if they have content
-    if (categories.length > 0) entry.category = categories
-    if (persons.length > 0) entry.person = persons
-    if (tags.length > 0) entry.tags = tags
+    // Products from hierarchical subject (used flat)
+    if (exif['XMP-lr:hierarchicalSubject']) {
+      const products = exif['XMP-lr:hierarchicalSubject']
+      if (Array.isArray(products)) {
+        entry.product = products.filter(Boolean)
+      } else if (typeof products === 'string') {
+        entry.product = [products].filter(Boolean)
+      }
+    }
 
+    // Keep hierarchical for backward compatibility if still used elsewhere
     if (exif['XMP:HierarchicalSubject']) {
       const hierarchical = exif['XMP:HierarchicalSubject']
       const subjects = Array.isArray(hierarchical) ? hierarchical : [hierarchical]
       entry.hierarchical = subjects.filter(Boolean)
-
-      entry.product = subjects
-        .filter((s: string) => s && s.startsWith('product|'))
-        .map((s: string) => s.replace('product|', ''))
     }
 
     return entry

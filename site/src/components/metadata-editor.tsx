@@ -25,9 +25,9 @@ interface MetadataEditorProps {
 interface MetadataUpdate {
   path: string
   metadata: {
-    category?: string
-    subject?: string
-    product?: string
+    category?: string[]
+    person?: string[]
+    product?: string[]
     tags?: string[]
   }
 }
@@ -36,7 +36,7 @@ export function MetadataEditor({ selectedImages, images, isOpen, onClose, onSave
   const [updates, setUpdates] = useState<Record<string, any>>({})
   const [newKeywords, setNewKeywords] = useState<Record<string, string>>({})
   const [newCategories, setNewCategories] = useState<Record<string, string>>({})
-  const [newSubjects, setNewSubjects] = useState<Record<string, string>>({})
+  const [newPersons, setNewPersons] = useState<Record<string, string>>({})
   const [newProducts, setNewProducts] = useState<Record<string, string>>({})
   const { toast } = useToast()
 
@@ -82,7 +82,7 @@ export function MetadataEditor({ selectedImages, images, isOpen, onClose, onSave
 
     const image = selectedImageData.find(img => img.path === imagePath)
     const imageUpdates = updates[imagePath] || {}
-    const currentCategories = imageUpdates.category ? [imageUpdates.category] : (image?.category ? [image.category] : [])
+    const currentCategories = imageUpdates.category ?? image?.category ?? []
 
     if (!currentCategories.includes(category)) {
       updateField(imagePath, 'category', [...currentCategories, category])
@@ -93,32 +93,30 @@ export function MetadataEditor({ selectedImages, images, isOpen, onClose, onSave
   const removeCategory = (imagePath: string, categoryToRemove: string) => {
     const image = selectedImageData.find(img => img.path === imagePath)
     const imageUpdates = updates[imagePath] || {}
-    const currentCategories = imageUpdates.category ? [imageUpdates.category] : (image?.category ? [image.category] : [])
-    const filtered = currentCategories.filter(c => c !== categoryToRemove)
-    updateField(imagePath, 'category', filtered.length > 0 ? filtered : [])
+    const currentCategories = imageUpdates.category ?? image?.category ?? []
+    updateField(imagePath, 'category', currentCategories.filter(c => c !== categoryToRemove))
   }
 
-  // Subject functions
-  const addSubject = (imagePath: string) => {
-    const subject = newSubjects[imagePath]?.trim()
-    if (!subject) return
+  // Person functions (renamed from subject)
+  const addPerson = (imagePath: string) => {
+    const person = newPersons[imagePath]?.trim()
+    if (!person) return
 
     const image = selectedImageData.find(img => img.path === imagePath)
     const imageUpdates = updates[imagePath] || {}
-    const currentSubjects = imageUpdates.subject ? [imageUpdates.subject] : (image?.subject ? [image.subject] : [])
+    const currentPersons = imageUpdates.person ?? image?.person ?? []
 
-    if (!currentSubjects.includes(subject)) {
-      updateField(imagePath, 'subject', [...currentSubjects, subject])
-      setNewSubjects(prev => ({ ...prev, [imagePath]: '' }))
+    if (!currentPersons.includes(person)) {
+      updateField(imagePath, 'person', [...currentPersons, person])
+      setNewPersons(prev => ({ ...prev, [imagePath]: '' }))
     }
   }
 
-  const removeSubject = (imagePath: string, subjectToRemove: string) => {
+  const removePerson = (imagePath: string, personToRemove: string) => {
     const image = selectedImageData.find(img => img.path === imagePath)
     const imageUpdates = updates[imagePath] || {}
-    const currentSubjects = imageUpdates.subject ? [imageUpdates.subject] : (image?.subject ? [image.subject] : [])
-    const filtered = currentSubjects.filter(s => s !== subjectToRemove)
-    updateField(imagePath, 'subject', filtered.length > 0 ? filtered : [])
+    const currentPersons = imageUpdates.person ?? image?.person ?? []
+    updateField(imagePath, 'person', currentPersons.filter(p => p !== personToRemove))
   }
 
   // Product functions
@@ -128,7 +126,7 @@ export function MetadataEditor({ selectedImages, images, isOpen, onClose, onSave
 
     const image = selectedImageData.find(img => img.path === imagePath)
     const imageUpdates = updates[imagePath] || {}
-    const currentProducts = imageUpdates.product ? (Array.isArray(imageUpdates.product) ? imageUpdates.product : [imageUpdates.product]) : (image?.product ? (Array.isArray(image.product) ? image.product : [image.product]) : [])
+    const currentProducts = imageUpdates.product ?? image?.product ?? []
 
     if (!currentProducts.includes(product)) {
       updateField(imagePath, 'product', [...currentProducts, product])
@@ -139,9 +137,8 @@ export function MetadataEditor({ selectedImages, images, isOpen, onClose, onSave
   const removeProduct = (imagePath: string, productToRemove: string) => {
     const image = selectedImageData.find(img => img.path === imagePath)
     const imageUpdates = updates[imagePath] || {}
-    const currentProducts = imageUpdates.product ? (Array.isArray(imageUpdates.product) ? imageUpdates.product : [imageUpdates.product]) : (image?.product ? (Array.isArray(image.product) ? image.product : [image.product]) : [])
-    const filtered = currentProducts.filter(p => p !== productToRemove)
-    updateField(imagePath, 'product', filtered.length > 0 ? filtered : [])
+    const currentProducts = imageUpdates.product ?? image?.product ?? []
+    updateField(imagePath, 'product', currentProducts.filter(p => p !== productToRemove))
   }
 
   const handleSave = async () => {
@@ -153,7 +150,7 @@ export function MetadataEditor({ selectedImages, images, isOpen, onClose, onSave
         path,
         metadata: {
           category: imageUpdates.category ?? image?.category,
-          subject: imageUpdates.subject ?? image?.subject,
+          person: imageUpdates.person ?? image?.person,
           product: imageUpdates.product ?? image?.product,
           tags: imageUpdates.tags ?? image?.tags
         }
@@ -196,9 +193,9 @@ export function MetadataEditor({ selectedImages, images, isOpen, onClose, onSave
               const imageName = image.path.split('/').pop()
               const imageUpdates = updates[image.path] || {}
               const currentTags = imageUpdates.tags ?? image.tags ?? []
-              const currentCategories = imageUpdates.category ? [imageUpdates.category] : (image?.category ? [image.category] : [])
-              const currentSubjects = imageUpdates.subject ? [imageUpdates.subject] : (image?.subject ? [image.subject] : [])
-              const currentProducts = imageUpdates.product ? (Array.isArray(imageUpdates.product) ? imageUpdates.product : [imageUpdates.product]) : (image?.product ? (Array.isArray(image.product) ? image.product : [image.product]) : [])
+              const currentCategories = imageUpdates.category ?? image?.category ?? []
+              const currentPersons = imageUpdates.person ?? image?.person ?? []
+              const currentProducts = imageUpdates.product ?? image?.product ?? []
 
               return (
                 <div key={image.path} className="border rounded-lg p-4">
@@ -252,18 +249,18 @@ export function MetadataEditor({ selectedImages, images, isOpen, onClose, onSave
                         </div>
                       </div>
 
-                      {/* Subject */}
+                      {/* Person */}
                       <div className="mb-4">
-                        <Label className="text-xs">Subject</Label>
+                        <Label className="text-xs">People</Label>
                         <div className="flex flex-wrap gap-2 mt-2 mb-2">
-                          {currentSubjects.map((subject: string) => (
+                          {currentPersons.map((person: string) => (
                             <span
-                              key={subject}
+                              key={person}
                               className="inline-flex items-center gap-1 px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded"
                             >
-                              {subject}
+                              {person}
                               <button
-                                onClick={() => removeSubject(image.path, subject)}
+                                onClick={() => removePerson(image.path, person)}
                                 className="text-purple-600 hover:text-purple-800"
                               >
                                 <X className="h-3 w-3" />
@@ -273,16 +270,16 @@ export function MetadataEditor({ selectedImages, images, isOpen, onClose, onSave
                         </div>
                         <div className="flex gap-2">
                           <Input
-                            value={newSubjects[image.path] || ''}
-                            onChange={(e) => setNewSubjects(prev => ({ ...prev, [image.path]: e.target.value }))}
-                            placeholder="Add subject..."
+                            value={newPersons[image.path] || ''}
+                            onChange={(e) => setNewPersons(prev => ({ ...prev, [image.path]: e.target.value }))}
+                            placeholder="Add person..."
                             className="flex-1"
-                            onKeyDown={(e) => e.key === 'Enter' && addSubject(image.path)}
+                            onKeyDown={(e) => e.key === 'Enter' && addPerson(image.path)}
                           />
                           <Button
                             size="sm"
                             variant="outline"
-                            onClick={() => addSubject(image.path)}
+                            onClick={() => addPerson(image.path)}
                           >
                             <Plus className="h-4 w-4" />
                           </Button>

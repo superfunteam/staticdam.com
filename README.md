@@ -50,37 +50,43 @@ pnpm dev
 
 ## Metadata Fields (All Multi-Value)
 
-All metadata fields support multiple values and are stored reliably in EXIF fields that guarantee array support.
+All metadata fields support multiple values and are stored in dedicated EXIF fields with no prefixes needed.
 
-| Field | EXIF Mapping | Format | Purpose |
-|-------|-------------|---------|---------|
-| `category` | IPTC:Keywords | `category:value` | Image categories (portraits, warehouse, etc.) |
-| `person` | IPTC:Keywords | `person:name` | People in the image (Jimmy, Marcus, Sasha) |
-| `tags` | IPTC:Keywords | `value` | Descriptive keywords (no prefix) |
-| `product` | XMP:HierarchicalSubject | `product\|name` | Product associations |
+| Field | EXIF Field | Purpose | Example Values |
+|-------|------------|---------|----------------|
+| `category` | `IPTC:SupplementalCategory` | Image categories | `["portrait", "warehouse", "outdoor"]` |
+| `person` | `IPTC:PersonInImage` | People in the image | `["Jimmy", "Marcus", "Sasha"]` |
+| `tags` | `IPTC:Keywords` | Descriptive keywords | `["professional", "equipment", "lighting"]` |
+| `product` | `XMP-lr:hierarchicalSubject` | Product associations | `["laptop", "camera", "monitor"]` |
 
 ### Adding Metadata
 
-Use EXIF/XMP keywords with prefixes to organize metadata:
+Each metadata type uses its own dedicated EXIF field - no prefixes or mixing required:
 
 ```bash
-# Categories with prefix
-category:portrait
-category:warehouse
+# Categories (IPTC:SupplementalCategory)
+exiftool -IPTC:SupplementalCategory="portrait" image.jpg
+exiftool -IPTC:SupplementalCategory="warehouse" image.jpg
 
-# People with prefix
-person:Jimmy
-person:Marcus
+# People (IPTC:PersonInImage)
+exiftool -IPTC:PersonInImage="Jimmy" image.jpg
+exiftool -IPTC:PersonInImage="Marcus" image.jpg
 
-# Regular tags (no prefix)
-outdoor
-professional
-equipment
+# Tags (IPTC:Keywords)
+exiftool -IPTC:Keywords="professional" image.jpg
+exiftool -IPTC:Keywords="equipment" image.jpg
 
-# Products (hierarchical)
-product|laptop
-product|camera
+# Products (XMP-lr:hierarchicalSubject)
+exiftool -XMP-lr:hierarchicalSubject="laptop" image.jpg
+exiftool -XMP-lr:hierarchicalSubject="camera" image.jpg
 ```
+
+### Benefits of Dedicated Fields
+
+- **No prefix confusion** - each field contains only its type
+- **Standards compliant** - using EXIF fields for intended purposes
+- **Tool compatibility** - other DAM software will understand the data
+- **Simpler parsing** - no string manipulation needed
 
 ## Workflow
 
