@@ -1,5 +1,5 @@
 [build]
-  command = "npm install && cd site && npm run build"
+  command = "npm install && cd site && npm install && npm run build"
   publish = "site/dist"
 
 [functions]
