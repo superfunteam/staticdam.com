@@ -1,5 +1,4 @@
-import type { Handler } from '@netlify/functions'
-import sharp from 'sharp'
+const sharp = require('sharp')
 
 interface DownloadParams {
   path: string
@@ -11,7 +10,7 @@ interface DownloadParams {
 const MAX_WIDTH = 4096
 const DEFAULT_QUALITY = 85
 
-export const handler: Handler = async (event) => {
+exports.handler = async (event) => {
   if (event.httpMethod !== 'GET') {
     return {
       statusCode: 405,

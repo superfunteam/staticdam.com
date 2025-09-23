@@ -1,7 +1,6 @@
-import type { Handler, HandlerEvent } from '@netlify/functions'
-import { verify } from '@node-rs/argon2'
-import jwt from 'jsonwebtoken'
-import { App } from '@octokit/app'
+const { verify } = require('@node-rs/argon2')
+const jwt = require('jsonwebtoken')
+const { App } = require('@octokit/app')
 
 interface EditPayload {
   edits: Array<{
@@ -14,7 +13,7 @@ interface EditPayload {
   mode: 'merge' | 'replace'
 }
 
-const validateAuth = async (event: HandlerEvent): Promise<boolean> => {
+const validateAuth = async (event) => {
   const sharedHash = process.env.SHARED_WRITE_HASH
   const signingKey = process.env.SESSION_SIGNING_KEY
 
@@ -68,7 +67,7 @@ const triggerGitHubAction = async (payload: EditPayload) => {
   })
 }
 
-export const handler: Handler = async (event) => {
+exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,

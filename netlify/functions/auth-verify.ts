@@ -1,8 +1,8 @@
-import type { Handler } from '@netlify/functions'
-import { verify } from '@node-rs/argon2'
-import jwt from 'jsonwebtoken'
+const { Handler } = require('@netlify/functions')
+const { verify } = require('@node-rs/argon2')
+const jwt = require('jsonwebtoken')
 
-export const handler: Handler = async (event) => {
+exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,
