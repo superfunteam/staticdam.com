@@ -57,8 +57,11 @@ jobs:
           if git diff --staged --quiet; then
             echo "No thumbnail changes to commit"
           else
+            git stash --include-untracked
             git pull --rebase
-            git commit -m "feat(thumbs): generate thumbnails for images [skip ci]"
+            git stash pop || true
+            git add assets-thumbs/
+            git commit -m "feat(thumbs): generate thumbnails for images [skip ci]" || echo "Nothing to commit"
             git push
             echo "Thumbnails committed and pushed"
           fi

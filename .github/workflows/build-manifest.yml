@@ -57,11 +57,14 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add data/manifest.json assets-thumbs/
+          git add data/manifest.json
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
+            git stash --include-untracked
             git pull --rebase
-            git commit -m "chore: update manifest.json [skip ci]"
+            git stash pop || true
+            git add data/manifest.json
+            git commit -m "chore: update manifest.json [skip ci]" || echo "Nothing to commit"
             git push
           fi
