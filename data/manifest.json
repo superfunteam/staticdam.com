@@ -84,16 +84,34 @@
     "bytes": 3934959
   },
   {
+    "path": "assets/Purchased Stock/AdobeStock_1004057177.jpeg",
+    "w": 6471,
+    "h": 4315,
+    "bytes": 4828967
+  },
+  {
     "path": "assets/Purchased Stock/AdobeStock_118799701.jpeg",
     "w": 5677,
     "h": 3785,
     "bytes": 6076085
   },
   {
+    "path": "assets/Purchased Stock/AdobeStock_1215496859.jpeg",
+    "w": 6913,
+    "h": 4609,
+    "bytes": 8494817
+  },
+  {
     "path": "assets/Purchased Stock/AdobeStock_130637542.jpeg",
     "w": 5542,
     "h": 3695,
     "bytes": 5474857
+  },
+  {
+    "path": "assets/Purchased Stock/AdobeStock_1321189556.jpeg",
+    "w": 5888,
+    "h": 3328,
+    "bytes": 1949831
   },
   {
     "path": "assets/Purchased Stock/AdobeStock_136009640.jpeg",
@@ -394,5 +412,95 @@
     "w": 5696,
     "h": 3392,
     "bytes": 3810589
+  },
+  {
+    "path": "assets/Purchased Stock/alternate-sourcing-business.jpg",
+    "w": 2731,
+    "h": 2731,
+    "bytes": 3903330
+  },
+  {
+    "path": "assets/Purchased Stock/category planner.jpeg",
+    "w": 7952,
+    "h": 5152,
+    "bytes": 10731302
+  },
+  {
+    "path": "assets/Purchased Stock/chief procurement officer.jpeg",
+    "w": 6938,
+    "h": 4626,
+    "bytes": 8014292
+  },
+  {
+    "path": "assets/Purchased Stock/lgbt-woman.jpg",
+    "w": 2130,
+    "h": 1421,
+    "bytes": 1291088
+  },
+  {
+    "path": "assets/Purchased Stock/program impact.jpeg",
+    "w": 7651,
+    "h": 5103,
+    "bytes": 8632709
+  },
+  {
+    "path": "assets/Purchased Stock/responsible sourcing.jpeg",
+    "w": 6847,
+    "h": 4271,
+    "bytes": 8741912
+  },
+  {
+    "path": "assets/Purchased Stock/supplier discovery.jpeg",
+    "w": 6847,
+    "h": 4565,
+    "bytes": 9155555
+  },
+  {
+    "path": "assets/Purchased Stock/supplier diversity leader.jpeg",
+    "w": 7834,
+    "h": 5225,
+    "bytes": 9850957
+  },
+  {
+    "path": "assets/Purchased Stock/supplier diversity.jpeg",
+    "w": 4096,
+    "h": 2160,
+    "bytes": 1627868
+  },
+  {
+    "path": "assets/Purchased Stock/supplier visibility.jpeg",
+    "w": 4096,
+    "h": 2160,
+    "bytes": 1996704
+  },
+  {
+    "path": "assets/Purchased Stock/supplier-diversity-customer-service.jpg",
+    "w": 2731,
+    "h": 2731,
+    "bytes": 5017962
+  },
+  {
+    "path": "assets/Purchased Stock/supplier-diversity-mechanical.jpg",
+    "w": 2731,
+    "h": 2731,
+    "bytes": 5474730
+  },
+  {
+    "path": "assets/Purchased Stock/sustainability reporting.jpeg",
+    "w": 4608,
+    "h": 3072,
+    "bytes": 4983244
+  },
+  {
+    "path": "assets/Purchased Stock/sustainability-man-woman-greenhouse.jpg",
+    "w": 3001,
+    "h": 2000,
+    "bytes": 3735115
+  },
+  {
+    "path": "assets/Purchased Stock/sustainable-buildings.jpg",
+    "w": 2731,
+    "h": 2731,
+    "bytes": 8422508
   }
 ]
