@@ -61,22 +61,30 @@ async function extractMetadata(filePath: string): Promise<ManifestEntry | null> 
       }
     }
 
+    // Category: Overall image type (portraits, warehouse, etc.)
     if (exif['XMP-photoshop:Category']) {
       entry.category = exif['XMP-photoshop:Category']
     }
 
+    // Subject: Person names (Jimmy, Marcus, Sasha, Sven)
     if (exif['XMP-dc:Subject']) {
-      const subjects = exif['XMP-dc:Subject']
-      entry.tags = Array.isArray(subjects) ? subjects : [subjects].filter(Boolean)
-    } else if (exif['IPTC:Keywords']) {
-      const keywords = exif['IPTC:Keywords']
-      entry.tags = Array.isArray(keywords) ? keywords : [keywords].filter(Boolean)
+      entry.subject = exif['XMP-dc:Subject']
+    } else if (exif['IPTC:Subject']) {
+      entry.subject = exif['IPTC:Subject']
     }
 
-    if (exif['XMP-photoshop:Headline']) {
-      entry.subject = exif['XMP-photoshop:Headline']
-    } else if (exif['XMP-dc:Title']) {
-      entry.subject = exif['XMP-dc:Title']
+    // Keywords: What's in the image (multiple descriptive tags)
+    if (exif['IPTC:Keywords']) {
+      const keywords = exif['IPTC:Keywords']
+      if (typeof keywords === 'string') {
+        // Split comma-separated keywords
+        entry.tags = keywords.split(',').map(k => k.trim()).filter(Boolean)
+      } else if (Array.isArray(keywords)) {
+        entry.tags = keywords.filter(Boolean)
+      }
+    } else if (exif['XMP-dc:Keywords']) {
+      const keywords = exif['XMP-dc:Keywords']
+      entry.tags = Array.isArray(keywords) ? keywords : [keywords].filter(Boolean)
     }
 
     if (exif['XMP:HierarchicalSubject']) {

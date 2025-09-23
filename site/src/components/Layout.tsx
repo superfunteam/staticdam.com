@@ -41,8 +41,11 @@ function DynamicBreadcrumb() {
   } else if (selectedFilter.startsWith('category:')) {
     filterType = 'Category'
     filterValue = selectedFilter.replace('category:', '')
-  } else if (selectedFilter.startsWith('tag:')) {
+  } else if (selectedFilter.startsWith('subject:')) {
     filterType = 'Subject'
+    filterValue = selectedFilter.replace('subject:', '')
+  } else if (selectedFilter.startsWith('tag:')) {
+    filterType = 'Tag'
     filterValue = selectedFilter.replace('tag:', '')
   }
 

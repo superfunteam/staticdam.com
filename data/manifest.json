@@ -4,8 +4,11 @@
     "w": 0,
     "h": 0,
     "bytes": 0,
+    "category": "portraits",
+    "subject": "Jimmy",
     "tags": [
-      "Jimmy"
+      "person",
+      "headshot"
     ]
   },
   {
@@ -13,8 +16,11 @@
     "w": 0,
     "h": 0,
     "bytes": 0,
+    "category": "portraits",
+    "subject": "Jimmy",
     "tags": [
-      "Jimmy"
+      "person",
+      "headshot"
     ]
   },
   {
@@ -22,8 +28,11 @@
     "w": 10800,
     "h": 7200,
     "bytes": 0,
+    "category": "portraits",
+    "subject": "Jimmy",
     "tags": [
-      "Jimmy"
+      "person",
+      "headshot"
     ]
   },
   {
@@ -31,8 +40,11 @@
     "w": 6960,
     "h": 4640,
     "bytes": 0,
+    "category": "portraits",
+    "subject": "Marcus",
     "tags": [
-      "Marcus"
+      "person",
+      "headshot"
     ]
   },
   {
@@ -40,8 +52,11 @@
     "w": 5472,
     "h": 3648,
     "bytes": 0,
+    "category": "portraits",
+    "subject": "Sven",
     "tags": [
-      "Sven"
+      "person",
+      "headshot"
     ]
   },
   {
@@ -49,8 +64,11 @@
     "w": 3800,
     "h": 2138,
     "bytes": 0,
+    "category": "portraits",
+    "subject": "Sasha",
     "tags": [
-      "Sasha"
+      "person",
+      "headshot"
     ]
   },
   {
@@ -58,8 +76,11 @@
     "w": 4822,
     "h": 3215,
     "bytes": 0,
+    "category": "warehouse",
     "tags": [
-      "supply chain"
+      "supply chain",
+      "logistics",
+      "storage"
     ]
   },
   {
@@ -67,8 +88,11 @@
     "w": 7952,
     "h": 5304,
     "bytes": 0,
+    "category": "warehouse",
     "tags": [
-      "supply chain"
+      "supply chain",
+      "logistics",
+      "storage"
     ]
   },
   {
@@ -76,8 +100,11 @@
     "w": 6046,
     "h": 4024,
     "bytes": 0,
+    "category": "warehouse",
     "tags": [
-      "supply chain"
+      "supply chain",
+      "logistics",
+      "storage"
     ]
   },
   {
@@ -85,8 +112,11 @@
     "w": 5464,
     "h": 3640,
     "bytes": 0,
+    "category": "warehouse",
     "tags": [
-      "supply chain"
+      "supply chain",
+      "logistics",
+      "storage"
     ]
   },
   {
@@ -94,8 +124,11 @@
     "w": 5477,
     "h": 3651,
     "bytes": 0,
+    "category": "warehouse",
     "tags": [
-      "supply chain"
+      "supply chain",
+      "logistics",
+      "storage"
     ]
   }
 ]

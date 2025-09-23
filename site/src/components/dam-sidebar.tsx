@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Folder, Tag, Image, Hash, ChevronRight } from "lucide-react"
+import { Folder, Tag, Image, Hash, ChevronRight, User } from "lucide-react"
 import { useQuery } from '@tanstack/react-query'
 
 import {
@@ -63,6 +63,11 @@ export function FilterProvider({ children }: { children: React.ReactNode }) {
       return images.filter(img => img.category === category)
     }
 
+    if (selectedFilter.startsWith('subject:')) {
+      const subject = selectedFilter.replace('subject:', '')
+      return images.filter(img => img.subject === subject)
+    }
+
     if (selectedFilter.startsWith('tag:')) {
       const tag = selectedFilter.replace('tag:', '')
       return images.filter(img => img.tags?.includes(tag))
@@ -122,6 +127,17 @@ export function DamSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       }
     })
     return Array.from(categorySet).sort()
+  }, [images])
+
+  // Extract unique subjects (person names)
+  const subjects = React.useMemo(() => {
+    const subjectSet = new Set<string>()
+    images.forEach(image => {
+      if (image.subject) {
+        subjectSet.add(image.subject)
+      }
+    })
+    return Array.from(subjectSet).sort()
   }, [images])
 
   return (
@@ -228,8 +244,8 @@ export function DamSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               </Collapsible>
             )}
 
-            {/* Subjects Section */}
-            {tags.length > 0 && (
+            {/* Subjects Section (Person Names) */}
+            {subjects.length > 0 && (
               <Collapsible
                 key="subjects"
                 asChild
@@ -239,8 +255,45 @@ export function DamSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 <SidebarMenuItem>
                   <CollapsibleTrigger asChild>
                     <SidebarMenuButton tooltip="Subjects">
+                      <User className="h-4 w-4" />
+                      <span>Subjects ({subjects.length})</span>
+                      <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                    </SidebarMenuButton>
+                  </CollapsibleTrigger>
+                  <CollapsibleContent>
+                    <SidebarMenuSub>
+                      {subjects.map((subject) => {
+                        const count = images.filter(img => img.subject === subject).length
+                        return (
+                          <SidebarMenuSubItem key={subject}>
+                            <SidebarMenuSubButton
+                              onClick={() => setSelectedFilter(`subject:${subject}`)}
+                              isActive={selectedFilter === `subject:${subject}`}
+                            >
+                              <span>{subject} ({count})</span>
+                            </SidebarMenuSubButton>
+                          </SidebarMenuSubItem>
+                        )
+                      })}
+                    </SidebarMenuSub>
+                  </CollapsibleContent>
+                </SidebarMenuItem>
+              </Collapsible>
+            )}
+
+            {/* Tags Section (Keywords) */}
+            {tags.length > 0 && (
+              <Collapsible
+                key="tags"
+                asChild
+                defaultOpen={true}
+                className="group/collapsible"
+              >
+                <SidebarMenuItem>
+                  <CollapsibleTrigger asChild>
+                    <SidebarMenuButton tooltip="Tags">
                       <Tag className="h-4 w-4" />
-                      <span>Subjects ({tags.length})</span>
+                      <span>Tags ({tags.length})</span>
                       <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                     </SidebarMenuButton>
                   </CollapsibleTrigger>
