@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/components/ui/use-toast'
+import { DamSidebar } from '@/components/dam-sidebar'
 import type { ImageMetadata } from '@/types'
 
 export default function LibraryPage() {
@@ -9,6 +10,7 @@ export default function LibraryPage() {
   const [isEditing, setIsEditing] = useState(false)
   const [password, setPassword] = useState('')
   const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [selectedFilter, setSelectedFilter] = useState<string | null>(null)
   const { toast } = useToast()
 
   const { data: images = [], isLoading } = useQuery<ImageMetadata[]>({
@@ -20,26 +22,62 @@ export default function LibraryPage() {
     },
   })
 
+  // Filter images based on selected filter
+  const filteredImages = useMemo(() => {
+    if (!selectedFilter) return images
+
+    if (selectedFilter.startsWith('folder:')) {
+      const folder = selectedFilter.replace('folder:', '')
+      return images.filter(img => img.path.includes(`/${folder}/`))
+    }
+
+    if (selectedFilter.startsWith('category:')) {
+      const category = selectedFilter.replace('category:', '')
+      return images.filter(img => img.category === category)
+    }
+
+    if (selectedFilter.startsWith('tag:')) {
+      const tag = selectedFilter.replace('tag:', '')
+      return images.filter(img => img.tags?.includes(tag))
+    }
+
+    return images
+  }, [images, selectedFilter])
+
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-full">
-        <div className="text-center">
-          <div className="text-lg">Loading images...</div>
+      <>
+        <DamSidebar
+          images={[]}
+          selectedFilter={selectedFilter}
+          onFilterChange={setSelectedFilter}
+        />
+        <div className="flex items-center justify-center h-full">
+          <div className="text-center">
+            <div className="text-lg">Loading images...</div>
+          </div>
         </div>
-      </div>
+      </>
     )
   }
 
   if (!images.length) {
     return (
-      <div className="flex items-center justify-center h-full">
-        <div className="text-center">
-          <div className="text-lg mb-4">No images found</div>
-          <div className="text-sm text-muted-foreground">
-            Upload images to the assets folder to get started
+      <>
+        <DamSidebar
+          images={[]}
+          selectedFilter={selectedFilter}
+          onFilterChange={setSelectedFilter}
+        />
+        <div className="flex items-center justify-center h-full">
+          <div className="text-center">
+            <div className="text-lg mb-4">No images found</div>
+            <div className="text-sm text-muted-foreground">
+              Upload images to the assets folder to get started
+            </div>
           </div>
         </div>
-      </div>
+      </>
     )
   }
 
@@ -102,28 +140,42 @@ export default function LibraryPage() {
   }
 
   return (
-    <div className="p-6">
-      <div className="mb-6 flex items-center justify-between">
-        <h2 className="text-2xl font-bold">Library</h2>
-        <div className="flex items-center gap-4">
-          <span className="text-sm text-muted-foreground">
-            {images.length} images
-          </span>
-          {selectedImages.size > 0 && (
-            <>
-              <span className="text-sm font-medium">
-                {selectedImages.size} selected
-              </span>
-              <Button onClick={startEditing} size="sm">
-                Edit Metadata
-              </Button>
-            </>
-          )}
+    <>
+      <DamSidebar
+        images={images}
+        selectedFilter={selectedFilter}
+        onFilterChange={setSelectedFilter}
+      />
+      <div className="p-6">
+        <div className="mb-6 flex items-center justify-between">
+          <h2 className="text-2xl font-bold">
+            {selectedFilter
+              ? `${selectedFilter.includes(':') ? selectedFilter.split(':')[1] : selectedFilter} (${filteredImages.length})`
+              : `Library (${images.length})`
+            }
+          </h2>
+          <div className="flex items-center gap-4">
+            <span className="text-sm text-muted-foreground">
+              {selectedFilter
+                ? `${filteredImages.length} of ${images.length} images`
+                : `${images.length} images`
+              }
+            </span>
+            {selectedImages.size > 0 && (
+              <>
+                <span className="text-sm font-medium">
+                  {selectedImages.size} selected
+                </span>
+                <Button onClick={startEditing} size="sm">
+                  Edit Metadata
+                </Button>
+              </>
+            )}
+          </div>
         </div>
-      </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-        {images.map((image) => (
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+          {filteredImages.map((image) => (
           <div
             key={image.path}
             className={`group relative cursor-pointer rounded-lg overflow-hidden border-2 transition-all ${
@@ -189,6 +241,7 @@ export default function LibraryPage() {
           </div>
         </div>
       )}
-    </div>
+      </div>
+    </>
   )
 }
