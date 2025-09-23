@@ -1,7 +1,12 @@
 import * as React from "react"
-import { Folder, Tag, Image, Hash } from "lucide-react"
+import { Folder, Tag, Image, Hash, ChevronRight } from "lucide-react"
 import { useQuery } from '@tanstack/react-query'
 
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible"
 import {
   Sidebar,
   SidebarContent,
@@ -12,6 +17,9 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
   SidebarRail,
 } from "@/components/ui/sidebar"
 import type { ImageMetadata } from "@/types"
@@ -179,57 +187,85 @@ export function DamSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarGroup>
         )}
 
-        {/* Categories */}
-        {categories.length > 0 && (
-          <SidebarGroup>
-            <SidebarGroupLabel>Categories</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {categories.map((category) => {
-                  const count = images.filter(img => img.category === category).length
-                  return (
-                    <SidebarMenuItem key={category}>
-                      <SidebarMenuButton
-                        onClick={() => setSelectedFilter(`category:${category}`)}
-                        isActive={selectedFilter === `category:${category}`}
-                        className="w-full"
-                      >
-                        <Hash className="h-4 w-4" />
-                        <span>{category} ({count})</span>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  )
-                })}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        )}
+        {/* Metadata Groups */}
+        <SidebarGroup>
+          <SidebarGroupLabel>Metadata</SidebarGroupLabel>
+          <SidebarMenu>
+            {/* Categories Section */}
+            {categories.length > 0 && (
+              <Collapsible
+                key="categories"
+                asChild
+                defaultOpen={true}
+                className="group/collapsible"
+              >
+                <SidebarMenuItem>
+                  <CollapsibleTrigger asChild>
+                    <SidebarMenuButton tooltip="Categories">
+                      <Hash className="h-4 w-4" />
+                      <span>Categories ({categories.length})</span>
+                      <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                    </SidebarMenuButton>
+                  </CollapsibleTrigger>
+                  <CollapsibleContent>
+                    <SidebarMenuSub>
+                      {categories.map((category) => {
+                        const count = images.filter(img => img.category === category).length
+                        return (
+                          <SidebarMenuSubItem key={category}>
+                            <SidebarMenuSubButton
+                              onClick={() => setSelectedFilter(`category:${category}`)}
+                              isActive={selectedFilter === `category:${category}`}
+                            >
+                              <span>{category} ({count})</span>
+                            </SidebarMenuSubButton>
+                          </SidebarMenuSubItem>
+                        )
+                      })}
+                    </SidebarMenuSub>
+                  </CollapsibleContent>
+                </SidebarMenuItem>
+              </Collapsible>
+            )}
 
-        {/* Tags */}
-        {tags.length > 0 && (
-          <SidebarGroup>
-            <SidebarGroupLabel>Tags</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {tags.map((tag) => {
-                  const count = images.filter(img => img.tags?.includes(tag)).length
-                  return (
-                    <SidebarMenuItem key={tag}>
-                      <SidebarMenuButton
-                        onClick={() => setSelectedFilter(`tag:${tag}`)}
-                        isActive={selectedFilter === `tag:${tag}`}
-                        className="w-full"
-                      >
-                        <Tag className="h-4 w-4" />
-                        <span>{tag} ({count})</span>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  )
-                })}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        )}
+            {/* Subjects Section */}
+            {tags.length > 0 && (
+              <Collapsible
+                key="subjects"
+                asChild
+                defaultOpen={true}
+                className="group/collapsible"
+              >
+                <SidebarMenuItem>
+                  <CollapsibleTrigger asChild>
+                    <SidebarMenuButton tooltip="Subjects">
+                      <Tag className="h-4 w-4" />
+                      <span>Subjects ({tags.length})</span>
+                      <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                    </SidebarMenuButton>
+                  </CollapsibleTrigger>
+                  <CollapsibleContent>
+                    <SidebarMenuSub>
+                      {tags.map((tag) => {
+                        const count = images.filter(img => img.tags?.includes(tag)).length
+                        return (
+                          <SidebarMenuSubItem key={tag}>
+                            <SidebarMenuSubButton
+                              onClick={() => setSelectedFilter(`tag:${tag}`)}
+                              isActive={selectedFilter === `tag:${tag}`}
+                            >
+                              <span>{tag} ({count})</span>
+                            </SidebarMenuSubButton>
+                          </SidebarMenuSubItem>
+                        )
+                      })}
+                    </SidebarMenuSub>
+                  </CollapsibleContent>
+                </SidebarMenuItem>
+              </Collapsible>
+            )}
+          </SidebarMenu>
+        </SidebarGroup>
       </SidebarContent>
       <SidebarRail />
     </Sidebar>
