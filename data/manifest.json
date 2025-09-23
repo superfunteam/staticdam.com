@@ -21,13 +21,19 @@
     "path": "assets/personas/ronnakorn-triraganon-zyYEWx4mNPo-unsplash.jpg",
     "w": 5472,
     "h": 3648,
-    "bytes": 0
+    "bytes": 0,
+    "tags": [
+      "Sven"
+    ]
   },
   {
     "path": "assets/personas/vitaly-gariev-GInTp0NE14w-unsplash.jpg",
     "w": 3800,
     "h": 2138,
-    "bytes": 0
+    "bytes": 0,
+    "tags": [
+      "Sasha"
+    ]
   },
   {
     "path": "assets/warehouses/adrian-sulyok-sczNLg6rrhQ-unsplash.jpg",
