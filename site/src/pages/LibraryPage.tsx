@@ -3,6 +3,8 @@ import { useQuery } from '@tanstack/react-query'
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/components/ui/use-toast'
 import { useFilter } from '@/components/dam-sidebar'
+import { ImageLightbox } from '@/components/image-lightbox'
+import { Check } from 'lucide-react'
 import type { ImageMetadata } from '@/types'
 
 export default function LibraryPage() {
@@ -10,6 +12,7 @@ export default function LibraryPage() {
   const [isEditing, setIsEditing] = useState(false)
   const [password, setPassword] = useState('')
   const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [lightboxImage, setLightboxImage] = useState<ImageMetadata | null>(null)
   const { toast } = useToast()
   const { selectedFilter, filteredImages } = useFilter()
 
@@ -45,7 +48,8 @@ export default function LibraryPage() {
     )
   }
 
-  const toggleSelect = (path: string) => {
+  const toggleSelect = (path: string, e: React.MouseEvent) => {
+    e.stopPropagation()
     const newSelection = new Set(selectedImages)
     if (newSelection.has(path)) {
       newSelection.delete(path)
@@ -53,6 +57,31 @@ export default function LibraryPage() {
       newSelection.add(path)
     }
     setSelectedImages(newSelection)
+  }
+
+  const openLightbox = (image: ImageMetadata) => {
+    setLightboxImage(image)
+  }
+
+  const closeLightbox = () => {
+    setLightboxImage(null)
+  }
+
+  const navigateLightbox = (direction: 'prev' | 'next') => {
+    if (!lightboxImage) return
+
+    const currentIndex = filteredImages.findIndex(img => img.path === lightboxImage.path)
+    let newIndex = currentIndex
+
+    if (direction === 'prev' && currentIndex > 0) {
+      newIndex = currentIndex - 1
+    } else if (direction === 'next' && currentIndex < filteredImages.length - 1) {
+      newIndex = currentIndex + 1
+    }
+
+    if (newIndex !== currentIndex) {
+      setLightboxImage(filteredImages[newIndex])
+    }
   }
 
   const handleAuth = async () => {
@@ -141,8 +170,28 @@ export default function LibraryPage() {
                 ? 'border-primary ring-2 ring-primary'
                 : 'border-transparent hover:border-gray-300'
             }`}
-            onClick={() => toggleSelect(image.path)}
+            onClick={() => openLightbox(image)}
           >
+            {/* Checkbox for selection */}
+            <div
+              className={`absolute top-2 left-2 z-10 transition-opacity ${
+                selectedImages.has(image.path)
+                  ? 'opacity-100'
+                  : 'opacity-0 group-hover:opacity-100'
+              }`}
+              onClick={(e) => toggleSelect(image.path, e)}
+            >
+              <div className={`w-6 h-6 rounded border-2 flex items-center justify-center cursor-pointer transition-colors ${
+                selectedImages.has(image.path)
+                  ? 'bg-primary border-primary text-primary-foreground'
+                  : 'bg-white/90 border-white/90 hover:bg-white'
+              }`}>
+                {selectedImages.has(image.path) && (
+                  <Check className="h-4 w-4" />
+                )}
+              </div>
+            </div>
+
             <div className="aspect-square bg-gray-100 rounded-xl">
               <img
                 src={`/${image.path}`}
@@ -198,6 +247,17 @@ export default function LibraryPage() {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Lightbox */}
+      {lightboxImage && (
+        <ImageLightbox
+          image={lightboxImage}
+          images={filteredImages}
+          isOpen={!!lightboxImage}
+          onClose={closeLightbox}
+          onNavigate={navigateLightbox}
+        />
       )}
     </>
   )
