@@ -12,7 +12,10 @@
     "path": "assets/personas/nsys-group-WIPoOLzoFvk-unsplash.jpg",
     "w": 6960,
     "h": 4640,
-    "bytes": 0
+    "bytes": 0,
+    "tags": [
+      "Marcus"
+    ]
   },
   {
     "path": "assets/personas/ronnakorn-triraganon-zyYEWx4mNPo-unsplash.jpg",
