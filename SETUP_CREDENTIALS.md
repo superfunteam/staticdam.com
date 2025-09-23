@@ -8,7 +8,7 @@ The following have been configured:
 - `REPO_OWNER` - superfunteam
 - `REPO_NAME` - staticdam.com
 - `DEFAULT_BRANCH` - main
-- `PUBLIC_BASE_URL` - https://staticdam.netlify.app
+- `PUBLIC_BASE_URL` - https://staticdam.com
 
 ## 🔑 Your Admin Password
 
@@ -29,7 +29,7 @@ You still need to create a GitHub App to enable metadata editing. Here's how:
 1. Go to: https://github.com/settings/apps/new
 2. Fill in:
    - **GitHub App name**: StaticDAM Bot (or any unique name)
-   - **Homepage URL**: https://staticdam.netlify.app
+   - **Homepage URL**: https://staticdam.com
    - **Webhook**: Uncheck "Active"
 
 3. Set Permissions:
@@ -89,7 +89,7 @@ netlify deploy --build --prod
 
 ## Testing
 
-1. Visit https://staticdam.netlify.app
+1. Visit https://staticdam.com
 2. Go to `/admin`
 3. Enter password: `ULujUXgRpwpi9wMh`
 4. Try the "Trigger Reindex" button

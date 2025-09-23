@@ -31,7 +31,7 @@ async function generateEnvVars() {
     REPO_OWNER: 'superfunteam',
     REPO_NAME: 'staticdam.com',
     DEFAULT_BRANCH: 'main',
-    PUBLIC_BASE_URL: 'https://staticdam.netlify.app',
+    PUBLIC_BASE_URL: 'https://staticdam.com',
   };
 }
 
