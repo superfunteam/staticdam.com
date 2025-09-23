@@ -185,10 +185,10 @@ export default function LibraryPage() {
         {filteredImages.map((image) => (
           <div
             key={image.path}
-            className={`group relative cursor-pointer rounded-xl overflow-hidden border-8 transition-all ${
+            className={`group relative cursor-pointer rounded-xl overflow-hidden transition-all ${
               selectedImages.has(image.path)
-                ? 'border-primary'
-                : 'border-transparent hover:border-gray-300'
+                ? 'ring-8 ring-primary'
+                : 'hover:ring-8 hover:ring-gray-300'
             }`}
             onClick={() => openLightbox(image)}
           >
