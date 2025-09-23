@@ -20,7 +20,7 @@ interface MetadataUpdate {
     category?: string
     subject?: string
     product?: string
-    keywords?: string[]
+    tags?: string[]
   }
 }
 
@@ -43,23 +43,25 @@ export function MetadataEditor({ selectedImages, images, isOpen, onClose, onSave
     }))
   }
 
-  const addKeyword = (imagePath: string) => {
-    const keyword = newKeywords[imagePath]?.trim()
-    if (!keyword) return
+  const addTag = (imagePath: string) => {
+    const tag = newKeywords[imagePath]?.trim()
+    if (!tag) return
 
     const image = selectedImageData.find(img => img.path === imagePath)
-    const currentKeywords = image?.keywords || []
+    const imageUpdates = updates[imagePath] || {}
+    const currentTags = imageUpdates.tags ?? image?.tags ?? []
 
-    if (!currentKeywords.includes(keyword)) {
-      updateField(imagePath, 'keywords', [...currentKeywords, keyword])
+    if (!currentTags.includes(tag)) {
+      updateField(imagePath, 'tags', [...currentTags, tag])
       setNewKeywords(prev => ({ ...prev, [imagePath]: '' }))
     }
   }
 
-  const removeKeyword = (imagePath: string, keywordToRemove: string) => {
+  const removeTag = (imagePath: string, tagToRemove: string) => {
     const image = selectedImageData.find(img => img.path === imagePath)
-    const currentKeywords = image?.keywords || []
-    updateField(imagePath, 'keywords', currentKeywords.filter(k => k !== keywordToRemove))
+    const imageUpdates = updates[imagePath] || {}
+    const currentTags = imageUpdates.tags ?? image?.tags ?? []
+    updateField(imagePath, 'tags', currentTags.filter(t => t !== tagToRemove))
   }
 
   const handleSave = async () => {
@@ -73,7 +75,7 @@ export function MetadataEditor({ selectedImages, images, isOpen, onClose, onSave
           category: imageUpdates.category ?? image?.category,
           subject: imageUpdates.subject ?? image?.subject,
           product: imageUpdates.product ?? image?.product,
-          keywords: imageUpdates.keywords ?? image?.keywords
+          tags: imageUpdates.tags ?? image?.tags
         }
       }
     })
@@ -113,7 +115,7 @@ export function MetadataEditor({ selectedImages, images, isOpen, onClose, onSave
             {selectedImageData.map((image) => {
               const imageName = image.path.split('/').pop()
               const imageUpdates = updates[image.path] || {}
-              const currentKeywords = imageUpdates.keywords ?? image.keywords ?? []
+              const currentTags = imageUpdates.tags ?? image.tags ?? []
 
               return (
                 <div key={image.path} className="border rounded-lg p-4">
@@ -164,18 +166,18 @@ export function MetadataEditor({ selectedImages, images, isOpen, onClose, onSave
                         </div>
                       </div>
 
-                      {/* Keywords */}
+                      {/* Tags */}
                       <div className="mt-4">
-                        <Label className="text-xs">Keywords/Tags</Label>
+                        <Label className="text-xs">Tags</Label>
                         <div className="flex flex-wrap gap-2 mt-2 mb-2">
-                          {currentKeywords.map((keyword: string) => (
+                          {currentTags.map((tag: string) => (
                             <span
-                              key={keyword}
+                              key={tag}
                               className="inline-flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded"
                             >
-                              {keyword}
+                              {tag}
                               <button
-                                onClick={() => removeKeyword(image.path, keyword)}
+                                onClick={() => removeTag(image.path, tag)}
                                 className="text-blue-600 hover:text-blue-800"
                               >
                                 <X className="h-3 w-3" />
@@ -187,14 +189,14 @@ export function MetadataEditor({ selectedImages, images, isOpen, onClose, onSave
                           <Input
                             value={newKeywords[image.path] || ''}
                             onChange={(e) => setNewKeywords(prev => ({ ...prev, [image.path]: e.target.value }))}
-                            placeholder="Add keyword..."
+                            placeholder="Add tag..."
                             className="flex-1"
-                            onKeyDown={(e) => e.key === 'Enter' && addKeyword(image.path)}
+                            onKeyDown={(e) => e.key === 'Enter' && addTag(image.path)}
                           />
                           <Button
                             size="sm"
                             variant="outline"
-                            onClick={() => addKeyword(image.path)}
+                            onClick={() => addTag(image.path)}
                           >
                             <Plus className="h-4 w-4" />
                           </Button>
