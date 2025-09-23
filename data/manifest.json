@@ -1,1 +1,32 @@
-[]
+[
+  {
+    "path": "assets/warehouses/adrian-sulyok-sczNLg6rrhQ-unsplash.jpg",
+    "w": 4822,
+    "h": 3215,
+    "bytes": 0
+  },
+  {
+    "path": "assets/warehouses/alberto-rodriguez--aCrA9FmT8Y-unsplash.jpg",
+    "w": 7952,
+    "h": 5304,
+    "bytes": 0
+  },
+  {
+    "path": "assets/warehouses/centre-for-ageing-better-ZlOlRnWk8zU-unsplash.jpg",
+    "w": 6046,
+    "h": 4024,
+    "bytes": 0
+  },
+  {
+    "path": "assets/warehouses/marcin-jozwiak-oh0DITWoHi4-unsplash.jpg",
+    "w": 5464,
+    "h": 3640,
+    "bytes": 0
+  },
+  {
+    "path": "assets/warehouses/pickawood-6tAIO3pxde4-unsplash.jpg",
+    "w": 5477,
+    "h": 3651,
+    "bytes": 0
+  }
+]

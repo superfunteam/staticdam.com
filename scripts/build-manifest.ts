@@ -2,7 +2,7 @@
 
 import { execSync } from 'child_process'
 import { writeFileSync, mkdirSync, existsSync } from 'fs'
-import { glob } from 'glob'
+import * as glob from 'glob'
 import { resolve, dirname } from 'path'
 
 interface ExifData {
@@ -109,7 +109,7 @@ async function main() {
 
   const files: string[] = []
   for (const pattern of patterns) {
-    const matches = await glob(pattern)
+    const matches = glob.sync(pattern)
     files.push(...matches)
   }
 
