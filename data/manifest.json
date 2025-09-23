@@ -5,7 +5,11 @@
     "h": 0,
     "bytes": 0,
     "category": "portraits",
-    "subject": "Jimmy"
+    "subject": "Jimmy",
+    "tags": [
+      "person",
+      "headshot"
+    ]
   },
   {
     "path": "assets/personas/national-cancer-institute-S-3AnKlICmY-unsplash_side.png",
@@ -13,59 +17,150 @@
     "h": 0,
     "bytes": 0,
     "category": "portraits",
-    "subject": "Jimmy"
+    "subject": "Jimmy",
+    "tags": [
+      "person",
+      "headshot"
+    ]
   },
   {
     "path": "assets/personas/national-cancer-institute-S-3AnKlICmY-unsplash.jpg",
-    "w": 800,
-    "h": 533,
+    "w": 10800,
+    "h": 7200,
     "bytes": 0,
     "category": "portraits",
     "subject": "Jimmy",
     "tags": [
-      "Jimmy"
+      "person",
+      "headshot"
     ]
   },
   {
     "path": "assets/personas/nsys-group-WIPoOLzoFvk-unsplash.jpg",
-    "w": 800,
-    "h": 533,
+    "w": 6960,
+    "h": 4640,
     "bytes": 0,
     "category": "portraits",
     "subject": "Marcus",
     "tags": [
-      "Marcus"
+      "person",
+      "headshot"
     ]
   },
   {
     "path": "assets/personas/ronnakorn-triraganon-zyYEWx4mNPo-unsplash.jpg",
-    "w": 800,
-    "h": 533,
+    "w": 5472,
+    "h": 3648,
     "bytes": 0,
     "category": "portraits",
     "subject": "Sven",
     "tags": [
-      "Sven"
+      "person",
+      "headshot"
     ]
   },
   {
     "path": "assets/personas/vitaly-gariev-GInTp0NE14w-unsplash.jpg",
-    "w": 800,
-    "h": 450,
+    "w": 3800,
+    "h": 2138,
     "bytes": 0,
     "category": "portraits",
     "subject": "Sasha",
     "tags": [
-      "Sasha"
+      "person",
+      "headshot"
     ]
   },
   {
+    "path": "assets/Product Images/SIO-hero=Benchmarking 2.png",
+    "w": 0,
+    "h": 0,
+    "bytes": 0
+  },
+  {
+    "path": "assets/Product Images/SIO-hero=Benchmarking-1.png",
+    "w": 0,
+    "h": 0,
+    "bytes": 0
+  },
+  {
+    "path": "assets/Product Images/SIO-hero=Carbon Analytics.png",
+    "w": 0,
+    "h": 0,
+    "bytes": 0
+  },
+  {
+    "path": "assets/Product Images/SIO-hero=Data Enrichment.png",
+    "w": 0,
+    "h": 0,
+    "bytes": 0
+  },
+  {
+    "path": "assets/Product Images/SIO-hero=Diversity Analytics.png",
+    "w": 0,
+    "h": 0,
+    "bytes": 0
+  },
+  {
+    "path": "assets/Product Images/SIO-hero=GHG Emissions.png",
+    "w": 0,
+    "h": 0,
+    "bytes": 0
+  },
+  {
+    "path": "assets/Product Images/SIO-hero=Online Data Enrichment.png",
+    "w": 0,
+    "h": 0,
+    "bytes": 0
+  },
+  {
+    "path": "assets/Product Images/SIO-hero=program-impact.png",
+    "w": 0,
+    "h": 0,
+    "bytes": 0
+  },
+  {
+    "path": "assets/Product Images/SIO-hero=Supplier Explorer.png",
+    "w": 0,
+    "h": 0,
+    "bytes": 0
+  },
+  {
+    "path": "assets/Product Images/SIO-hero=Supplier Registration.png",
+    "w": 0,
+    "h": 0,
+    "bytes": 0
+  },
+  {
+    "path": "assets/Product Images/SIO-hero=Supplier-Registration-Supplier.png",
+    "w": 0,
+    "h": 0,
+    "bytes": 0
+  },
+  {
+    "path": "assets/Product Images/SIO-hero=Sustainability & ESG Reporting.png",
+    "w": 0,
+    "h": 0,
+    "bytes": 0
+  },
+  {
+    "path": "assets/Product Images/SIO-hero=Tier 2 reporting for suppliers.png",
+    "w": 0,
+    "h": 0,
+    "bytes": 0
+  },
+  {
+    "path": "assets/Product Images/SIO-hero=Tier 2 Spend Reporting.png",
+    "w": 0,
+    "h": 0,
+    "bytes": 0
+  },
+  {
     "path": "assets/warehouses/adrian-sulyok-sczNLg6rrhQ-unsplash.jpg",
-    "w": 800,
-    "h": 533,
+    "w": 4822,
+    "h": 3215,
     "bytes": 0,
     "category": "warehouse",
-    "subject": "supply chain,logistics,storage",
     "tags": [
       "supply chain",
       "logistics",
@@ -74,11 +169,10 @@
   },
   {
     "path": "assets/warehouses/alberto-rodriguez--aCrA9FmT8Y-unsplash.jpg",
-    "w": 800,
-    "h": 534,
+    "w": 7952,
+    "h": 5304,
     "bytes": 0,
     "category": "warehouse",
-    "subject": "supply chain,logistics,storage",
     "tags": [
       "supply chain",
       "logistics",
@@ -87,11 +181,10 @@
   },
   {
     "path": "assets/warehouses/centre-for-ageing-better-ZlOlRnWk8zU-unsplash.jpg",
-    "w": 800,
-    "h": 532,
+    "w": 6046,
+    "h": 4024,
     "bytes": 0,
     "category": "warehouse",
-    "subject": "supply chain,logistics,storage",
     "tags": [
       "supply chain",
       "logistics",
@@ -100,11 +193,10 @@
   },
   {
     "path": "assets/warehouses/marcin-jozwiak-oh0DITWoHi4-unsplash.jpg",
-    "w": 800,
-    "h": 533,
+    "w": 5464,
+    "h": 3640,
     "bytes": 0,
     "category": "warehouse",
-    "subject": "supply chain,logistics,storage",
     "tags": [
       "supply chain",
       "logistics",
@@ -113,11 +205,10 @@
   },
   {
     "path": "assets/warehouses/pickawood-6tAIO3pxde4-unsplash.jpg",
-    "w": 800,
-    "h": 533,
+    "w": 5477,
+    "h": 3651,
     "bytes": 0,
     "category": "warehouse",
-    "subject": "supply chain,logistics,storage",
     "tags": [
       "supply chain",
       "logistics",
