@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { Button } from '@/components/ui/button'
 import type { ImageMetadata } from '@/types'
 
 export default function LibraryPage() {
