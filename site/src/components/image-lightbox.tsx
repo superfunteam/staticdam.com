@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { X, ChevronLeft, ChevronRight, Download, Tag, Calendar, Camera, Hash, Folder } from 'lucide-react'
+import React, { useEffect, useState, useRef } from 'react'
+import { X, ChevronLeft, ChevronRight, Download, Tag, Calendar, Camera, Hash, Folder, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import type { ImageMetadata } from '@/types'
@@ -14,6 +14,8 @@ interface ImageLightboxProps {
 
 export function ImageLightbox({ image, images, isOpen, onClose, onNavigate }: ImageLightboxProps) {
   const [isLoading, setIsLoading] = useState(true)
+  const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0 })
+  const imgRef = useRef<HTMLImageElement>(null)
   const currentIndex = images.findIndex(img => img.path === image.path)
   const hasPrev = currentIndex > 0
   const hasNext = currentIndex < images.length - 1
@@ -50,6 +52,12 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate }: Im
       document.body.style.overflow = 'unset'
     }
   }, [isOpen])
+
+  // Reset loading state when image changes
+  useEffect(() => {
+    setIsLoading(true)
+    setImageDimensions({ width: 0, height: 0 })
+  }, [image.path])
 
   if (!isOpen) return null
 
@@ -111,15 +119,30 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate }: Im
         )}
 
         {/* Main Image */}
-        <div className="max-w-full max-h-full flex items-center justify-center">
+        <div className="max-w-full max-h-full flex items-center justify-center relative">
           {isLoading && (
-            <div className="text-white">Loading...</div>
+            <div className="absolute inset-0 flex items-center justify-center bg-black/20 rounded-lg">
+              <div className="flex flex-col items-center gap-3">
+                <Loader2 className="h-8 w-8 animate-spin text-white" />
+                <span className="text-white text-sm">Loading image...</span>
+              </div>
+            </div>
           )}
           <img
+            ref={imgRef}
             src={`/${image.path}`}
             alt={image.subject || image.path.split('/').pop()}
-            className="max-w-full max-h-full object-contain"
-            onLoad={() => setIsLoading(false)}
+            className={`max-w-full max-h-full object-contain transition-opacity duration-300 ${
+              isLoading ? 'opacity-0' : 'opacity-100'
+            }`}
+            onLoad={(e) => {
+              const img = e.currentTarget
+              setImageDimensions({
+                width: img.naturalWidth,
+                height: img.naturalHeight
+              })
+              setIsLoading(false)
+            }}
             onError={() => setIsLoading(false)}
           />
         </div>
@@ -168,7 +191,9 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate }: Im
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-muted-foreground min-w-16">Size:</span>
-                <span>{image.w} × {image.h} px</span>
+                <span>
+                  {imageDimensions.width || image.w || 0} × {imageDimensions.height || image.h || 0} px
+                </span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-muted-foreground min-w-16">File Size:</span>

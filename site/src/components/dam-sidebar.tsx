@@ -212,7 +212,7 @@ export function DamSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               <Collapsible
                 key="categories"
                 asChild
-                defaultOpen={true}
+                defaultOpen={false}
                 className="group/collapsible"
               >
                 <SidebarMenuItem>
@@ -249,7 +249,7 @@ export function DamSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               <Collapsible
                 key="subjects"
                 asChild
-                defaultOpen={true}
+                defaultOpen={false}
                 className="group/collapsible"
               >
                 <SidebarMenuItem>
@@ -286,7 +286,7 @@ export function DamSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               <Collapsible
                 key="tags"
                 asChild
-                defaultOpen={true}
+                defaultOpen={false}
                 className="group/collapsible"
               >
                 <SidebarMenuItem>
