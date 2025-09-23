@@ -2,7 +2,6 @@
   "name": "staticdam",
   "version": "1.0.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "dev": "pnpm -F site dev",
     "build": "pnpm -F site build",

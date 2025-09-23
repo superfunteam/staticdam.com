@@ -1,4 +1,3 @@
-const { Handler } = require('@netlify/functions')
 const { verify } = require('@node-rs/argon2')
 const jwt = require('jsonwebtoken')
 
