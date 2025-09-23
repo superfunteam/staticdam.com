@@ -76,8 +76,14 @@ export function FilterProvider({ children }: { children: React.ReactNode }) {
     return images
   }, [images, selectedFilter])
 
+  const contextValue = React.useMemo(() => ({
+    selectedFilter,
+    setSelectedFilter,
+    filteredImages
+  }), [selectedFilter, setSelectedFilter, filteredImages])
+
   return (
-    <FilterContext.Provider value={{ selectedFilter, setSelectedFilter, filteredImages }}>
+    <FilterContext.Provider value={contextValue}>
       {children}
     </FilterContext.Provider>
   )
@@ -94,50 +100,57 @@ export function DamSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       return res.json()
     },
   })
-  // Extract unique folders from image paths
-  const folders = React.useMemo(() => {
+  // Combined metadata extraction for better performance
+  const metadata = React.useMemo(() => {
     const folderSet = new Set<string>()
+    const tagSet = new Set<string>()
+    const categorySet = new Set<string>()
+    const subjectSet = new Set<string>()
+    const folderCounts = new Map<string, number>()
+    const categoryCounts = new Map<string, number>()
+    const subjectCounts = new Map<string, number>()
+    const tagCounts = new Map<string, number>()
+
     images.forEach(image => {
+      // Extract folder
       const parts = image.path.split('/')
-      if (parts.length > 2) { // assets/folder/file.jpg
+      if (parts.length > 2) {
         const folder = parts[1]
         folderSet.add(folder)
+        folderCounts.set(folder, (folderCounts.get(folder) || 0) + 1)
       }
-    })
-    return Array.from(folderSet).sort()
-  }, [images])
 
-  // Extract unique tags from image metadata
-  const tags = React.useMemo(() => {
-    const tagSet = new Set<string>()
-    images.forEach(image => {
-      if (image.tags) {
-        image.tags.forEach(tag => tagSet.add(tag))
-      }
-    })
-    return Array.from(tagSet).sort()
-  }, [images])
-
-  // Extract unique categories
-  const categories = React.useMemo(() => {
-    const categorySet = new Set<string>()
-    images.forEach(image => {
+      // Extract category
       if (image.category) {
         categorySet.add(image.category)
+        categoryCounts.set(image.category, (categoryCounts.get(image.category) || 0) + 1)
       }
-    })
-    return Array.from(categorySet).sort()
-  }, [images])
 
-  // Extract unique subjects (person names)
-  const subjects = React.useMemo(() => {
-    const subjectSet = new Set<string>()
-    images.forEach(image => {
+      // Extract subject
       if (image.subject) {
         subjectSet.add(image.subject)
+        subjectCounts.set(image.subject, (subjectCounts.get(image.subject) || 0) + 1)
+      }
+
+      // Extract tags
+      if (image.tags) {
+        image.tags.forEach(tag => {
+          tagSet.add(tag)
+          tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1)
+        })
       }
     })
-    return Array.from(subjectSet).sort()
+
+    return {
+      folders: Array.from(folderSet).sort(),
+      tags: Array.from(tagSet).sort(),
+      categories: Array.from(categorySet).sort(),
+      subjects: Array.from(subjectSet).sort(),
+      folderCounts,
+      categoryCounts,
+      subjectCounts,
+      tagCounts
+    }
   }, [images])
 
   return (
@@ -178,13 +191,13 @@ export function DamSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarGroup>
 
         {/* Folders */}
-        {folders.length > 0 && (
+        {metadata.folders.length > 0 && (
           <SidebarGroup>
             <SidebarGroupLabel>Folders</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {folders.map((folder) => {
-                  const count = images.filter(img => img.path.includes(`/${folder}/`)).length
+                {metadata.folders.map((folder) => {
+                  const count = metadata.folderCounts.get(folder) || 0
                   return (
                     <SidebarMenuItem key={folder}>
                       <SidebarMenuButton
@@ -208,7 +221,7 @@ export function DamSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarGroupLabel>Metadata</SidebarGroupLabel>
           <SidebarMenu>
             {/* Categories Section */}
-            {categories.length > 0 && (
+            {metadata.categories.length > 0 && (
               <Collapsible
                 key="categories"
                 asChild
@@ -219,14 +232,14 @@ export function DamSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <CollapsibleTrigger asChild>
                     <SidebarMenuButton tooltip="Categories">
                       <Hash className="h-4 w-4" />
-                      <span>Categories ({categories.length})</span>
+                      <span>Categories ({metadata.categories.length})</span>
                       <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                     </SidebarMenuButton>
                   </CollapsibleTrigger>
                   <CollapsibleContent>
                     <SidebarMenuSub>
-                      {categories.map((category) => {
-                        const count = images.filter(img => img.category === category).length
+                      {metadata.categories.map((category) => {
+                        const count = metadata.categoryCounts.get(category) || 0
                         return (
                           <SidebarMenuSubItem key={category}>
                             <SidebarMenuSubButton
@@ -245,7 +258,7 @@ export function DamSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             )}
 
             {/* Subjects Section (Person Names) */}
-            {subjects.length > 0 && (
+            {metadata.subjects.length > 0 && (
               <Collapsible
                 key="subjects"
                 asChild
@@ -256,14 +269,14 @@ export function DamSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <CollapsibleTrigger asChild>
                     <SidebarMenuButton tooltip="Subjects">
                       <User className="h-4 w-4" />
-                      <span>Subjects ({subjects.length})</span>
+                      <span>Subjects ({metadata.subjects.length})</span>
                       <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                     </SidebarMenuButton>
                   </CollapsibleTrigger>
                   <CollapsibleContent>
                     <SidebarMenuSub>
-                      {subjects.map((subject) => {
-                        const count = images.filter(img => img.subject === subject).length
+                      {metadata.subjects.map((subject) => {
+                        const count = metadata.subjectCounts.get(subject) || 0
                         return (
                           <SidebarMenuSubItem key={subject}>
                             <SidebarMenuSubButton
@@ -282,7 +295,7 @@ export function DamSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             )}
 
             {/* Tags Section (Keywords) */}
-            {tags.length > 0 && (
+            {metadata.tags.length > 0 && (
               <Collapsible
                 key="tags"
                 asChild
@@ -293,14 +306,14 @@ export function DamSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <CollapsibleTrigger asChild>
                     <SidebarMenuButton tooltip="Tags">
                       <Tag className="h-4 w-4" />
-                      <span>Tags ({tags.length})</span>
+                      <span>Tags ({metadata.tags.length})</span>
                       <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                     </SidebarMenuButton>
                   </CollapsibleTrigger>
                   <CollapsibleContent>
                     <SidebarMenuSub>
-                      {tags.map((tag) => {
-                        const count = images.filter(img => img.tags?.includes(tag)).length
+                      {metadata.tags.map((tag) => {
+                        const count = metadata.tagCounts.get(tag) || 0
                         return (
                           <SidebarMenuSubItem key={tag}>
                             <SidebarMenuSubButton

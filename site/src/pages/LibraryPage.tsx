@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useCallback, useMemo, memo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/components/ui/use-toast'
@@ -8,13 +8,93 @@ import { MetadataEditor } from '@/components/metadata-editor'
 import { Check } from 'lucide-react'
 import type { ImageMetadata } from '@/types'
 
-// Utility function to get thumbnail path
-function getThumbnailPath(imagePath: string): string {
+// Utility function to get thumbnail path - memoized
+const getThumbnailPath = (imagePath: string): string => {
   // Convert assets/folder/image.jpg -> assets-thumbs/folder/image.jpg
   const pathWithoutExt = imagePath.replace(/\.[^/.]+$/, '')
   const thumbnailPath = pathWithoutExt.replace(/^assets\//, 'assets-thumbs/') + '.jpg'
   return `/${thumbnailPath}`
 }
+
+// Memoized image grid item component
+interface ImageGridItemProps {
+  image: ImageMetadata
+  isSelected: boolean
+  onToggleSelect: (path: string, e: React.MouseEvent) => void
+  onOpenLightbox: (image: ImageMetadata) => void
+}
+
+const ImageGridItem = memo(({ image, isSelected, onToggleSelect, onOpenLightbox }: ImageGridItemProps) => {
+  const thumbnailPath = useMemo(() => getThumbnailPath(image.path), [image.path])
+
+  const gridItemClassName = useMemo(() =>
+    `group relative cursor-pointer rounded-xl overflow-hidden transition-all ${
+      isSelected
+        ? 'ring-8 ring-primary'
+        : 'hover:ring-8 hover:ring-gray-300'
+    }`, [isSelected]
+  )
+
+  const checkboxClassName = useMemo(() =>
+    `absolute top-2 left-2 z-10 transition-opacity ${
+      isSelected
+        ? 'opacity-100'
+        : 'opacity-0 group-hover:opacity-100'
+    }`, [isSelected]
+  )
+
+  const checkboxInnerClassName = useMemo(() =>
+    `w-6 h-6 rounded border-2 flex items-center justify-center cursor-pointer transition-colors ${
+      isSelected
+        ? 'bg-primary border-primary text-primary-foreground'
+        : 'bg-white/90 border-white/90 hover:bg-white'
+    }`, [isSelected]
+  )
+
+  const fileName = useMemo(() => image.path.split('/').pop(), [image.path])
+
+  return (
+    <div
+      className={gridItemClassName}
+      onClick={() => onOpenLightbox(image)}
+    >
+      {/* Checkbox for selection */}
+      <div
+        className={checkboxClassName}
+        onClick={(e) => onToggleSelect(image.path, e)}
+      >
+        <div className={checkboxInnerClassName}>
+          {isSelected && (
+            <Check className="h-4 w-4" />
+          )}
+        </div>
+      </div>
+
+      <div className="aspect-square bg-gray-100 rounded-xl">
+        <img
+          src={thumbnailPath}
+          alt={image.subject || fileName}
+          className="w-full h-full object-cover rounded-xl"
+          loading="lazy"
+          onError={(e) => {
+            // Fallback to original image if thumbnail fails to load
+            e.currentTarget.src = `/${image.path}`
+          }}
+        />
+      </div>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-xl">
+        <div className="absolute bottom-2 left-2 right-2">
+          <div className="text-white text-sm truncate">
+            {fileName}
+          </div>
+          {image.category && (
+            <div className="text-white/80 text-xs">{image.category}</div>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+})
 
 export default function LibraryPage() {
   const [selectedImages, setSelectedImages] = useState<Set<string>>(new Set())
@@ -58,7 +138,7 @@ export default function LibraryPage() {
     )
   }
 
-  const toggleSelect = (path: string, e: React.MouseEvent) => {
+  const toggleSelect = useCallback((path: string, e: React.MouseEvent) => {
     e.stopPropagation()
     const newSelection = new Set(selectedImages)
     if (newSelection.has(path)) {
@@ -67,11 +147,11 @@ export default function LibraryPage() {
       newSelection.add(path)
     }
     setSelectedImages(newSelection)
-  }
+  }, [selectedImages])
 
-  const openLightbox = (image: ImageMetadata) => {
+  const openLightbox = useCallback((image: ImageMetadata) => {
     setLightboxImage(image)
-  }
+  }, [])
 
   const closeLightbox = () => {
     setLightboxImage(null)
@@ -183,58 +263,13 @@ export default function LibraryPage() {
 
       <div className="grid auto-rows-min gap-4 md:grid-cols-3 lg:grid-cols-4">
         {filteredImages.map((image) => (
-          <div
+          <ImageGridItem
             key={image.path}
-            className={`group relative cursor-pointer rounded-xl overflow-hidden transition-all ${
-              selectedImages.has(image.path)
-                ? 'ring-8 ring-primary'
-                : 'hover:ring-8 hover:ring-gray-300'
-            }`}
-            onClick={() => openLightbox(image)}
-          >
-            {/* Checkbox for selection */}
-            <div
-              className={`absolute top-2 left-2 z-10 transition-opacity ${
-                selectedImages.has(image.path)
-                  ? 'opacity-100'
-                  : 'opacity-0 group-hover:opacity-100'
-              }`}
-              onClick={(e) => toggleSelect(image.path, e)}
-            >
-              <div className={`w-6 h-6 rounded border-2 flex items-center justify-center cursor-pointer transition-colors ${
-                selectedImages.has(image.path)
-                  ? 'bg-primary border-primary text-primary-foreground'
-                  : 'bg-white/90 border-white/90 hover:bg-white'
-              }`}>
-                {selectedImages.has(image.path) && (
-                  <Check className="h-4 w-4" />
-                )}
-              </div>
-            </div>
-
-            <div className="aspect-square bg-gray-100 rounded-xl">
-              <img
-                src={getThumbnailPath(image.path)}
-                alt={image.subject || image.path.split('/').pop()}
-                className="w-full h-full object-cover rounded-xl"
-                loading="lazy"
-                onError={(e) => {
-                  // Fallback to original image if thumbnail fails to load
-                  e.currentTarget.src = `/${image.path}`
-                }}
-              />
-            </div>
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-xl">
-              <div className="absolute bottom-2 left-2 right-2">
-                <div className="text-white text-sm truncate">
-                  {image.path.split('/').pop()}
-                </div>
-                {image.category && (
-                  <div className="text-white/80 text-xs">{image.category}</div>
-                )}
-              </div>
-            </div>
-          </div>
+            image={image}
+            isSelected={selectedImages.has(image.path)}
+            onToggleSelect={toggleSelect}
+            onOpenLightbox={openLightbox}
+          />
         ))}
       </div>
 
