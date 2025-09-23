@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Folder, Tag, Image, Hash, ChevronRight, User } from "lucide-react"
+import { Folder, Tag, Image, Hash, ChevronRight, User, Package } from "lucide-react"
 import { useQuery } from '@tanstack/react-query'
 
 import {
@@ -106,9 +106,11 @@ export function DamSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const tagSet = new Set<string>()
     const categorySet = new Set<string>()
     const personSet = new Set<string>()
+    const productSet = new Set<string>()
     const folderCounts = new Map<string, number>()
     const categoryCounts = new Map<string, number>()
     const personCounts = new Map<string, number>()
+    const productCounts = new Map<string, number>()
     const tagCounts = new Map<string, number>()
 
     images.forEach(image => {
@@ -143,6 +145,14 @@ export function DamSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1)
         })
       }
+
+      // Extract products
+      if (image.product) {
+        image.product.forEach(product => {
+          productSet.add(product)
+          productCounts.set(product, (productCounts.get(product) || 0) + 1)
+        })
+      }
     })
 
     return {
@@ -150,9 +160,11 @@ export function DamSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       tags: Array.from(tagSet).sort(),
       categories: Array.from(categorySet).sort(),
       persons: Array.from(personSet).sort(),
+      products: Array.from(productSet).sort(),
       folderCounts,
       categoryCounts,
       personCounts,
+      productCounts,
       tagCounts
     }
   }, [images])
@@ -325,6 +337,47 @@ export function DamSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                               isActive={selectedFilter === `tag:${tag}`}
                             >
                               <span>{tag} ({count})</span>
+                            </SidebarMenuSubButton>
+                          </SidebarMenuSubItem>
+                        )
+                      })}
+                    </SidebarMenuSub>
+                  </CollapsibleContent>
+                </SidebarMenuItem>
+              </Collapsible>
+            )}
+
+            {/* Products Section */}
+            {metadata.products.length > 0 && (
+              <Collapsible
+                key="products"
+                asChild
+                defaultOpen={false}
+                className="group/collapsible"
+              >
+                <SidebarMenuItem>
+                  <CollapsibleTrigger asChild>
+                    <SidebarMenuButton tooltip="Products">
+                      <Package className="h-4 w-4" />
+                      <span>Products ({metadata.products.length})</span>
+                      <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                    </SidebarMenuButton>
+                  </CollapsibleTrigger>
+                  <CollapsibleContent>
+                    <SidebarMenuSub>
+                      {metadata.products.map((product) => {
+                        return (
+                          <SidebarMenuSubItem key={product}>
+                            <SidebarMenuSubButton
+                              onClick={() => toggleFilter('product', product)}
+                              className={`${
+                                filters.product.includes(product) ? 'bg-accent text-accent-foreground' : ''
+                              }`}
+                            >
+                              <span>{product}</span>
+                              <span className="text-xs text-muted-foreground ml-auto">
+                                {metadata.productCounts.get(product)}
+                              </span>
                             </SidebarMenuSubButton>
                           </SidebarMenuSubItem>
                         )
