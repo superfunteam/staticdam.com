@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { useToast } from '@/components/ui/use-toast'
 import { useFilter } from '@/components/dam-sidebar'
 import { ImageLightbox } from '@/components/image-lightbox'
+import { MetadataEditor } from '@/components/metadata-editor'
 import { Check } from 'lucide-react'
 import type { ImageMetadata } from '@/types'
 
@@ -12,6 +13,7 @@ export default function LibraryPage() {
   const [isEditing, setIsEditing] = useState(false)
   const [password, setPassword] = useState('')
   const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [showMetadataEditor, setShowMetadataEditor] = useState(false)
   const [lightboxImage, setLightboxImage] = useState<ImageMetadata | null>(null)
   const { toast } = useToast()
   const { selectedFilter, filteredImages } = useFilter()
@@ -96,7 +98,8 @@ export default function LibraryPage() {
 
       if (res.ok) {
         setIsAuthenticated(true)
-        setIsEditing(true)
+        setIsEditing(false)
+        setShowMetadataEditor(true)
         toast({
           title: 'Authenticated',
           description: 'You can now edit metadata',
@@ -129,6 +132,29 @@ export default function LibraryPage() {
 
     if (!isAuthenticated) {
       setIsEditing(true)
+    } else {
+      setShowMetadataEditor(true)
+    }
+  }
+
+  const handleMetadataSave = async (updates: any[]) => {
+    try {
+      const response = await fetch('/api/edit-metadata', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ updates }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to update metadata')
+      }
+
+      // Refresh the manifest after successful update
+      window.location.reload()
+    } catch (error) {
+      throw error
     }
   }
 
@@ -245,6 +271,15 @@ export default function LibraryPage() {
           onNavigate={navigateLightbox}
         />
       )}
+
+      {/* Metadata Editor */}
+      <MetadataEditor
+        selectedImages={Array.from(selectedImages)}
+        images={images}
+        isOpen={showMetadataEditor}
+        onClose={() => setShowMetadataEditor(false)}
+        onSave={handleMetadataSave}
+      />
     </>
   )
 }
