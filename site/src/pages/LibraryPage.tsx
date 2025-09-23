@@ -1,9 +1,15 @@
 import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
+import { Button } from '@/components/ui/button'
+import { useToast } from '@/components/ui/use-toast'
 import type { ImageMetadata } from '@/types'
 
 export default function LibraryPage() {
   const [selectedImages, setSelectedImages] = useState<Set<string>>(new Set())
+  const [isEditing, setIsEditing] = useState(false)
+  const [password, setPassword] = useState('')
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const { toast } = useToast()
 
   const { data: images = [], isLoading } = useQuery<ImageMetadata[]>({
     queryKey: ['manifest'],
@@ -47,6 +53,54 @@ export default function LibraryPage() {
     setSelectedImages(newSelection)
   }
 
+  const handleAuth = async () => {
+    try {
+      const res = await fetch('/api/auth-verify', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Shared-Token': password,
+        },
+      })
+
+      if (res.ok) {
+        setIsAuthenticated(true)
+        setIsEditing(true)
+        toast({
+          title: 'Authenticated',
+          description: 'You can now edit metadata',
+        })
+      } else {
+        toast({
+          variant: 'destructive',
+          title: 'Error',
+          description: 'Invalid password',
+        })
+      }
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Failed to authenticate',
+      })
+    }
+  }
+
+  const startEditing = () => {
+    if (selectedImages.size === 0) {
+      toast({
+        variant: 'destructive',
+        title: 'No images selected',
+        description: 'Please select images to edit',
+      })
+      return
+    }
+
+    if (!isAuthenticated) {
+      setIsEditing(true)
+    }
+  }
+
   return (
     <div className="p-6">
       <div className="mb-6 flex items-center justify-between">
@@ -56,9 +110,14 @@ export default function LibraryPage() {
             {images.length} images
           </span>
           {selectedImages.size > 0 && (
-            <span className="text-sm font-medium">
-              {selectedImages.size} selected
-            </span>
+            <>
+              <span className="text-sm font-medium">
+                {selectedImages.size} selected
+              </span>
+              <Button onClick={startEditing} size="sm">
+                Edit Metadata
+              </Button>
+            </>
           )}
         </div>
       </div>
@@ -95,6 +154,41 @@ export default function LibraryPage() {
           </div>
         ))}
       </div>
+
+      {/* Password Dialog */}
+      {isEditing && !isAuthenticated && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg max-w-md w-full mx-4">
+            <h3 className="text-lg font-semibold mb-4">Enter Password</h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              Authentication required to edit metadata for {selectedImages.size} image(s)
+            </p>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-3 py-2 border rounded-md mb-4"
+              placeholder="Enter admin password"
+              onKeyDown={(e) => e.key === 'Enter' && handleAuth()}
+              autoFocus
+            />
+            <div className="flex gap-2 justify-end">
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setIsEditing(false)
+                  setPassword('')
+                }}
+              >
+                Cancel
+              </Button>
+              <Button onClick={handleAuth}>
+                Authenticate
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
