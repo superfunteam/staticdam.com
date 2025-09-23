@@ -1,6 +1,8 @@
 const { verify } = require('@node-rs/argon2')
 const jwt = require('jsonwebtoken')
 
+// Auth verification endpoint
+
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return {
