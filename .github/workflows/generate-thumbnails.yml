@@ -1,0 +1,64 @@
+name: Generate Thumbnails
+
+on:
+  push:
+    paths:
+      - 'assets/**'
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install ImageMagick
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y imagemagick
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile=false
+
+      - name: Generate thumbnails
+        run: |
+          chmod +x scripts/generate-thumbnails.ts
+          npx tsx scripts/generate-thumbnails.ts
+
+      - name: Commit thumbnails if changed
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add assets-thumbs/
+          if git diff --staged --quiet; then
+            echo "No thumbnail changes to commit"
+          else
+            git commit -m "feat(thumbs): generate thumbnails for images [skip ci]"
+            git push
+            echo "Thumbnails committed and pushed"
+          fi
+
+      - name: Trigger manifest rebuild
+        if: steps.commit.conclusion == 'success'
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          event-type: rebuild_manifest

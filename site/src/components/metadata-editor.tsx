@@ -6,6 +6,14 @@ import { useToast } from '@/components/ui/use-toast'
 import { X, Plus, Save } from 'lucide-react'
 import type { ImageMetadata } from '@/types'
 
+// Utility function to get thumbnail path
+function getThumbnailPath(imagePath: string): string {
+  // Convert assets/folder/image.jpg -> assets-thumbs/folder/image.webp
+  const pathWithoutExt = imagePath.replace(/\.[^/.]+$/, '')
+  const thumbnailPath = pathWithoutExt.replace(/^assets\//, 'assets-thumbs/') + '.webp'
+  return `/${thumbnailPath}`
+}
+
 interface MetadataEditorProps {
   selectedImages: string[]
   images: ImageMetadata[]
@@ -196,9 +204,13 @@ export function MetadataEditor({ selectedImages, images, isOpen, onClose, onSave
                 <div key={image.path} className="border rounded-lg p-4">
                   <div className="flex items-start gap-4 mb-4">
                     <img
-                      src={`/${image.path}`}
+                      src={getThumbnailPath(image.path)}
                       alt={imageName}
                       className="w-16 h-16 object-cover rounded"
+                      onError={(e) => {
+                        // Fallback to original image if thumbnail fails to load
+                        e.currentTarget.src = `/${image.path}`
+                      }}
                     />
                     <div className="flex-1">
                       <h3 className="font-medium text-sm mb-2">{imageName}</h3>

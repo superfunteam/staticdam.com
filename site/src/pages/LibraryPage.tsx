@@ -8,6 +8,14 @@ import { MetadataEditor } from '@/components/metadata-editor'
 import { Check } from 'lucide-react'
 import type { ImageMetadata } from '@/types'
 
+// Utility function to get thumbnail path
+function getThumbnailPath(imagePath: string): string {
+  // Convert assets/folder/image.jpg -> assets-thumbs/folder/image.webp
+  const pathWithoutExt = imagePath.replace(/\.[^/.]+$/, '')
+  const thumbnailPath = pathWithoutExt.replace(/^assets\//, 'assets-thumbs/') + '.webp'
+  return `/${thumbnailPath}`
+}
+
 export default function LibraryPage() {
   const [selectedImages, setSelectedImages] = useState<Set<string>>(new Set())
   const [isEditing, setIsEditing] = useState(false)
@@ -206,10 +214,14 @@ export default function LibraryPage() {
 
             <div className="aspect-square bg-gray-100 rounded-xl">
               <img
-                src={`/${image.path}`}
+                src={getThumbnailPath(image.path)}
                 alt={image.subject || image.path.split('/').pop()}
                 className="w-full h-full object-cover rounded-xl"
                 loading="lazy"
+                onError={(e) => {
+                  // Fallback to original image if thumbnail fails to load
+                  e.currentTarget.src = `/${image.path}`
+                }}
               />
             </div>
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-xl">

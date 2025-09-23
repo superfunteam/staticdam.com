@@ -6,6 +6,7 @@
     "dev": "pnpm -F site dev",
     "build": "pnpm -F site build",
     "build:manifest": "tsx scripts/build-manifest.ts",
+    "generate:thumbnails": "tsx scripts/generate-thumbnails.ts",
     "test:functions": "pnpm -F functions test"
   },
   "devDependencies": {

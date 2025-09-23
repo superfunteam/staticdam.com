@@ -37,16 +37,30 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libimage-exiftool-perl
 
+      - name: Install ImageMagick
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y imagemagick
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile=false
+
+      - name: Generate thumbnails
+        run: |
+          chmod +x scripts/generate-thumbnails.ts
+          npx tsx scripts/generate-thumbnails.ts
 
       - name: Build manifest
         run: pnpm run build:manifest
 
-      - name: Commit manifest if changed
+      - name: Commit changes if any
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add data/manifest.json
-          git diff --staged --quiet || git commit -m "chore: update manifest.json [skip ci]"
-          git push || echo "No changes to push"
+          git add data/manifest.json assets-thumbs/
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: update manifest.json and thumbnails [skip ci]"
+            git push
+          fi
