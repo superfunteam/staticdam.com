@@ -48,14 +48,39 @@ pnpm install
 pnpm dev
 ```
 
-## Editable Metadata Fields
+## Metadata Fields (All Multi-Value)
 
-| Field | EXIF/XMP Mapping | Purpose |
-|-------|-----------------|---------|
-| `category` | XMP-photoshop:Category | Single category label |
-| `tags` | XMP-dc:subject, IPTC:Keywords | Multi-value tags |
-| `subject` | XMP-photoshop:Headline | Short subject line |
-| `product` | XMP:HierarchicalSubject | Product association |
+All metadata fields support multiple values and are stored reliably in EXIF fields that guarantee array support.
+
+| Field | EXIF Mapping | Format | Purpose |
+|-------|-------------|---------|---------|
+| `category` | IPTC:Keywords | `category:value` | Image categories (portraits, warehouse, etc.) |
+| `person` | IPTC:Keywords | `person:name` | People in the image (Jimmy, Marcus, Sasha) |
+| `tags` | IPTC:Keywords | `value` | Descriptive keywords (no prefix) |
+| `product` | XMP:HierarchicalSubject | `product\|name` | Product associations |
+
+### Adding Metadata
+
+Use EXIF/XMP keywords with prefixes to organize metadata:
+
+```bash
+# Categories with prefix
+category:portrait
+category:warehouse
+
+# People with prefix
+person:Jimmy
+person:Marcus
+
+# Regular tags (no prefix)
+outdoor
+professional
+equipment
+
+# Products (hierarchical)
+product|laptop
+product|camera
+```
 
 ## Workflow
 

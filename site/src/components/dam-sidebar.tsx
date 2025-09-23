@@ -60,12 +60,12 @@ export function FilterProvider({ children }: { children: React.ReactNode }) {
 
     if (selectedFilter.startsWith('category:')) {
       const category = selectedFilter.replace('category:', '')
-      return images.filter(img => img.category === category)
+      return images.filter(img => img.category?.includes(category))
     }
 
-    if (selectedFilter.startsWith('subject:')) {
-      const subject = selectedFilter.replace('subject:', '')
-      return images.filter(img => img.subject === subject)
+    if (selectedFilter.startsWith('person:')) {
+      const person = selectedFilter.replace('person:', '')
+      return images.filter(img => img.person?.includes(person))
     }
 
     if (selectedFilter.startsWith('tag:')) {
@@ -120,16 +120,20 @@ export function DamSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         folderCounts.set(folder, (folderCounts.get(folder) || 0) + 1)
       }
 
-      // Extract category
+      // Extract categories
       if (image.category) {
-        categorySet.add(image.category)
-        categoryCounts.set(image.category, (categoryCounts.get(image.category) || 0) + 1)
+        image.category.forEach(cat => {
+          categorySet.add(cat)
+          categoryCounts.set(cat, (categoryCounts.get(cat) || 0) + 1)
+        })
       }
 
-      // Extract subject
-      if (image.subject) {
-        subjectSet.add(image.subject)
-        subjectCounts.set(image.subject, (subjectCounts.get(image.subject) || 0) + 1)
+      // Extract persons
+      if (image.person) {
+        image.person.forEach(person => {
+          subjectSet.add(person)
+          subjectCounts.set(person, (subjectCounts.get(person) || 0) + 1)
+        })
       }
 
       // Extract tags
@@ -145,10 +149,10 @@ export function DamSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       folders: Array.from(folderSet).sort(),
       tags: Array.from(tagSet).sort(),
       categories: Array.from(categorySet).sort(),
-      subjects: Array.from(subjectSet).sort(),
+      persons: Array.from(subjectSet).sort(),
       folderCounts,
       categoryCounts,
-      subjectCounts,
+      personCounts: subjectCounts,
       tagCounts
     }
   }, [images])
@@ -257,33 +261,33 @@ export function DamSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               </Collapsible>
             )}
 
-            {/* Subjects Section (Person Names) */}
-            {metadata.subjects.length > 0 && (
+            {/* People Section */}
+            {metadata.persons.length > 0 && (
               <Collapsible
-                key="subjects"
+                key="persons"
                 asChild
                 defaultOpen={false}
                 className="group/collapsible"
               >
                 <SidebarMenuItem>
                   <CollapsibleTrigger asChild>
-                    <SidebarMenuButton tooltip="Subjects">
+                    <SidebarMenuButton tooltip="People">
                       <User className="h-4 w-4" />
-                      <span>Subjects ({metadata.subjects.length})</span>
+                      <span>People ({metadata.persons.length})</span>
                       <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                     </SidebarMenuButton>
                   </CollapsibleTrigger>
                   <CollapsibleContent>
                     <SidebarMenuSub>
-                      {metadata.subjects.map((subject) => {
-                        const count = metadata.subjectCounts.get(subject) || 0
+                      {metadata.persons.map((person) => {
+                        const count = metadata.personCounts.get(person) || 0
                         return (
-                          <SidebarMenuSubItem key={subject}>
+                          <SidebarMenuSubItem key={person}>
                             <SidebarMenuSubButton
-                              onClick={() => setSelectedFilter(`subject:${subject}`)}
-                              isActive={selectedFilter === `subject:${subject}`}
+                              onClick={() => setSelectedFilter(`person:${person}`)}
+                              isActive={selectedFilter === `person:${person}`}
                             >
-                              <span>{subject} ({count})</span>
+                              <span>{person} ({count})</span>
                             </SidebarMenuSubButton>
                           </SidebarMenuSubItem>
                         )

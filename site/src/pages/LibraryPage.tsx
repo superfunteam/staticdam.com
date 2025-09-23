@@ -87,8 +87,8 @@ const ImageGridItem = memo(({ image, isSelected, onToggleSelect, onOpenLightbox 
           <div className="text-white text-sm truncate">
             {fileName}
           </div>
-          {image.category && (
-            <div className="text-white/80 text-xs">{image.category}</div>
+          {image.category && image.category.length > 0 && (
+            <div className="text-white/80 text-xs">{image.category.join(', ')}</div>
           )}
         </div>
       </div>

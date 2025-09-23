@@ -19,9 +19,9 @@ interface ManifestEntry {
     make?: string
     model?: string
   }
-  category?: string
+  category?: string[]
   tags?: string[]
-  subject?: string
+  person?: string[]
   product?: string[]
   hierarchical?: string[]
 }
@@ -61,31 +61,40 @@ async function extractMetadata(filePath: string): Promise<ManifestEntry | null> 
       }
     }
 
-    // Category: Overall image type (portraits, warehouse, etc.)
-    if (exif['XMP-photoshop:Category']) {
-      entry.category = exif['XMP-photoshop:Category']
-    }
-
-    // Subject: Person names (Jimmy, Marcus, Sasha, Sven)
-    if (exif['XMP-dc:Subject']) {
-      entry.subject = exif['XMP-dc:Subject']
-    } else if (exif['IPTC:Subject']) {
-      entry.subject = exif['IPTC:Subject']
-    }
-
-    // Keywords: What's in the image (multiple descriptive tags)
+    // Extract all keywords from IPTC:Keywords or XMP-dc:Keywords
+    let allKeywords: string[] = []
     if (exif['IPTC:Keywords']) {
       const keywords = exif['IPTC:Keywords']
       if (typeof keywords === 'string') {
-        // Split comma-separated keywords
-        entry.tags = keywords.split(',').map(k => k.trim()).filter(Boolean)
+        allKeywords = keywords.split(',').map(k => k.trim()).filter(Boolean)
       } else if (Array.isArray(keywords)) {
-        entry.tags = keywords.filter(Boolean)
+        allKeywords = keywords.filter(Boolean)
       }
     } else if (exif['XMP-dc:Keywords']) {
       const keywords = exif['XMP-dc:Keywords']
-      entry.tags = Array.isArray(keywords) ? keywords : [keywords].filter(Boolean)
+      allKeywords = Array.isArray(keywords) ? keywords : [keywords].filter(Boolean)
     }
+
+    // Parse prefixed keywords for semantic metadata
+    const categories: string[] = []
+    const persons: string[] = []
+    const tags: string[] = []
+
+    allKeywords.forEach(keyword => {
+      if (keyword.startsWith('category:')) {
+        categories.push(keyword.replace('category:', '').trim())
+      } else if (keyword.startsWith('person:')) {
+        persons.push(keyword.replace('person:', '').trim())
+      } else {
+        // Regular descriptive tags (no prefix)
+        tags.push(keyword)
+      }
+    })
+
+    // Set arrays only if they have content
+    if (categories.length > 0) entry.category = categories
+    if (persons.length > 0) entry.person = persons
+    if (tags.length > 0) entry.tags = tags
 
     if (exif['XMP:HierarchicalSubject']) {
       const hierarchical = exif['XMP:HierarchicalSubject']

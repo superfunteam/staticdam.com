@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { X, ChevronLeft, ChevronRight, Download, Tag, Calendar, Camera, Hash, Folder, Loader2 } from 'lucide-react'
+import { X, ChevronLeft, ChevronRight, Download, Tag, Calendar, Camera, Hash, Folder, Loader2, User } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import type { ImageMetadata } from '@/types'
@@ -237,18 +237,23 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate }: Im
           )}
 
           {/* Category */}
-          {image.category && (
+          {image.category && image.category.length > 0 && (
             <>
               <Separator />
               <div>
                 <h3 className="font-semibold mb-3 flex items-center gap-2">
                   <Hash className="h-4 w-4" />
-                  Category
+                  Categories
                 </h3>
-                <div className="text-sm">
-                  <span className="inline-block bg-secondary text-secondary-foreground px-2 py-1 rounded">
-                    {image.category}
-                  </span>
+                <div className="flex flex-wrap gap-2">
+                  {image.category.map((cat, index) => (
+                    <span
+                      key={index}
+                      className="inline-block bg-secondary text-secondary-foreground px-2 py-1 rounded text-sm"
+                    >
+                      {cat}
+                    </span>
+                  ))}
                 </div>
               </div>
             </>
@@ -277,13 +282,25 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate }: Im
             </>
           )}
 
-          {/* Subject/Title */}
-          {image.subject && (
+          {/* Person */}
+          {image.person && image.person.length > 0 && (
             <>
               <Separator />
               <div>
-                <h3 className="font-semibold mb-3">Subject</h3>
-                <p className="text-sm">{image.subject}</p>
+                <h3 className="font-semibold mb-3 flex items-center gap-2">
+                  <User className="h-4 w-4" />
+                  People
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {image.person.map((person, index) => (
+                    <span
+                      key={index}
+                      className="inline-block bg-primary text-primary-foreground px-2 py-1 rounded text-sm"
+                    >
+                      {person}
+                    </span>
+                  ))}
+                </div>
               </div>
             </>
           )}

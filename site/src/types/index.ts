@@ -8,9 +8,9 @@ export interface ImageMetadata {
     make?: string
     model?: string
   }
-  category?: string
+  category?: string[]
   tags?: string[]
-  subject?: string
+  person?: string[]
   product?: string[]
   hierarchical?: string[]
 }
@@ -18,10 +18,10 @@ export interface ImageMetadata {
 export interface EditPayload {
   edits: Array<{
     path: string
-    category?: string
+    category?: string[]
     tags?: string[]
-    subject?: string
-    product?: string
+    person?: string[]
+    product?: string[]
   }>
   mode: 'merge' | 'replace'
 }
