@@ -115,6 +115,21 @@ export default function LibraryPage() {
     },
   })
 
+  const toggleSelect = useCallback((path: string, e: React.MouseEvent) => {
+    e.stopPropagation()
+    const newSelection = new Set(selectedImages)
+    if (newSelection.has(path)) {
+      newSelection.delete(path)
+    } else {
+      newSelection.add(path)
+    }
+    setSelectedImages(newSelection)
+  }, [selectedImages])
+
+  const openLightbox = useCallback((image: ImageMetadata) => {
+    setLightboxImage(image)
+  }, [])
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-full">
@@ -137,21 +152,6 @@ export default function LibraryPage() {
       </div>
     )
   }
-
-  const toggleSelect = useCallback((path: string, e: React.MouseEvent) => {
-    e.stopPropagation()
-    const newSelection = new Set(selectedImages)
-    if (newSelection.has(path)) {
-      newSelection.delete(path)
-    } else {
-      newSelection.add(path)
-    }
-    setSelectedImages(newSelection)
-  }, [selectedImages])
-
-  const openLightbox = useCallback((image: ImageMetadata) => {
-    setLightboxImage(image)
-  }, [])
 
   const closeLightbox = () => {
     setLightboxImage(null)
