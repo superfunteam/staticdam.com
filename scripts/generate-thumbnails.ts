@@ -76,7 +76,7 @@ async function generateThumbnail(inputPath: string): Promise<ThumbnailResult> {
       outputPath
     ]
 
-    execSync(`magick ${args.map(arg => `"${arg}"`).join(' ')}`, { stdio: 'inherit' })
+    execSync(`convert ${args.map(arg => `"${arg}"`).join(' ')}`, { stdio: 'inherit' })
 
     return {
       original: inputPath,
