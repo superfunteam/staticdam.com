@@ -44,24 +44,43 @@ const triggerGitHubAction = async (payload) => {
     throw new Error('GitHub App not configured')
   }
 
-  const app = new App({
-    appId: process.env.GITHUB_APP_ID,
-    privateKey: process.env.GITHUB_PRIVATE_KEY,
-  })
+  console.log('GitHub App ID:', process.env.GITHUB_APP_ID)
+  console.log('GitHub Installation ID:', process.env.GITHUB_INSTALLATION_ID)
+  console.log('GitHub Private Key length:', process.env.GITHUB_PRIVATE_KEY?.length)
+  console.log('Repo Owner:', process.env.REPO_OWNER)
+  console.log('Repo Name:', process.env.REPO_NAME)
 
-  const octokit = await app.getInstallationOctokit(
-    parseInt(process.env.GITHUB_INSTALLATION_ID)
-  )
+  try {
+    const app = new App({
+      appId: process.env.GITHUB_APP_ID,
+      privateKey: process.env.GITHUB_PRIVATE_KEY,
+    })
 
-  await octokit.rest.repos.createDispatchEvent({
-    owner: process.env.REPO_OWNER,
-    repo: process.env.REPO_NAME,
-    event_type: 'embed_metadata',
-    client_payload: {
-      ...payload,
-      message: `feat(meta): update metadata for ${payload.edits.length} image(s)`,
-    },
-  })
+    console.log('App created successfully')
+
+    const octokit = await app.getInstallationOctokit(
+      parseInt(process.env.GITHUB_INSTALLATION_ID)
+    )
+
+    console.log('Octokit obtained:', !!octokit)
+    console.log('Octokit rest available:', !!octokit?.rest)
+    console.log('Octokit rest repos available:', !!octokit?.rest?.repos)
+
+    await octokit.rest.repos.createDispatchEvent({
+      owner: process.env.REPO_OWNER,
+      repo: process.env.REPO_NAME,
+      event_type: 'embed_metadata',
+      client_payload: {
+        ...payload,
+        message: `feat(meta): update metadata for ${payload.edits.length} image(s)`,
+      },
+    })
+
+    console.log('GitHub Action triggered successfully')
+  } catch (error) {
+    console.error('GitHub App error:', error)
+    throw error
+  }
 }
 
 exports.handler = async (event) => {
