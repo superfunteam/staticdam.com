@@ -78,7 +78,13 @@
     "path": "assets/Product Images/SIO-hero=Supplier-Registration-Supplier.png",
     "w": 2748,
     "h": 1556,
-    "bytes": 5441037
+    "bytes": 5441766,
+    "person": [
+      "Patricia"
+    ],
+    "product": [
+      "Supplier Registration"
+    ]
   },
   {
     "path": "assets/Product Images/SIO-hero=Sustainability & ESG Reporting.png",
