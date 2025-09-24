@@ -1,9 +1,9 @@
 #!/usr/bin/env tsx
 
 import { execSync } from 'child_process'
-import { mkdirSync, existsSync, statSync } from 'fs'
+import { mkdirSync, existsSync } from 'fs'
 import * as glob from 'glob'
-import { resolve, dirname, extname, basename } from 'path'
+import { dirname, extname, basename } from 'path'
 
 interface ThumbnailResult {
   original: string
@@ -12,26 +12,10 @@ interface ThumbnailResult {
   reason?: string
 }
 
+
 function shouldGenerateThumbnail(originalPath: string, thumbnailPath: string): boolean {
-  // If thumbnail doesn't exist, generate it
-  if (!existsSync(thumbnailPath)) {
-    return true
-  }
-
-  try {
-    const originalStat = statSync(originalPath)
-    const thumbnailStat = statSync(thumbnailPath)
-
-    // If original is newer than thumbnail, regenerate
-    if (originalStat.mtime > thumbnailStat.mtime) {
-      return true
-    }
-  } catch (error) {
-    // If we can't stat, err on the side of generating
-    return true
-  }
-
-  return false
+  // Simple check: if thumbnail exists, skip generation
+  return !existsSync(thumbnailPath)
 }
 
 function getOutputPath(inputPath: string): string {
@@ -53,7 +37,7 @@ async function generateThumbnail(inputPath: string): Promise<ThumbnailResult> {
       original: inputPath,
       thumbnail: outputPath,
       skipped: true,
-      reason: 'Thumbnail is up to date'
+      reason: 'Thumbnail already exists'
     }
   }
 
