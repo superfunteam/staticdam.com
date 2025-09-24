@@ -64,9 +64,20 @@ const triggerGitHubAction = async (payload) => {
 
     console.log('Octokit obtained:', !!octokit)
     console.log('Octokit rest available:', !!octokit?.rest)
-    console.log('Octokit rest repos available:', !!octokit?.rest?.repos)
+    console.log('Octokit repos available:', !!octokit?.repos)
+    console.log('Available methods:', Object.keys(octokit))
 
-    await octokit.rest.repos.createDispatchEvent({
+    // Try different API patterns for different versions
+    let createDispatchEvent
+    if (octokit.rest?.repos?.createDispatchEvent) {
+      createDispatchEvent = octokit.rest.repos.createDispatchEvent
+    } else if (octokit.repos?.createDispatchEvent) {
+      createDispatchEvent = octokit.repos.createDispatchEvent
+    } else {
+      throw new Error('createDispatchEvent method not found on octokit')
+    }
+
+    await createDispatchEvent({
       owner: process.env.REPO_OWNER,
       repo: process.env.REPO_NAME,
       event_type: 'embed_metadata',
