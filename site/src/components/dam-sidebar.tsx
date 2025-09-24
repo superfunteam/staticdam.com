@@ -1,6 +1,7 @@
 import * as React from "react"
-import { Folder, Tag, Image, Hash, ChevronRight, User, Package } from "lucide-react"
+import { Folder, Tag, Image, Hash, ChevronRight, User, Package, Moon, Sun } from "lucide-react"
 import { useQuery } from '@tanstack/react-query'
+import { useDarkMode } from "@/contexts/dark-mode-context"
 
 import {
   Collapsible,
@@ -10,6 +11,7 @@ import {
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -96,6 +98,7 @@ export function FilterProvider({ children }: { children: React.ReactNode }) {
 
 export function DamSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { selectedFilter, setSelectedFilter } = useFilter()
+  const { isDarkMode, toggleDarkMode } = useDarkMode()
 
   const { data: images = [] } = useQuery<ImageMetadata[]>({
     queryKey: ['manifest'],
@@ -391,6 +394,25 @@ export function DamSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton onClick={toggleDarkMode} className="w-full">
+              {isDarkMode ? (
+                <>
+                  <Sun className="h-4 w-4" />
+                  <span>Light Mode</span>
+                </>
+              ) : (
+                <>
+                  <Moon className="h-4 w-4" />
+                  <span>Dark Mode</span>
+                </>
+              )}
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   )

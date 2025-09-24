@@ -70,7 +70,7 @@ const ImageGridItem = memo(({ image, isSelected, onToggleSelect, onOpenLightbox 
         </div>
       </div>
 
-      <div className="aspect-square bg-gray-100 rounded-xl">
+      <div className="aspect-square bg-gray-100 dark:bg-gray-900 rounded-xl">
         <img
           src={thumbnailPath}
           alt={image.subject || fileName}
@@ -288,7 +288,7 @@ export default function LibraryPage() {
       {/* Password Dialog */}
       {isEditing && !isAuthenticated && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg max-w-md w-full mx-4">
+          <div className="bg-white dark:bg-black p-6 rounded-lg max-w-md w-full mx-4 border dark:border-gray-800">
             <h3 className="text-lg font-semibold mb-4">Enter Password</h3>
             <p className="text-sm text-muted-foreground mb-4">
               Authentication required to edit metadata for {selectedImages.size} image(s)
@@ -297,7 +297,7 @@ export default function LibraryPage() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 border rounded-md mb-4"
+              className="w-full px-3 py-2 border rounded-md mb-4 bg-white dark:bg-black dark:border-gray-700 text-black dark:text-white"
               placeholder="Enter admin password"
               onKeyDown={(e) => e.key === 'Enter' && handleAuth()}
               autoFocus

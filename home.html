@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>staticDAM - Digital Asset Manager</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@500&family=Inter:wght@400;600&display=swap');
+        .sf-pro { font-family: 'SF Pro Display', sans-serif; }
+        .inter { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100">
+    <div class="min-h-screen bg-gray-900 px-12">
+        <!-- Container -->
+        <div class="py-12">
+            <div class="flex flex-col">
+                <!-- Hero Section -->
+                <div class="py-24 flex flex-col gap-12">
+                    <!-- Logo/Icon -->
+                    <div class="w-20 h-20">
+                        <svg viewBox="0 0 80 80" class="w-full h-full text-white">
+                            <rect x="10" y="10" width="60" height="60" rx="8" fill="none" stroke="currentColor" stroke-width="2"/>
+                            <path d="M25 35 L35 45 L55 25" stroke="currentColor" stroke-width="3" fill="none"/>
+                        </svg>
+                    </div>
+                    
+                    <!-- Main Headline -->
+                    <h1 class="sf-pro text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-medium text-gray-200 leading-tight tracking-tight max-w-6xl">
+                        A digital asset manager that doesn't cost an arm and both legs.
+                    </h1>
+                    
+                    <!-- Hero Image -->
+                    <div class="w-full h-96 md:h-[500px] lg:h-[600px] xl:h-[672px] bg-gray-800 rounded-lg overflow-hidden">
+                        <img 
+                            src="https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2069&q=80" 
+                            alt="A person sitting at a desk, focused on coding on a laptop with a minimalist workspace"
+                            class="w-full h-full object-cover"
+                        />
+                    </div>
+                </div>
+                
+                <!-- Content Section -->
+                <div class="py-24 relative">
+                    <!-- Divider Line -->
+                    <div class="absolute top-0 left-[-96px] right-[-96px] h-px bg-gray-700"></div>
+                    
+                    <div class="flex flex-col lg:flex-row gap-12 lg:gap-24 py-12">
+                        <!-- Left Column -->
+                        <div class="flex-1">
+                            <h2 class="sf-pro text-4xl md:text-5xl lg:text-6xl font-medium text-gray-200 leading-tight tracking-tight">
+                                Git-integrated, near-free,<br>
+                                digital asset management
+                            </h2>
+                        </div>
+                        
+                        <!-- Right Column -->
+                        <div class="flex-1 pt-2">
+                            <p class="inter text-xl md:text-2xl text-gray-200 leading-relaxed tracking-tight">
+                                staticDAM offers seamless integration with your existing Git workflows, ensuring you don't have to compromise on cost or efficiency.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial Section -->
+                <div class="py-24 flex flex-col items-center gap-12 text-center">
+                    <!-- Quote -->
+                    <blockquote class="inter text-4xl md:text-5xl lg:text-6xl font-normal text-gray-200 leading-tight tracking-tight max-w-5xl">
+                        "I got a quote for $12k/yr and thought: nahh, I can build this."
+                    </blockquote>
+                    
+                    <!-- Author -->
+                    <div class="flex items-center gap-4">
+                        <div class="w-16 h-16 rounded-full overflow-hidden bg-gray-700">
+                            <img 
+                                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" 
+                                alt="Draven Holloway"
+                                class="w-full h-full object-cover"
+                            />
+                        </div>
+                        <div class="text-left">
+                            <div class="inter text-lg font-semibold text-gray-200 leading-6">
+                                Draven Holloway
+                            </div>
+                            <div class="inter text-lg text-gray-400 leading-6">
+                                CTO, Quantum Leap Corp
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="h-12 bg-gray-900"></div>
+    </div>
+</body>
+</html>
