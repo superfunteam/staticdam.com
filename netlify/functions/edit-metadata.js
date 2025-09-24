@@ -46,17 +46,17 @@ const triggerGitHubAction = async (payload) => {
   }
 
   const app = new App({
-    appId: process.env.GITHUB_APP_ID!,
-    privateKey: process.env.GITHUB_PRIVATE_KEY!,
+    appId: process.env.GITHUB_APP_ID,
+    privateKey: process.env.GITHUB_PRIVATE_KEY,
   })
 
   const octokit = await app.getInstallationOctokit(
-    parseInt(process.env.GITHUB_INSTALLATION_ID!)
+    parseInt(process.env.GITHUB_INSTALLATION_ID)
   )
 
   await octokit.rest.repos.createDispatchEvent({
-    owner: process.env.REPO_OWNER!,
-    repo: process.env.REPO_NAME!,
+    owner: process.env.REPO_OWNER,
+    repo: process.env.REPO_NAME,
     event_type: 'embed_metadata',
     client_payload: {
       ...payload,
