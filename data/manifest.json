@@ -9,7 +9,10 @@
     "path": "assets/Product Images/SIO-hero=Benchmarking-1.png",
     "w": 2748,
     "h": 1556,
-    "bytes": 5461368,
+    "bytes": 5461601,
+    "person": [
+      "Jill"
+    ],
     "product": [
       "procurement"
     ]
@@ -150,7 +153,7 @@
     "path": "assets/Purchased Stock/AdobeStock_130637542.jpeg",
     "w": 5542,
     "h": 3695,
-    "bytes": 5474937,
+    "bytes": 5475202,
     "category": [
       "corporate",
       "stock"
@@ -158,6 +161,9 @@
     "tags": [
       "business",
       "teamwork"
+    ],
+    "person": [
+      "Abel"
     ]
   },
   {
@@ -220,7 +226,7 @@
     "path": "assets/Purchased Stock/AdobeStock_207342473.jpeg",
     "w": 1688,
     "h": 1125,
-    "bytes": 604965,
+    "bytes": 605230,
     "category": [
       "stock",
       "architecture"
@@ -228,6 +234,9 @@
     "tags": [
       "innovation",
       "business"
+    ],
+    "person": [
+      "Jill"
     ]
   },
   {
