@@ -47,6 +47,11 @@ const validateAuth = async (event) => {
 }
 
 const triggerGitHubAction = async (payload: EditPayload) => {
+  if (!process.env.GITHUB_APP_ID || !process.env.GITHUB_INSTALLATION_ID || !process.env.GITHUB_PRIVATE_KEY) {
+    console.error('Missing GitHub App credentials')
+    throw new Error('GitHub App not configured')
+  }
+
   const app = new App({
     appId: process.env.GITHUB_APP_ID!,
     privateKey: process.env.GITHUB_PRIVATE_KEY!,
@@ -110,9 +115,13 @@ exports.handler = async (event) => {
     }
   } catch (error) {
     console.error('Edit metadata error:', error)
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: 'Internal server error' }),
+      body: JSON.stringify({
+        error: 'Internal server error',
+        details: errorMessage
+      }),
     }
   }
 }

@@ -227,12 +227,24 @@ export default function LibraryPage() {
 
   const handleMetadataSave = async (updates: any[]) => {
     try {
+      // Transform updates from nested structure to flat structure expected by backend
+      const edits = updates.map(update => ({
+        path: update.path,
+        category: update.metadata?.category || undefined,
+        tags: update.metadata?.tags || undefined,
+        person: update.metadata?.person || undefined,
+        product: update.metadata?.product || undefined,
+      }))
+
       const response = await fetch('/api/edit-metadata', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ updates }),
+        body: JSON.stringify({
+          edits,
+          mode: 'replace' // Use replace mode to overwrite existing metadata
+        }),
       })
 
       if (!response.ok) {
