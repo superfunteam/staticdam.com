@@ -8,6 +8,8 @@ on:
   schedule:
     - cron: '0 2 * * *'
   workflow_call:
+  repository_dispatch:
+    types: [rebuild_manifest]
 
 jobs:
   build:
