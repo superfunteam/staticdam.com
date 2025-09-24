@@ -63,21 +63,10 @@ const triggerGitHubAction = async (payload) => {
     )
 
     console.log('Octokit obtained:', !!octokit)
-    console.log('Octokit rest available:', !!octokit?.rest)
-    console.log('Octokit repos available:', !!octokit?.repos)
     console.log('Available methods:', Object.keys(octokit))
 
-    // Try different API patterns for different versions
-    let createDispatchEvent
-    if (octokit.rest?.repos?.createDispatchEvent) {
-      createDispatchEvent = octokit.rest.repos.createDispatchEvent
-    } else if (octokit.repos?.createDispatchEvent) {
-      createDispatchEvent = octokit.repos.createDispatchEvent
-    } else {
-      throw new Error('createDispatchEvent method not found on octokit')
-    }
-
-    await createDispatchEvent({
+    // Use the request method directly to call GitHub API
+    await octokit.request('POST /repos/{owner}/{repo}/dispatches', {
       owner: process.env.REPO_OWNER,
       repo: process.env.REPO_NAME,
       event_type: 'embed_metadata',
@@ -85,6 +74,9 @@ const triggerGitHubAction = async (payload) => {
         ...payload,
         message: `feat(meta): update metadata for ${payload.edits.length} image(s)`,
       },
+      headers: {
+        'X-GitHub-Api-Version': '2022-11-28'
+      }
     })
 
     console.log('GitHub Action triggered successfully')
