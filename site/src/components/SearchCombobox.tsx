@@ -30,14 +30,14 @@ interface SearchTerm {
 export function SearchCombobox() {
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState("")
-  const { setSelectedFilter, filteredImages } = useFilter()
+  const { setSelectedFilter, images } = useFilter()
 
-  // Generate popular terms from the current images data
+  // Generate popular terms from the complete images dataset
   const popularTerms = React.useMemo((): SearchTerm[] => {
     const termCounts: Record<string, { count: number; type: SearchTerm['type'] }> = {}
 
     // Count all metadata terms across all images
-    filteredImages.forEach((image: ImageMetadata) => {
+    images.forEach((image: ImageMetadata) => {
       // Categories
       image.category?.forEach(cat => {
         const key = `category:${cat}`
@@ -78,7 +78,7 @@ export function SearchCombobox() {
       })
 
     return sortedTerms
-  }, [filteredImages])
+  }, [images])
 
   const handleSelect = (currentValue: string) => {
     if (currentValue) {

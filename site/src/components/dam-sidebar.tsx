@@ -31,10 +31,12 @@ const FilterContext = React.createContext<{
   selectedFilter: string | null
   setSelectedFilter: (filter: string | null) => void
   filteredImages: ImageMetadata[]
+  images: ImageMetadata[]
 }>({
   selectedFilter: null,
   setSelectedFilter: () => {},
-  filteredImages: []
+  filteredImages: [],
+  images: []
 })
 
 export const useFilter = () => React.useContext(FilterContext)
@@ -86,8 +88,9 @@ export function FilterProvider({ children }: { children: React.ReactNode }) {
   const contextValue = React.useMemo(() => ({
     selectedFilter,
     setSelectedFilter,
-    filteredImages
-  }), [selectedFilter, setSelectedFilter, filteredImages])
+    filteredImages,
+    images
+  }), [selectedFilter, setSelectedFilter, filteredImages, images])
 
   return (
     <FilterContext.Provider value={contextValue}>
