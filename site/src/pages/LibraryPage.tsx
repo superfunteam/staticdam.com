@@ -251,8 +251,17 @@ export default function LibraryPage() {
         throw new Error('Failed to update metadata')
       }
 
-      // Refresh the manifest after successful update
-      window.location.reload()
+      // Show success message and reset form state
+      toast({
+        title: 'Updated!',
+        description: 'It may take a few minutes round-trip from GitHub. Go have a coffee ☕',
+        duration: 8000, // Show for 8 seconds
+      })
+
+      // Reset form state cleanly
+      setSelectedImages(new Set())
+      setShowMetadataEditor(false)
+      setIsAuthenticated(false)
     } catch (error) {
       throw error
     }
