@@ -159,10 +159,6 @@ export function MetadataEditor({ selectedImages, images, isOpen, onClose, onSave
 
     try {
       await onSave(metadataUpdates)
-      toast({
-        title: 'Success',
-        description: `Updated metadata for ${selectedImages.length} image(s)`,
-      })
       onClose()
     } catch (error) {
       toast({

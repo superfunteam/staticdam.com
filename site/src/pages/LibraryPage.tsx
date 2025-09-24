@@ -30,8 +30,8 @@ const ImageGridItem = memo(({ image, isSelected, onToggleSelect, onOpenLightbox 
   const gridItemClassName = useMemo(() =>
     `group relative cursor-pointer rounded-xl overflow-hidden transition-all ${
       isSelected
-        ? 'ring-8 ring-primary'
-        : 'hover:ring-8 hover:ring-gray-300'
+        ? 'ring-6 ring-primary'
+        : 'hover:ring-6 hover:ring-gray-300'
     }`, [isSelected]
   )
 
@@ -269,19 +269,6 @@ export default function LibraryPage() {
 
   return (
     <>
-      {selectedImages.size > 0 && (
-        <div className="mb-6 flex items-center justify-end">
-          <div className="flex items-center gap-4">
-            <span className="text-sm font-medium">
-              {selectedImages.size} selected
-            </span>
-            <Button onClick={startEditing} size="sm">
-              Edit Metadata
-            </Button>
-          </div>
-        </div>
-      )}
-
       <div className="grid auto-rows-min gap-4 md:grid-cols-3 lg:grid-cols-4">
         {filteredImages.map((image) => (
           <ImageGridItem
@@ -293,6 +280,22 @@ export default function LibraryPage() {
           />
         ))}
       </div>
+
+      {/* Floating Selection Controls */}
+      {selectedImages.size > 0 && (
+        <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-40">
+          <div className="bg-white/95 dark:bg-black/95 backdrop-blur-sm border border-gray-200 dark:border-gray-800 rounded-xl shadow-lg px-4 py-3">
+            <div className="flex items-center gap-4">
+              <span className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                {selectedImages.size} selected
+              </span>
+              <Button onClick={startEditing} size="sm">
+                Edit Metadata
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Password Dialog */}
       {isEditing && !isAuthenticated && (
