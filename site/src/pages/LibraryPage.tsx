@@ -30,8 +30,8 @@ const ImageGridItem = memo(({ image, isSelected, onToggleSelect, onOpenLightbox 
   const gridItemClassName = useMemo(() =>
     `group relative cursor-pointer rounded-xl overflow-hidden transition-all ${
       isSelected
-        ? 'ring-6 ring-primary'
-        : 'hover:ring-6 hover:ring-gray-300'
+        ? 'ring-[6px] ring-primary'
+        : 'hover:ring-[6px] hover:ring-gray-300'
     }`, [isSelected]
   )
 
