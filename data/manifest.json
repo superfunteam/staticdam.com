@@ -21,7 +21,10 @@
     "path": "assets/Product Images/SIO-hero=Carbon Analytics.png",
     "w": 2748,
     "h": 1556,
-    "bytes": 1632415
+    "bytes": 1632902,
+    "product": [
+      "Carbon Analytics"
+    ]
   },
   {
     "path": "assets/Product Images/SIO-hero=Data Enrichment.png",
