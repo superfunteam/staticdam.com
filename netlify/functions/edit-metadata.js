@@ -2,16 +2,9 @@ const { verify } = require('@node-rs/argon2')
 const jwt = require('jsonwebtoken')
 const { App } = require('@octokit/app')
 
-interface EditPayload {
-  edits: Array<{
-    path: string
-    category?: string[]
-    tags?: string[]
-    person?: string[]
-    product?: string[]
-  }>
-  mode: 'merge' | 'replace'
-}
+// Type definition for payload structure
+// edits: Array of objects with path and optional metadata fields
+// mode: 'merge' or 'replace' for handling existing metadata
 
 const validateAuth = async (event) => {
   const sharedHash = process.env.SHARED_WRITE_HASH
@@ -46,7 +39,7 @@ const validateAuth = async (event) => {
   return false
 }
 
-const triggerGitHubAction = async (payload: EditPayload) => {
+const triggerGitHubAction = async (payload) => {
   if (!process.env.GITHUB_APP_ID || !process.env.GITHUB_INSTALLATION_ID || !process.env.GITHUB_PRIVATE_KEY) {
     console.error('Missing GitHub App credentials')
     throw new Error('GitHub App not configured')
@@ -89,7 +82,7 @@ exports.handler = async (event) => {
   }
 
   try {
-    const payload: EditPayload = JSON.parse(event.body || '{}')
+    const payload = JSON.parse(event.body || '{}')
 
     if (!payload.edits || !Array.isArray(payload.edits)) {
       return {
