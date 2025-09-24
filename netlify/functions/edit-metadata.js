@@ -1,4 +1,3 @@
-const { verify } = require('@node-rs/argon2')
 const jwt = require('jsonwebtoken')
 const { App } = require('@octokit/app')
 
@@ -7,10 +6,10 @@ const { App } = require('@octokit/app')
 // mode: 'merge' or 'replace' for handling existing metadata
 
 const validateAuth = async (event) => {
-  const sharedHash = process.env.SHARED_WRITE_HASH
+  const sharedPassword = process.env.SHARED_WRITE_PASSWORD
   const signingKey = process.env.SESSION_SIGNING_KEY
 
-  if (!sharedHash || !signingKey) {
+  if (!sharedPassword || !signingKey) {
     console.error('Auth not configured')
     return false
   }
@@ -18,7 +17,7 @@ const validateAuth = async (event) => {
   const token = event.headers['x-shared-token']
   if (token) {
     try {
-      return await verify(sharedHash, token)
+      return token === sharedPassword
     } catch {
       return false
     }
