@@ -121,7 +121,7 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
             {/* Main Image */}
             <div className="max-w-full max-h-full flex items-center justify-center relative">
               {isLoading && (
-                <div className="absolute inset-0 flex items-center justify-center bg-black/20 rounded-lg">
+                <div className="absolute inset-0 flex items-center justify-center">
                   <div className="flex flex-col items-center gap-3">
                     <Loader2 className="h-8 w-8 animate-spin text-white" />
                     <span className="text-white text-sm">Loading image...</span>
