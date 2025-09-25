@@ -159,6 +159,21 @@ export default function LibraryPage() {
     setLightboxImage(null)
   }
 
+  const handleLightboxEdit = () => {
+    if (lightboxImage) {
+      // Select the current image for editing
+      setSelectedImages(new Set([lightboxImage.path]))
+      // Close lightbox
+      setLightboxImage(null)
+      // Open metadata editor
+      if (!isAuthenticated) {
+        setIsEditing(true)
+      } else {
+        setShowMetadataEditor(true)
+      }
+    }
+  }
+
   const navigateLightbox = (direction: 'prev' | 'next') => {
     if (!lightboxImage) return
 
@@ -342,6 +357,7 @@ export default function LibraryPage() {
           isOpen={!!lightboxImage}
           onClose={closeLightbox}
           onNavigate={navigateLightbox}
+          onEditMetadata={handleLightboxEdit}
         />
       )}
 
