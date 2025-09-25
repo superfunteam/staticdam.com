@@ -1,6 +1,5 @@
 import { Outlet } from 'react-router-dom'
-import { AppSidebar } from '@/components/app-sidebar'
-import { useFilter } from '@/components/dam-sidebar'
+import { AppSidebar, useFilter } from '@/components/app-sidebar'
 import {
   Breadcrumb,
   BreadcrumbItem,

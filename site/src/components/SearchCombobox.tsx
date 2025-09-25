@@ -18,7 +18,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { useFilter } from "@/components/dam-sidebar"
+import { useFilter } from "@/components/app-sidebar"
 import type { ImageMetadata } from "@/types"
 
 interface SearchTerm {

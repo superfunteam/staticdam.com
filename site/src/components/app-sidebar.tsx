@@ -1,3 +1,5 @@
+"use client"
+
 import * as React from "react"
 import { Folder, Tag, Image, Hash, ChevronRight, User, Package, Moon, Sun } from "lucide-react"
 import { useQuery } from '@tanstack/react-query'
@@ -17,12 +19,12 @@ import {
   SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuItem,
+  SidebarMenuAction,
   SidebarMenuButton,
+  SidebarMenuItem,
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-  SidebarRail,
 } from "@/components/ui/sidebar"
 import type { ImageMetadata } from "@/types"
 
@@ -175,65 +177,70 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   }, [images])
 
   return (
-    <Sidebar collapsible="icon" {...props}>
-      <SidebarHeader className="border-b px-4 py-2">
-        <div className="flex items-center gap-2">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g clipPath="url(#clip0_2_3032)">
-              <path d="M12.7681 12.7694C14.0842 11.4534 13.0157 8.25115 10.3816 5.61706C7.74756 2.98297 4.54533 1.91451 3.22926 3.23058C1.9132 4.54664 2.98166 7.74887 5.61575 10.383C8.24983 13.017 11.4521 14.0855 12.7681 12.7694Z" stroke="currentColor" strokeWidth="1.25" strokeMiterlimit="10"/>
-              <path d="M10.3816 10.3829C13.0157 7.74885 14.0842 4.54662 12.7681 3.23055C11.4521 1.91449 8.24983 2.98295 5.61575 5.61704C2.98166 8.25113 1.9132 11.4534 3.22926 12.7694C4.54533 14.0855 7.74756 13.017 10.3816 10.3829Z" stroke="currentColor" strokeWidth="1.25" strokeMiterlimit="10"/>
-            </g>
-            <defs>
-              <clipPath id="clip0_2_3032">
-                <rect width="16" height="16" fill="white"/>
-              </clipPath>
-            </defs>
-          </svg>
-          <span className="font-semibold">StaticDAM</span>
-        </div>
+    <Sidebar variant="inset" {...props}>
+      <SidebarHeader>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton size="lg" asChild>
+              <div className="flex items-center cursor-default">
+                <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clipPath="url(#clip0_2_3032)">
+                      <path d="M12.7681 12.7694C14.0842 11.4534 13.0157 8.25115 10.3816 5.61706C7.74756 2.98297 4.54533 1.91451 3.22926 3.23058C1.9132 4.54664 2.98166 7.74887 5.61575 10.383C8.24983 13.017 11.4521 14.0855 12.7681 12.7694Z" stroke="currentColor" strokeWidth="1.25" strokeMiterlimit="10"/>
+                      <path d="M10.3816 10.3829C13.0157 7.74885 14.0842 4.54662 12.7681 3.23055C11.4521 1.91449 8.24983 2.98295 5.61575 5.61704C2.98166 8.25113 1.9132 11.4534 3.22926 12.7694C4.54533 14.0855 7.74756 13.017 10.3816 10.3829Z" stroke="currentColor" strokeWidth="1.25" strokeMiterlimit="10"/>
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_2_3032">
+                        <rect width="16" height="16" fill="white"/>
+                      </clipPath>
+                    </defs>
+                  </svg>
+                </div>
+                <div className="grid flex-1 text-left text-sm leading-tight">
+                  <span className="truncate font-medium">StaticDAM</span>
+                  <span className="truncate text-xs">Digital Assets</span>
+                </div>
+              </div>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
         {/* All Images */}
         <SidebarGroup>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  onClick={() => setSelectedFilter(null)}
-                  isActive={selectedFilter === null}
-                  className="w-full"
-                >
-                  <Image className="h-4 w-4" />
-                  <span>All Images ({images.length})</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                onClick={() => setSelectedFilter(null)}
+                isActive={selectedFilter === null}
+              >
+                <Image className="h-4 w-4" />
+                <span>All Images ({images.length})</span>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
         </SidebarGroup>
 
         {/* Folders */}
         {metadata.folders.length > 0 && (
           <SidebarGroup>
             <SidebarGroupLabel>Folders</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {metadata.folders.map((folder) => {
-                  const count = metadata.folderCounts.get(folder) || 0
-                  return (
-                    <SidebarMenuItem key={folder}>
-                      <SidebarMenuButton
-                        onClick={() => setSelectedFilter(`folder:${folder}`)}
-                        isActive={selectedFilter === `folder:${folder}`}
-                        className="w-full"
-                      >
-                        <Folder className="h-4 w-4" />
-                        <span>{folder} ({count})</span>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  )
-                })}
-              </SidebarMenu>
-            </SidebarGroupContent>
+            <SidebarMenu>
+              {metadata.folders.map((folder) => {
+                const count = metadata.folderCounts.get(folder) || 0
+                return (
+                  <SidebarMenuItem key={folder}>
+                    <SidebarMenuButton
+                      onClick={() => setSelectedFilter(`folder:${folder}`)}
+                      isActive={selectedFilter === `folder:${folder}`}
+                    >
+                      <Folder className="h-4 w-4" />
+                      <span>{folder} ({count})</span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                )
+              })}
+            </SidebarMenu>
           </SidebarGroup>
         )}
 
@@ -243,19 +250,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenu>
             {/* Categories Section */}
             {metadata.categories.length > 0 && (
-              <Collapsible
-                key="categories"
-                asChild
-                defaultOpen={false}
-                className="group/collapsible"
-              >
+              <Collapsible key="categories" asChild defaultOpen={false}>
                 <SidebarMenuItem>
+                  <SidebarMenuButton tooltip="Categories">
+                    <Hash className="h-4 w-4" />
+                    <span>Categories ({metadata.categories.length})</span>
+                  </SidebarMenuButton>
                   <CollapsibleTrigger asChild>
-                    <SidebarMenuButton tooltip="Categories">
-                      <Hash className="h-4 w-4" />
-                      <span>Categories ({metadata.categories.length})</span>
-                      <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                    </SidebarMenuButton>
+                    <SidebarMenuAction className="data-[state=open]:rotate-90">
+                      <ChevronRight />
+                      <span className="sr-only">Toggle</span>
+                    </SidebarMenuAction>
                   </CollapsibleTrigger>
                   <CollapsibleContent>
                     <SidebarMenuSub>
@@ -280,19 +285,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
             {/* People Section */}
             {metadata.people.length > 0 && (
-              <Collapsible
-                key="people"
-                asChild
-                defaultOpen={false}
-                className="group/collapsible"
-              >
+              <Collapsible key="people" asChild defaultOpen={false}>
                 <SidebarMenuItem>
+                  <SidebarMenuButton tooltip="People">
+                    <User className="h-4 w-4" />
+                    <span>People ({metadata.people.length})</span>
+                  </SidebarMenuButton>
                   <CollapsibleTrigger asChild>
-                    <SidebarMenuButton tooltip="People">
-                      <User className="h-4 w-4" />
-                      <span>People ({metadata.people.length})</span>
-                      <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                    </SidebarMenuButton>
+                    <SidebarMenuAction className="data-[state=open]:rotate-90">
+                      <ChevronRight />
+                      <span className="sr-only">Toggle</span>
+                    </SidebarMenuAction>
                   </CollapsibleTrigger>
                   <CollapsibleContent>
                     <SidebarMenuSub>
@@ -317,19 +320,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
             {/* Tags Section */}
             {metadata.tags.length > 0 && (
-              <Collapsible
-                key="tags"
-                asChild
-                defaultOpen={false}
-                className="group/collapsible"
-              >
+              <Collapsible key="tags" asChild defaultOpen={false}>
                 <SidebarMenuItem>
+                  <SidebarMenuButton tooltip="Tags">
+                    <Tag className="h-4 w-4" />
+                    <span>Tags ({metadata.tags.length})</span>
+                  </SidebarMenuButton>
                   <CollapsibleTrigger asChild>
-                    <SidebarMenuButton tooltip="Tags">
-                      <Tag className="h-4 w-4" />
-                      <span>Tags ({metadata.tags.length})</span>
-                      <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                    </SidebarMenuButton>
+                    <SidebarMenuAction className="data-[state=open]:rotate-90">
+                      <ChevronRight />
+                      <span className="sr-only">Toggle</span>
+                    </SidebarMenuAction>
                   </CollapsibleTrigger>
                   <CollapsibleContent>
                     <SidebarMenuSub>
@@ -354,19 +355,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
             {/* Products Section */}
             {metadata.products.length > 0 && (
-              <Collapsible
-                key="products"
-                asChild
-                defaultOpen={false}
-                className="group/collapsible"
-              >
+              <Collapsible key="products" asChild defaultOpen={false}>
                 <SidebarMenuItem>
+                  <SidebarMenuButton tooltip="Products">
+                    <Package className="h-4 w-4" />
+                    <span>Products ({metadata.products.length})</span>
+                  </SidebarMenuButton>
                   <CollapsibleTrigger asChild>
-                    <SidebarMenuButton tooltip="Products">
-                      <Package className="h-4 w-4" />
-                      <span>Products ({metadata.products.length})</span>
-                      <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                    </SidebarMenuButton>
+                    <SidebarMenuAction className="data-[state=open]:rotate-90">
+                      <ChevronRight />
+                      <span className="sr-only">Toggle</span>
+                    </SidebarMenuAction>
                   </CollapsibleTrigger>
                   <CollapsibleContent>
                     <SidebarMenuSub>
@@ -394,17 +393,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton
-              onClick={toggleDarkMode}
-              className="w-full"
-            >
+            <SidebarMenuButton onClick={toggleDarkMode}>
               {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
               <span>{isDarkMode ? 'Light Mode' : 'Dark Mode'}</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
-      <SidebarRail />
     </Sidebar>
   )
 }
