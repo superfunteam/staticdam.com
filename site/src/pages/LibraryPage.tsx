@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo, memo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Button } from '@/components/ui/button'
-import { useToast } from '@/components/ui/use-toast'
+import { toast } from 'sonner'
 import { useFilter } from '@/components/app-sidebar'
 import { useSidebar } from '@/components/ui/sidebar'
 import { ImageLightbox } from '@/components/image-lightbox'
@@ -104,7 +104,6 @@ export default function LibraryPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [showMetadataEditor, setShowMetadataEditor] = useState(false)
   const [lightboxImage, setLightboxImage] = useState<ImageMetadata | null>(null)
-  const { toast } = useToast()
   const { selectedFilter, filteredImages } = useFilter()
   const { state: sidebarState } = useSidebar()
 
@@ -205,21 +204,16 @@ export default function LibraryPage() {
         setIsAuthenticated(true)
         setIsEditing(false)
         setShowMetadataEditor(true)
-        toast({
-          title: 'Authenticated',
+        toast.success('Authenticated', {
           description: 'You can now edit metadata',
         })
       } else {
-        toast({
-          variant: 'destructive',
-          title: 'Error',
+        toast.error('Error', {
           description: 'Invalid password',
         })
       }
     } catch (error) {
-      toast({
-        variant: 'destructive',
-        title: 'Error',
+      toast.error('Error', {
         description: 'Failed to authenticate',
       })
     }
@@ -227,9 +221,7 @@ export default function LibraryPage() {
 
   const startEditing = () => {
     if (selectedImages.size === 0) {
-      toast({
-        variant: 'destructive',
-        title: 'No images selected',
+      toast.error('No images selected', {
         description: 'Please select images to edit',
       })
       return
@@ -269,8 +261,7 @@ export default function LibraryPage() {
       }
 
       // Show success message and reset form state
-      toast({
-        title: 'Updated!',
+      toast.success('Updated!', {
         description: 'It may take a few minutes round-trip from GitHub. Go have a coffee ☕',
         duration: 8000, // Show for 8 seconds
       })

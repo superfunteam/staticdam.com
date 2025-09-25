@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { useToast } from '@/components/ui/use-toast'
+import { toast } from 'sonner'
 import { X, Plus, Save } from 'lucide-react'
 import type { ImageMetadata } from '@/types'
 
@@ -38,7 +38,6 @@ export function MetadataEditor({ selectedImages, images, isOpen, onClose, onSave
   const [newCategories, setNewCategories] = useState<Record<string, string>>({})
   const [newPersons, setNewPersons] = useState<Record<string, string>>({})
   const [newProducts, setNewProducts] = useState<Record<string, string>>({})
-  const { toast } = useToast()
 
   if (!isOpen) return null
 
@@ -161,9 +160,7 @@ export function MetadataEditor({ selectedImages, images, isOpen, onClose, onSave
       await onSave(metadataUpdates)
       onClose()
     } catch (error) {
-      toast({
-        variant: 'destructive',
-        title: 'Error',
+      toast.error('Error', {
         description: 'Failed to update metadata',
       })
     }

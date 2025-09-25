@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
-import { Toaster } from '@/components/ui/toaster'
+import { Toaster } from '@/components/ui/sonner'
 import { FilterProvider } from '@/components/app-sidebar'
 import { DarkModeProvider } from '@/contexts/dark-mode-context'
 import Layout from '@/components/Layout'
