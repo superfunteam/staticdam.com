@@ -13,6 +13,7 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<LibraryPage />} />
             <Route path="library" element={<LibraryPage />} />
+            <Route path="asset/:encodedPath" element={<LibraryPage />} />
           </Route>
         </Routes>
         <Toaster />

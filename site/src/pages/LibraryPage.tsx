@@ -1,5 +1,6 @@
-import { useState, useCallback, useMemo, memo } from 'react'
+import { useState, useCallback, useMemo, memo, useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
+import { useNavigate, useParams } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
 import { useFilter } from '@/components/app-sidebar'
@@ -114,6 +115,8 @@ export default function LibraryPage() {
   const [lightboxImage, setLightboxImage] = useState<ImageMetadata | null>(null)
   const { selectedFilter, filteredImages } = useFilter()
   const { state: sidebarState } = useSidebar()
+  const navigate = useNavigate()
+  const { encodedPath } = useParams()
 
   const { data: images = [], isLoading } = useQuery<ImageMetadata[]>({
     queryKey: ['manifest'],
@@ -123,6 +126,20 @@ export default function LibraryPage() {
       return res.json()
     },
   })
+
+  // Auto-open lightbox for permalink URLs
+  useEffect(() => {
+    if (encodedPath && images.length > 0 && !lightboxImage) {
+      const decodedPath = decodeURIComponent(encodedPath)
+      const image = images.find(img => img.path === decodedPath)
+      if (image) {
+        setLightboxImage(image)
+      } else {
+        // Image not found, redirect to home
+        navigate('/', { replace: true })
+      }
+    }
+  }, [encodedPath, images, lightboxImage, navigate])
 
   const toggleSelect = useCallback((path: string, e: React.MouseEvent) => {
     e.stopPropagation()
@@ -137,7 +154,9 @@ export default function LibraryPage() {
 
   const openLightbox = useCallback((image: ImageMetadata) => {
     setLightboxImage(image)
-  }, [])
+    // Update URL to permalink
+    navigate(`/asset/${encodeURIComponent(image.path)}`, { replace: true })
+  }, [navigate])
 
   if (isLoading) {
     return (
@@ -164,6 +183,8 @@ export default function LibraryPage() {
 
   const closeLightbox = () => {
     setLightboxImage(null)
+    // Navigate back to home, preserving any filters
+    navigate('/', { replace: true })
   }
 
   const handleLightboxEdit = () => {
@@ -194,7 +215,10 @@ export default function LibraryPage() {
     }
 
     if (newIndex !== currentIndex) {
-      setLightboxImage(filteredImages[newIndex])
+      const newImage = filteredImages[newIndex]
+      setLightboxImage(newImage)
+      // Update URL to new asset
+      navigate(`/asset/${encodeURIComponent(newImage.path)}`, { replace: true })
     }
   }
 

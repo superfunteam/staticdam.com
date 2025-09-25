@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { ChevronLeft, ChevronRight, Download, Tag, Calendar, Camera, Hash, Folder, Loader2, User } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Download, Tag, Calendar, Camera, Hash, Folder, Loader2, User, Copy, Image } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
+import { toast } from 'sonner'
 import {
   Sheet,
   SheetContent,
@@ -10,6 +11,21 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet'
 import type { ImageMetadata } from '@/types'
+
+// StaticDAM Logo Component
+const StaticDAMLogo = ({ className }: { className?: string }) => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+    <g clipPath="url(#clip0_2_3032)">
+      <path d="M12.7681 12.7694C14.0842 11.4534 13.0157 8.25115 10.3816 5.61706C7.74756 2.98297 4.54533 1.91451 3.22926 3.23058C1.9132 4.54664 2.98166 7.74887 5.61575 10.383C8.24983 13.017 11.4521 14.0855 12.7681 12.7694Z" stroke="currentColor" strokeWidth="1.25" strokeMiterlimit="10"/>
+      <path d="M10.3816 10.3829C13.0157 7.74885 14.0842 4.54662 12.7681 3.23055C11.4521 1.91449 8.24983 2.98295 5.61575 5.61704C2.98166 8.25113 1.9132 11.4534 3.22926 12.7694C4.54533 14.0855 7.74756 13.017 10.3816 10.3829Z" stroke="currentColor" strokeWidth="1.25" strokeMiterlimit="10"/>
+    </g>
+    <defs>
+      <clipPath id="clip0_2_3032">
+        <rect width="16" height="16" fill="white"/>
+      </clipPath>
+    </defs>
+  </svg>
+)
 
 interface ImageLightboxProps {
   image: ImageMetadata
@@ -87,6 +103,31 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
   }
 
   const fileName = image.path.split('/').pop() || 'Unknown'
+
+  // Generate share URLs
+  const damUrl = `${window.location.origin}/asset/${encodeURIComponent(image.path)}`
+  const assetUrl = `${window.location.origin}/${image.path}`
+
+  // Copy to clipboard functionality
+  const copyToClipboard = async (text: string, label: string) => {
+    try {
+      await navigator.clipboard.writeText(text)
+      toast.success(`${label} copied to clipboard!`)
+    } catch (err) {
+      // Fallback for older browsers
+      try {
+        const textArea = document.createElement('textarea')
+        textArea.value = text
+        document.body.appendChild(textArea)
+        textArea.select()
+        document.execCommand('copy')
+        document.body.removeChild(textArea)
+        toast.success(`${label} copied to clipboard!`)
+      } catch (fallbackErr) {
+        toast.error('Failed to copy to clipboard')
+      }
+    }
+  }
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
@@ -233,6 +274,63 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
                         <span>{Math.floor(image.duration / 60)}:{String(Math.floor(image.duration % 60)).padStart(2, '0')}</span>
                       </div>
                     )}
+                  </div>
+                </div>
+
+                {/* Share Links */}
+                <Separator />
+                <div>
+                  <h3 className="font-semibold mb-3">Share Links</h3>
+                  <div className="space-y-3 text-sm">
+                    {/* DAM URL */}
+                    <div>
+                      <div className="flex items-center gap-2 mb-2">
+                        <StaticDAMLogo className="h-4 w-4 text-muted-foreground" />
+                        <span className="text-muted-foreground">DAM URL</span>
+                      </div>
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          value={damUrl}
+                          readOnly
+                          className="flex-1 px-2 py-1 text-xs border rounded bg-muted/50 text-muted-foreground"
+                          onClick={(e) => e.currentTarget.select()}
+                        />
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="px-2"
+                          onClick={() => copyToClipboard(damUrl, 'DAM URL')}
+                        >
+                          <Copy className="h-3 w-3" />
+                        </Button>
+                      </div>
+                    </div>
+
+                    {/* Asset URL */}
+                    <div>
+                      <div className="flex items-center gap-2 mb-2">
+                        <Image className="h-4 w-4 text-muted-foreground" />
+                        <span className="text-muted-foreground">Asset URL</span>
+                      </div>
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          value={assetUrl}
+                          readOnly
+                          className="flex-1 px-2 py-1 text-xs border rounded bg-muted/50 text-muted-foreground"
+                          onClick={(e) => e.currentTarget.select()}
+                        />
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="px-2"
+                          onClick={() => copyToClipboard(assetUrl, 'Asset URL')}
+                        >
+                          <Copy className="h-3 w-3" />
+                        </Button>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
