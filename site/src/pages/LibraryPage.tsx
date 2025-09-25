@@ -1,6 +1,7 @@
 import { useState, useCallback, useMemo, memo, useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { useNavigate, useParams } from 'react-router-dom'
+import { filterToUrl } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
 import { useFilter } from '@/components/app-sidebar'
@@ -186,8 +187,9 @@ export default function LibraryPage() {
 
   const closeLightbox = () => {
     setLightboxImage(null)
-    // Navigate back to home, preserving any filters
-    navigate('/', { replace: true })
+    // Navigate back to current filter view, or home if no filter
+    const backUrl = selectedFilter ? filterToUrl(selectedFilter) : '/'
+    navigate(backUrl, { replace: true })
   }
 
   const handleLightboxEdit = () => {

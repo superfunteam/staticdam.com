@@ -3,7 +3,9 @@
 import * as React from "react"
 import { Folder, Tag, Image, Hash, User, Package, Moon, Sun } from "lucide-react"
 import { useQuery } from '@tanstack/react-query'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useDarkMode } from "@/contexts/dark-mode-context"
+import { urlToFilter, filterToUrl } from "@/lib/utils"
 
 import {
   Collapsible,
@@ -43,7 +45,26 @@ const FilterContext = React.createContext<{
 export const useFilter = () => React.useContext(FilterContext)
 
 export function FilterProvider({ children }: { children: React.ReactNode }) {
-  const [selectedFilter, setSelectedFilter] = React.useState<string | null>(null)
+  const location = useLocation()
+  const navigate = useNavigate()
+
+  // Initialize filter from current URL
+  const [selectedFilter, setSelectedFilterState] = React.useState<string | null>(() => {
+    return urlToFilter(location.pathname)
+  })
+
+  // Update filter state when URL changes
+  React.useEffect(() => {
+    const filterFromUrl = urlToFilter(location.pathname)
+    setSelectedFilterState(filterFromUrl)
+  }, [location.pathname])
+
+  // Function to update both state and URL
+  const setSelectedFilter = React.useCallback((filter: string | null) => {
+    const newUrl = filter ? filterToUrl(filter) : '/'
+    navigate(newUrl, { replace: true })
+    // State will be updated by the useEffect above
+  }, [navigate])
 
   const { data: images = [] } = useQuery<ImageMetadata[]>({
     queryKey: ['manifest'],

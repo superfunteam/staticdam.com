@@ -8,7 +8,6 @@ import {
   SheetContent,
   SheetFooter,
   SheetHeader,
-  SheetTitle,
 } from '@/components/ui/sheet'
 import type { ImageMetadata } from '@/types'
 
@@ -232,11 +231,8 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
 
           {/* Metadata Sidebar */}
           <div className="w-80 bg-white dark:bg-black flex flex-col animate-in slide-in-from-right duration-500">
-            <SheetHeader className="px-6 pt-6">
-              <SheetTitle className="text-left truncate">{fileName}</SheetTitle>
-            </SheetHeader>
 
-            <div className="flex-1 px-6 py-4 overflow-y-auto">
+            <div className="flex-1 px-6 py-6 overflow-y-auto">
               <div className="space-y-6">
                 {/* File Info */}
                 <div>

@@ -59,7 +59,7 @@ async function generateVideoThumbnail(inputPath: string, outputPath: string): Pr
 
     // Extract 4 frames at the calculated timestamps (one command per frame for reliability)
     for (let i = 0; i < timestamps.length; i++) {
-      const frameCmd = `ffmpeg -ss ${timestamps[i]} -i "${inputPath}" -vframes 1 -vf "scale=500:500:force_original_aspect_ratio=decrease,pad=500:500:(ow-iw)/2:(oh-ih)/2" "${tempDir}/${baseName}_frame_${i}.png" -y`
+      const frameCmd = `ffmpeg -ss ${timestamps[i]} -i "${inputPath}" -vframes 1 -vf "scale=500:500:force_original_aspect_ratio=increase,crop=500:500" "${tempDir}/${baseName}_frame_${i}.png" -y`
       execSync(frameCmd, { stdio: 'pipe' })
     }
 

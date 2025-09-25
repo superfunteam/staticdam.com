@@ -24,7 +24,12 @@ function DynamicBreadcrumb() {
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbPage>Library ({filteredImages.length})</BreadcrumbPage>
+            <BreadcrumbPage className="flex items-center gap-2">
+              Library
+              <span className="bg-muted px-1.5 py-0.5 rounded-md text-xs text-muted-foreground">
+                {filteredImages.length}
+              </span>
+            </BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
@@ -73,7 +78,12 @@ function DynamicBreadcrumb() {
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbPage>{filterValue} ({count})</BreadcrumbPage>
+          <BreadcrumbPage className="flex items-center gap-2">
+            {filterValue}
+            <span className="bg-muted px-1.5 py-0.5 rounded-md text-xs text-muted-foreground">
+              {count}
+            </span>
+          </BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>
