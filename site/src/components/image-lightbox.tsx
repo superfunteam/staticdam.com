@@ -89,7 +89,7 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent
-        className="inset-0 w-full max-w-full h-full p-0 border-none bg-black/90"
+        className="inset-0 w-full max-w-full h-full p-0 border-none bg-black/90 sm:max-w-full"
         side="right"
       >
         <div className="flex h-full">
