@@ -132,7 +132,7 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
                 ref={imgRef}
                 src={`/${image.path}`}
                 alt={image.subject || fileName}
-                className={`max-w-full max-h-full object-contain transition-opacity duration-300 ${
+                className={`max-w-full max-h-full object-contain animate-in fade-in slide-in-from-bottom-8 duration-300 ${
                   isLoading ? 'opacity-0' : 'opacity-100'
                 }`}
                 onLoad={(e) => {
