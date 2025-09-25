@@ -19,7 +19,6 @@ import {
   SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuAction,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuSub,
@@ -252,15 +251,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             {metadata.categories.length > 0 && (
               <Collapsible key="categories" asChild defaultOpen={false}>
                 <SidebarMenuItem>
-                  <SidebarMenuButton tooltip="Categories">
-                    <Hash className="h-4 w-4" />
-                    <span>Categories ({metadata.categories.length})</span>
-                  </SidebarMenuButton>
                   <CollapsibleTrigger asChild>
-                    <SidebarMenuAction className="data-[state=open]:rotate-90">
-                      <ChevronRight />
-                      <span className="sr-only">Toggle</span>
-                    </SidebarMenuAction>
+                    <SidebarMenuButton tooltip="Categories">
+                      <Hash className="h-4 w-4" />
+                      <span>Categories ({metadata.categories.length})</span>
+                      <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                    </SidebarMenuButton>
                   </CollapsibleTrigger>
                   <CollapsibleContent>
                     <SidebarMenuSub>
@@ -287,15 +283,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             {metadata.people.length > 0 && (
               <Collapsible key="people" asChild defaultOpen={false}>
                 <SidebarMenuItem>
-                  <SidebarMenuButton tooltip="People">
-                    <User className="h-4 w-4" />
-                    <span>People ({metadata.people.length})</span>
-                  </SidebarMenuButton>
                   <CollapsibleTrigger asChild>
-                    <SidebarMenuAction className="data-[state=open]:rotate-90">
-                      <ChevronRight />
-                      <span className="sr-only">Toggle</span>
-                    </SidebarMenuAction>
+                    <SidebarMenuButton tooltip="People">
+                      <User className="h-4 w-4" />
+                      <span>People ({metadata.people.length})</span>
+                      <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                    </SidebarMenuButton>
                   </CollapsibleTrigger>
                   <CollapsibleContent>
                     <SidebarMenuSub>
@@ -322,15 +315,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             {metadata.tags.length > 0 && (
               <Collapsible key="tags" asChild defaultOpen={false}>
                 <SidebarMenuItem>
-                  <SidebarMenuButton tooltip="Tags">
-                    <Tag className="h-4 w-4" />
-                    <span>Tags ({metadata.tags.length})</span>
-                  </SidebarMenuButton>
                   <CollapsibleTrigger asChild>
-                    <SidebarMenuAction className="data-[state=open]:rotate-90">
-                      <ChevronRight />
-                      <span className="sr-only">Toggle</span>
-                    </SidebarMenuAction>
+                    <SidebarMenuButton tooltip="Tags">
+                      <Tag className="h-4 w-4" />
+                      <span>Tags ({metadata.tags.length})</span>
+                      <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                    </SidebarMenuButton>
                   </CollapsibleTrigger>
                   <CollapsibleContent>
                     <SidebarMenuSub>
@@ -357,15 +347,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             {metadata.products.length > 0 && (
               <Collapsible key="products" asChild defaultOpen={false}>
                 <SidebarMenuItem>
-                  <SidebarMenuButton tooltip="Products">
-                    <Package className="h-4 w-4" />
-                    <span>Products ({metadata.products.length})</span>
-                  </SidebarMenuButton>
                   <CollapsibleTrigger asChild>
-                    <SidebarMenuAction className="data-[state=open]:rotate-90">
-                      <ChevronRight />
-                      <span className="sr-only">Toggle</span>
-                    </SidebarMenuAction>
+                    <SidebarMenuButton tooltip="Products">
+                      <Package className="h-4 w-4" />
+                      <span>Products ({metadata.products.length})</span>
+                      <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                    </SidebarMenuButton>
                   </CollapsibleTrigger>
                   <CollapsibleContent>
                     <SidebarMenuSub>
