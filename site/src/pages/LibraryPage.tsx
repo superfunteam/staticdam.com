@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/components/ui/use-toast'
 import { useFilter } from '@/components/app-sidebar'
+import { useSidebar } from '@/components/ui/sidebar'
 import { ImageLightbox } from '@/components/image-lightbox'
 import { MetadataEditor } from '@/components/metadata-editor'
 import { Check } from 'lucide-react'
@@ -105,6 +106,7 @@ export default function LibraryPage() {
   const [lightboxImage, setLightboxImage] = useState<ImageMetadata | null>(null)
   const { toast } = useToast()
   const { selectedFilter, filteredImages } = useFilter()
+  const { state: sidebarState } = useSidebar()
 
   const { data: images = [], isLoading } = useQuery<ImageMetadata[]>({
     queryKey: ['manifest'],
@@ -283,7 +285,7 @@ export default function LibraryPage() {
 
       {/* Floating Selection Controls */}
       {selectedImages.size > 0 && (
-        <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-40">
+        <div className={`fixed bottom-6 left-1/2 z-40 ${sidebarState === 'collapsed' ? 'transform -translate-x-1/2' : ''}`}>
           <div className="bg-white/95 dark:bg-black/95 backdrop-blur-sm border border-gray-200 dark:border-gray-800 rounded-xl shadow-lg px-4 py-3">
             <div className="flex items-center gap-4">
               <span className="text-sm font-medium text-gray-900 dark:text-gray-100">
