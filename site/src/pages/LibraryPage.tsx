@@ -13,8 +13,11 @@ import type { ImageMetadata } from '@/types'
 // Utility function to get thumbnail path - memoized
 const getThumbnailPath = (imagePath: string): string => {
   // Convert assets/folder/image.jpg -> assets-thumbs/folder/image.jpg
+  // For videos, use .webp extension for animated thumbnails
   const pathWithoutExt = imagePath.replace(/\.[^/.]+$/, '')
-  const thumbnailPath = pathWithoutExt.replace(/^assets\//, 'assets-thumbs/') + '.jpg'
+  const isVideo = /\.(mp4|mov|webm|avi)$/i.test(imagePath)
+  const ext = isVideo ? '.webp' : '.jpg'
+  const thumbnailPath = pathWithoutExt.replace(/^assets\//, 'assets-thumbs/') + ext
   return `/${thumbnailPath}`
 }
 

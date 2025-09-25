@@ -20,12 +20,16 @@ function shouldGenerateThumbnail(originalPath: string, thumbnailPath: string): b
 
 function getOutputPath(inputPath: string): string {
   // Convert assets/folder/image.jpg -> assets-thumbs/folder/image.jpg
+  // For videos, use .webp extension for animated thumbnails
   const relativePath = inputPath.replace(/^assets\//, '')
   const dir = dirname(relativePath)
   const nameWithoutExt = basename(relativePath, extname(relativePath))
 
+  const isVideo = /\.(mp4|mov|webm|avi)$/i.test(inputPath)
+  const ext = isVideo ? '.webp' : '.jpg'
+
   const outputDir = dir === '.' ? 'assets-thumbs' : `assets-thumbs/${dir}`
-  return `${outputDir}/${nameWithoutExt}.jpg`
+  return `${outputDir}/${nameWithoutExt}${ext}`
 }
 
 async function generateVideoThumbnail(inputPath: string, outputPath: string): Promise<boolean> {
@@ -39,16 +43,43 @@ async function generateVideoThumbnail(inputPath: string, outputPath: string): Pr
       throw new Error('Could not determine video duration')
     }
 
-    // Calculate midpoint
-    const midpoint = duration / 2
+    // Calculate timestamps for 4 frames (20%, 40%, 60%, 80%)
+    const timestamps = [
+      duration * 0.2,
+      duration * 0.4,
+      duration * 0.6,
+      duration * 0.8
+    ]
 
-    // Extract frame at midpoint and resize to 800px width
-    const ffmpegCmd = `ffmpeg -ss ${midpoint} -i "${inputPath}" -vframes 1 -vf "scale=800:-1" -q:v 2 "${outputPath}" -y`
-    execSync(ffmpegCmd, { stdio: 'pipe' })
+    // Create animated WebP by extracting frames at specific timestamps
+    // Using a more reliable approach with multiple seeks
+    const tempDir = dirname(outputPath)
+    const baseName = basename(outputPath, '.webp')
+    const tempPattern = `${tempDir}/${baseName}_frame_%d.png`
+
+    // Extract 4 frames at the calculated timestamps (one command per frame for reliability)
+    for (let i = 0; i < timestamps.length; i++) {
+      const frameCmd = `ffmpeg -ss ${timestamps[i]} -i "${inputPath}" -vframes 1 -vf "scale=500:500:force_original_aspect_ratio=decrease,pad=500:500:(ow-iw)/2:(oh-ih)/2" "${tempDir}/${baseName}_frame_${i}.png" -y`
+      execSync(frameCmd, { stdio: 'pipe' })
+    }
+
+    // Create animated WebP from the extracted frames (0.5 FPS = 2 second per frame)
+    const animateCmd = `ffmpeg -r 0.5 -i "${tempDir}/${baseName}_frame_%d.png" -c:v libwebp_anim -lossless 0 -compression_level 6 -q:v 80 -loop 0 "${outputPath}" -y`
+
+    execSync(animateCmd, { stdio: 'pipe' })
+
+    // Clean up temporary frame files
+    for (let i = 0; i < 4; i++) {
+      try {
+        execSync(`rm "${tempDir}/${baseName}_frame_${i}.png"`, { stdio: 'pipe' })
+      } catch (e) {
+        // Ignore cleanup errors
+      }
+    }
 
     return true
   } catch (error) {
-    console.error(`Error generating video thumbnail for ${inputPath}:`, error)
+    console.error(`Error generating animated video thumbnail for ${inputPath}:`, error)
     return false
   }
 }
