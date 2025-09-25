@@ -93,8 +93,8 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
         side="right"
       >
         <div className="flex h-full">
-          {/* Image Area - Simple fade animation */}
-          <div className="flex-1 flex items-center justify-center p-4 relative animate-in fade-in duration-300">
+          {/* Image Area - No animation on container to prevent interference */}
+          <div className="flex-1 flex items-center justify-center p-4 relative">
             {/* Navigation Buttons */}
             {hasPrev && (
               <Button
@@ -132,8 +132,8 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
                 ref={imgRef}
                 src={`/${image.path}`}
                 alt={image.subject || fileName}
-                className={`max-w-full max-h-full object-contain animate-in fade-in slide-in-from-bottom-8 duration-300 ${
-                  isLoading ? 'opacity-0' : 'opacity-100'
+                className={`max-w-full max-h-full object-contain ${
+                  isLoading ? 'opacity-0' : 'opacity-100 animate-in fade-in slide-in-from-bottom-8 duration-500 fill-mode-both'
                 }`}
                 onLoad={(e) => {
                   const img = e.currentTarget
