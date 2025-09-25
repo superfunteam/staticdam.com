@@ -32,53 +32,103 @@ export function SearchCombobox() {
   const [value, setValue] = React.useState("")
   const { setSelectedFilter, images } = useFilter()
 
-  // Generate popular terms from the complete images dataset
-  const popularTerms = React.useMemo((): SearchTerm[] => {
-    const termCounts: Record<string, { count: number; type: SearchTerm['type'] }> = {}
+  // Generate ALL unique searchable terms
+  const allSearchTerms = React.useMemo((): SearchTerm[] => {
+    const termsMap = new Map<string, SearchTerm>()
 
-    // Count all metadata terms across all images
     images.forEach((image: ImageMetadata) => {
       // Categories
       image.category?.forEach(cat => {
         const key = `category:${cat}`
-        termCounts[key] = { count: (termCounts[key]?.count || 0) + 1, type: 'category' }
+        termsMap.set(key, {
+          value: key,
+          label: `Category: ${cat}`,
+          type: 'category'
+        })
       })
 
       // People
       image.person?.forEach(person => {
         const key = `person:${person}`
-        termCounts[key] = { count: (termCounts[key]?.count || 0) + 1, type: 'person' }
+        termsMap.set(key, {
+          value: key,
+          label: `Person: ${person}`,
+          type: 'person'
+        })
       })
 
       // Tags
       image.tags?.forEach(tag => {
         const key = `tag:${tag}`
-        termCounts[key] = { count: (termCounts[key]?.count || 0) + 1, type: 'tag' }
+        termsMap.set(key, {
+          value: key,
+          label: `Tag: ${tag}`,
+          type: 'tag'
+        })
       })
 
       // Products
       image.product?.forEach(product => {
         const key = `product:${product}`
-        termCounts[key] = { count: (termCounts[key]?.count || 0) + 1, type: 'product' }
+        termsMap.set(key, {
+          value: key,
+          label: `Product: ${product}`,
+          type: 'product'
+        })
       })
     })
 
-    // Sort by count and take top 6
-    const sortedTerms = Object.entries(termCounts)
-      .sort(([, a], [, b]) => b.count - a.count)
-      .slice(0, 6)
-      .map(([key, { type }]) => {
-        const [prefix, ...valueParts] = key.split(':')
-        const rawValue = valueParts.join(':')
-        return {
-          value: key,
-          label: `${type.charAt(0).toUpperCase() + type.slice(1)}: ${rawValue}`,
-          type
-        }
-      })
-
-    return sortedTerms
+    return Array.from(termsMap.values())
   }, [images])
+
+  // Get popular terms organized by type (top 2 of each)
+  const popularByType = React.useMemo(() => {
+    // Count occurrences
+    const counts = new Map<string, number>()
+    images.forEach((image: ImageMetadata) => {
+      image.category?.forEach(cat => {
+        const key = `category:${cat}`
+        counts.set(key, (counts.get(key) || 0) + 1)
+      })
+      image.person?.forEach(person => {
+        const key = `person:${person}`
+        counts.set(key, (counts.get(key) || 0) + 1)
+      })
+      image.tags?.forEach(tag => {
+        const key = `tag:${tag}`
+        counts.set(key, (counts.get(key) || 0) + 1)
+      })
+      image.product?.forEach(product => {
+        const key = `product:${product}`
+        counts.set(key, (counts.get(key) || 0) + 1)
+      })
+    })
+
+    // Group by type
+    const byType: Record<SearchTerm['type'], SearchTerm[]> = {
+      category: [],
+      person: [],
+      tag: [],
+      product: []
+    }
+
+    allSearchTerms.forEach(term => {
+      const count = counts.get(term.value) || 0
+      byType[term.type].push(term)
+    })
+
+    // Sort each type by count and take top 2
+    Object.keys(byType).forEach(type => {
+      byType[type as SearchTerm['type']].sort((a, b) => {
+        const countA = counts.get(a.value) || 0
+        const countB = counts.get(b.value) || 0
+        return countB - countA
+      })
+      byType[type as SearchTerm['type']] = byType[type as SearchTerm['type']].slice(0, 2)
+    })
+
+    return byType
+  }, [images, allSearchTerms])
 
   const handleSelect = (currentValue: string) => {
     if (currentValue) {
@@ -105,10 +155,73 @@ export function SearchCombobox() {
           <CommandInput placeholder="Search..." className="h-9" />
           <CommandList>
             <CommandEmpty>No results found.</CommandEmpty>
-            <CommandGroup heading="Popular">
-              {popularTerms.map((term) => (
+
+            {/* Show popular terms by type */}
+            {popularByType.category.length > 0 && (
+              <CommandGroup heading="Popular Categories">
+                {popularByType.category.map((term) => (
+                  <CommandItem
+                    key={term.value}
+                    value={term.value}
+                    onSelect={handleSelect}
+                    className="cursor-pointer"
+                  >
+                    {term.label}
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            )}
+
+            {popularByType.person.length > 0 && (
+              <CommandGroup heading="Popular People">
+                {popularByType.person.map((term) => (
+                  <CommandItem
+                    key={term.value}
+                    value={term.value}
+                    onSelect={handleSelect}
+                    className="cursor-pointer"
+                  >
+                    {term.label}
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            )}
+
+            {popularByType.tag.length > 0 && (
+              <CommandGroup heading="Popular Tags">
+                {popularByType.tag.map((term) => (
+                  <CommandItem
+                    key={term.value}
+                    value={term.value}
+                    onSelect={handleSelect}
+                    className="cursor-pointer"
+                  >
+                    {term.label}
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            )}
+
+            {popularByType.product.length > 0 && (
+              <CommandGroup heading="Popular Products">
+                {popularByType.product.map((term) => (
+                  <CommandItem
+                    key={term.value}
+                    value={term.value}
+                    onSelect={handleSelect}
+                    className="cursor-pointer"
+                  >
+                    {term.label}
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            )}
+
+            {/* Hidden group with ALL terms for search - this enables searching through everything */}
+            <CommandGroup className="hidden">
+              {allSearchTerms.map((term) => (
                 <CommandItem
-                  key={term.value}
+                  key={`all-${term.value}`}
                   value={term.value}
                   onSelect={handleSelect}
                   className="cursor-pointer"
