@@ -30,6 +30,7 @@ interface SearchTerm {
 export function SearchCombobox() {
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState("")
+  const [search, setSearch] = React.useState("")
   const { setSelectedFilter, images } = useFilter()
 
   // Generate ALL unique searchable terms
@@ -134,9 +135,17 @@ export function SearchCombobox() {
     if (currentValue) {
       setSelectedFilter(currentValue)
       setValue("")
+      setSearch("")
       setOpen(false)
     }
   }
+
+  // Reset search when opening/closing
+  React.useEffect(() => {
+    if (!open) {
+      setSearch("")
+    }
+  }, [open])
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -152,14 +161,84 @@ export function SearchCombobox() {
       </PopoverTrigger>
       <PopoverContent className="w-[300px] p-0" align="end">
         <Command>
-          <CommandInput placeholder="Search..." className="h-9" />
+          <CommandInput
+            placeholder="Search..."
+            className="h-9"
+            value={search}
+            onValueChange={setSearch}
+          />
           <CommandList>
             <CommandEmpty>No results found.</CommandEmpty>
 
-            {/* Show popular terms by type */}
-            {popularByType.category.length > 0 && (
-              <CommandGroup heading="Popular Categories">
-                {popularByType.category.map((term) => (
+            {/* When not searching, show popular items by category */}
+            {!search && (
+              <>
+                {popularByType.category.length > 0 && (
+                  <CommandGroup heading="Popular Categories">
+                    {popularByType.category.map((term) => (
+                      <CommandItem
+                        key={term.value}
+                        value={term.value}
+                        onSelect={handleSelect}
+                        className="cursor-pointer"
+                      >
+                        {term.label}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                )}
+
+                {popularByType.person.length > 0 && (
+                  <CommandGroup heading="Popular People">
+                    {popularByType.person.map((term) => (
+                      <CommandItem
+                        key={term.value}
+                        value={term.value}
+                        onSelect={handleSelect}
+                        className="cursor-pointer"
+                      >
+                        {term.label}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                )}
+
+                {popularByType.tag.length > 0 && (
+                  <CommandGroup heading="Popular Tags">
+                    {popularByType.tag.map((term) => (
+                      <CommandItem
+                        key={term.value}
+                        value={term.value}
+                        onSelect={handleSelect}
+                        className="cursor-pointer"
+                      >
+                        {term.label}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                )}
+
+                {popularByType.product.length > 0 && (
+                  <CommandGroup heading="Popular Products">
+                    {popularByType.product.map((term) => (
+                      <CommandItem
+                        key={term.value}
+                        value={term.value}
+                        onSelect={handleSelect}
+                        className="cursor-pointer"
+                      >
+                        {term.label}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                )}
+              </>
+            )}
+
+            {/* When searching, show ALL terms for complete search */}
+            {search && (
+              <CommandGroup heading="Search Results">
+                {allSearchTerms.map((term) => (
                   <CommandItem
                     key={term.value}
                     value={term.value}
@@ -171,65 +250,6 @@ export function SearchCombobox() {
                 ))}
               </CommandGroup>
             )}
-
-            {popularByType.person.length > 0 && (
-              <CommandGroup heading="Popular People">
-                {popularByType.person.map((term) => (
-                  <CommandItem
-                    key={term.value}
-                    value={term.value}
-                    onSelect={handleSelect}
-                    className="cursor-pointer"
-                  >
-                    {term.label}
-                  </CommandItem>
-                ))}
-              </CommandGroup>
-            )}
-
-            {popularByType.tag.length > 0 && (
-              <CommandGroup heading="Popular Tags">
-                {popularByType.tag.map((term) => (
-                  <CommandItem
-                    key={term.value}
-                    value={term.value}
-                    onSelect={handleSelect}
-                    className="cursor-pointer"
-                  >
-                    {term.label}
-                  </CommandItem>
-                ))}
-              </CommandGroup>
-            )}
-
-            {popularByType.product.length > 0 && (
-              <CommandGroup heading="Popular Products">
-                {popularByType.product.map((term) => (
-                  <CommandItem
-                    key={term.value}
-                    value={term.value}
-                    onSelect={handleSelect}
-                    className="cursor-pointer"
-                  >
-                    {term.label}
-                  </CommandItem>
-                ))}
-              </CommandGroup>
-            )}
-
-            {/* Hidden group with ALL terms for search - this enables searching through everything */}
-            <CommandGroup className="hidden">
-              {allSearchTerms.map((term) => (
-                <CommandItem
-                  key={`all-${term.value}`}
-                  value={term.value}
-                  onSelect={handleSelect}
-                  className="cursor-pointer"
-                >
-                  {term.label}
-                </CommandItem>
-              ))}
-            </CommandGroup>
           </CommandList>
         </Command>
       </PopoverContent>
