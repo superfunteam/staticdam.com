@@ -93,8 +93,8 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
         side="right"
       >
         <div className="flex h-full">
-          {/* Image Area */}
-          <div className="flex-1 flex items-center justify-center p-4 relative">
+          {/* Image Area - Simple fade animation */}
+          <div className="flex-1 flex items-center justify-center p-4 relative animate-in fade-in duration-300">
             {/* Navigation Buttons */}
             {hasPrev && (
               <Button
@@ -166,7 +166,7 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
           </div>
 
           {/* Metadata Sidebar */}
-          <div className="w-80 bg-white dark:bg-black flex flex-col">
+          <div className="w-80 bg-white dark:bg-black flex flex-col animate-in slide-in-from-right duration-500">
             <SheetHeader className="px-6 pt-6">
               <SheetTitle className="text-left truncate">{fileName}</SheetTitle>
             </SheetHeader>
