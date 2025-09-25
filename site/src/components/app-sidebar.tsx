@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Folder, Tag, Image, Hash, ChevronRight, User, Package, Moon, Sun } from "lucide-react"
+import { Folder, Tag, Image, Hash, User, Package, Moon, Sun } from "lucide-react"
 import { useQuery } from '@tanstack/react-query'
 import { useDarkMode } from "@/contexts/dark-mode-context"
 
@@ -264,7 +264,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                       <span className="bg-muted px-1.5 py-0.5 rounded-md text-xs text-muted-foreground">
                         {metadata.categories.length}
                       </span>
-                      <ChevronRight className="ml-2 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                     </SidebarMenuButton>
                   </CollapsibleTrigger>
                   <CollapsibleContent>
@@ -302,7 +301,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                       <span className="bg-muted px-1.5 py-0.5 rounded-md text-xs text-muted-foreground">
                         {metadata.people.length}
                       </span>
-                      <ChevronRight className="ml-2 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                     </SidebarMenuButton>
                   </CollapsibleTrigger>
                   <CollapsibleContent>
@@ -340,7 +338,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                       <span className="bg-muted px-1.5 py-0.5 rounded-md text-xs text-muted-foreground">
                         {metadata.tags.length}
                       </span>
-                      <ChevronRight className="ml-2 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                     </SidebarMenuButton>
                   </CollapsibleTrigger>
                   <CollapsibleContent>
@@ -378,7 +375,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                       <span className="bg-muted px-1.5 py-0.5 rounded-md text-xs text-muted-foreground">
                         {metadata.products.length}
                       </span>
-                      <ChevronRight className="ml-2 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                     </SidebarMenuButton>
                   </CollapsibleTrigger>
                   <CollapsibleContent>
