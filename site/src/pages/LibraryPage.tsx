@@ -85,8 +85,8 @@ const ImageGridItem = memo(({ image, isSelected, onToggleSelect, onOpenLightbox 
         {/* Video play icon overlay */}
         {image.isVideo && (
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="bg-black/60 rounded-full p-3 backdrop-blur-sm">
-              <Play className="h-8 w-8 text-white fill-white" />
+            <div className="bg-black dark:bg-white rounded-lg p-3">
+              <Play className="h-6 w-6 text-white dark:text-black fill-white dark:fill-black" />
             </div>
           </div>
         )}
