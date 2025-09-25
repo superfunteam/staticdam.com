@@ -30,6 +30,7 @@ interface SearchTerm {
 export function SearchCombobox() {
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState("")
+  const [search, setSearch] = React.useState("")
   const { setSelectedFilter, images } = useFilter()
 
   // Generate ALL unique searchable terms
@@ -134,9 +135,17 @@ export function SearchCombobox() {
     if (currentValue) {
       setSelectedFilter(currentValue)
       setValue("")
+      setSearch("")
       setOpen(false)
     }
   }
+
+  // Reset search when opening/closing
+  React.useEffect(() => {
+    if (!open) {
+      setSearch("")
+    }
+  }, [open])
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -152,16 +161,86 @@ export function SearchCombobox() {
       </PopoverTrigger>
       <PopoverContent className="w-[300px] p-0" align="end">
         <Command>
-          <CommandInput placeholder="Search..." className="h-9" />
+          <CommandInput
+            placeholder="Search..."
+            className="h-9"
+            value={search}
+            onValueChange={setSearch}
+          />
           <CommandList>
             <CommandEmpty>No results found.</CommandEmpty>
 
-            {/* Popular items by category - shown by default */}
-            {popularByType.category.length > 0 && (
-              <CommandGroup heading="Popular Categories">
-                {popularByType.category.map((term) => (
+            {/* Popular items by category - only shown when NOT searching */}
+            {!search && (
+              <>
+                {popularByType.category.length > 0 && (
+                  <CommandGroup heading="Popular Categories">
+                    {popularByType.category.map((term) => (
+                      <CommandItem
+                        key={`popular-${term.value}`}
+                        value={term.value}
+                        onSelect={handleSelect}
+                        className="cursor-pointer"
+                      >
+                        {term.label}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                )}
+
+                {popularByType.person.length > 0 && (
+                  <CommandGroup heading="Popular People">
+                    {popularByType.person.map((term) => (
+                      <CommandItem
+                        key={`popular-${term.value}`}
+                        value={term.value}
+                        onSelect={handleSelect}
+                        className="cursor-pointer"
+                      >
+                        {term.label}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                )}
+
+                {popularByType.tag.length > 0 && (
+                  <CommandGroup heading="Popular Tags">
+                    {popularByType.tag.map((term) => (
+                      <CommandItem
+                        key={`popular-${term.value}`}
+                        value={term.value}
+                        onSelect={handleSelect}
+                        className="cursor-pointer"
+                      >
+                        {term.label}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                )}
+
+                {popularByType.product.length > 0 && (
+                  <CommandGroup heading="Popular Products">
+                    {popularByType.product.map((term) => (
+                      <CommandItem
+                        key={`popular-${term.value}`}
+                        value={term.value}
+                        onSelect={handleSelect}
+                        className="cursor-pointer"
+                      >
+                        {term.label}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                )}
+              </>
+            )}
+
+            {/* All search results - only shown when searching */}
+            {search && (
+              <CommandGroup heading="Search Results">
+                {allSearchTerms.map((term) => (
                   <CommandItem
-                    key={`popular-${term.value}`}
+                    key={`search-${term.value}`}
                     value={term.value}
                     onSelect={handleSelect}
                     className="cursor-pointer"
@@ -171,65 +250,6 @@ export function SearchCombobox() {
                 ))}
               </CommandGroup>
             )}
-
-            {popularByType.person.length > 0 && (
-              <CommandGroup heading="Popular People">
-                {popularByType.person.map((term) => (
-                  <CommandItem
-                    key={`popular-${term.value}`}
-                    value={term.value}
-                    onSelect={handleSelect}
-                    className="cursor-pointer"
-                  >
-                    {term.label}
-                  </CommandItem>
-                ))}
-              </CommandGroup>
-            )}
-
-            {popularByType.tag.length > 0 && (
-              <CommandGroup heading="Popular Tags">
-                {popularByType.tag.map((term) => (
-                  <CommandItem
-                    key={`popular-${term.value}`}
-                    value={term.value}
-                    onSelect={handleSelect}
-                    className="cursor-pointer"
-                  >
-                    {term.label}
-                  </CommandItem>
-                ))}
-              </CommandGroup>
-            )}
-
-            {popularByType.product.length > 0 && (
-              <CommandGroup heading="Popular Products">
-                {popularByType.product.map((term) => (
-                  <CommandItem
-                    key={`popular-${term.value}`}
-                    value={term.value}
-                    onSelect={handleSelect}
-                    className="cursor-pointer"
-                  >
-                    {term.label}
-                  </CommandItem>
-                ))}
-              </CommandGroup>
-            )}
-
-            {/* All searchable terms - hidden visually but searchable by Command */}
-            <CommandGroup className="sr-only">
-              {allSearchTerms.map((term) => (
-                <CommandItem
-                  key={`search-${term.value}`}
-                  value={term.value}
-                  onSelect={handleSelect}
-                  className="cursor-pointer"
-                >
-                  {term.label}
-                </CommandItem>
-              ))}
-            </CommandGroup>
           </CommandList>
         </Command>
       </PopoverContent>
