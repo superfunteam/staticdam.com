@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom'
-import { DamSidebar, useFilter } from '@/components/dam-sidebar'
+import { AppSidebar } from '@/components/app-sidebar'
+import { useFilter } from '@/components/dam-sidebar'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -83,19 +84,19 @@ function DynamicBreadcrumb() {
 export default function Layout() {
   return (
     <SidebarProvider>
-      <DamSidebar />
+      <AppSidebar />
       <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 bg-white dark:bg-black">
-          <div className="flex items-center gap-2 px-4 w-full">
-            <SidebarTrigger className="-ml-1" />
-            <Separator
-              orientation="vertical"
-              className="mr-2 data-[orientation=vertical]:h-4"
-            />
-            <DynamicBreadcrumb />
-            <div className="ml-auto">
-              <SearchCombobox />
+        <header className="flex h-16 shrink-0 items-center gap-2">
+          <div className="flex items-center justify-between gap-2 px-4 w-full">
+            <div className="flex items-center gap-2">
+              <SidebarTrigger className="-ml-1" />
+              <Separator
+                orientation="vertical"
+                className="mr-2 data-[orientation=vertical]:h-4"
+              />
+              <DynamicBreadcrumb />
             </div>
+            <SearchCombobox />
           </div>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0 bg-white dark:bg-black text-black dark:text-white">
