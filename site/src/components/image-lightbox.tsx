@@ -24,9 +24,11 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
   const [isLoading, setIsLoading] = useState(true)
   const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0 })
   const imgRef = useRef<HTMLImageElement>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
   const currentIndex = images.findIndex(img => img.path === image.path)
   const hasPrev = currentIndex > 0
   const hasNext = currentIndex < images.length - 1
+  const isVideo = image.isVideo || /\.(mp4|mov|webm|avi)$/i.test(image.path)
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -118,33 +120,55 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
               </Button>
             )}
 
-            {/* Main Image */}
+            {/* Main Media (Image or Video) */}
             <div className="max-w-full max-h-full flex items-center justify-center relative">
               {isLoading && (
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="flex flex-col items-center gap-3">
                     <Loader2 className="h-8 w-8 animate-spin text-white" />
-                    <span className="text-white text-sm">Loading image...</span>
+                    <span className="text-white text-sm">Loading {isVideo ? 'video' : 'image'}...</span>
                   </div>
                 </div>
               )}
-              <img
-                ref={imgRef}
-                src={`/${image.path}`}
-                alt={image.subject || fileName}
-                className={`max-w-full max-h-full object-contain ${
-                  isLoading ? 'opacity-0' : 'opacity-100 animate-in fade-in slide-in-from-bottom-8 duration-500 fill-mode-both'
-                }`}
-                onLoad={(e) => {
-                  const img = e.currentTarget
-                  setImageDimensions({
-                    width: img.naturalWidth,
-                    height: img.naturalHeight
-                  })
-                  setIsLoading(false)
-                }}
-                onError={() => setIsLoading(false)}
-              />
+              {isVideo ? (
+                <video
+                  ref={videoRef}
+                  src={`/${image.path}`}
+                  controls
+                  autoPlay
+                  muted
+                  className={`max-w-full max-h-full object-contain ${
+                    isLoading ? 'opacity-0' : 'opacity-100 animate-in fade-in slide-in-from-bottom-8 duration-500 fill-mode-both'
+                  }`}
+                  onLoadedMetadata={(e) => {
+                    const video = e.currentTarget
+                    setImageDimensions({
+                      width: video.videoWidth,
+                      height: video.videoHeight
+                    })
+                    setIsLoading(false)
+                  }}
+                  onError={() => setIsLoading(false)}
+                />
+              ) : (
+                <img
+                  ref={imgRef}
+                  src={`/${image.path}`}
+                  alt={image.subject || fileName}
+                  className={`max-w-full max-h-full object-contain ${
+                    isLoading ? 'opacity-0' : 'opacity-100 animate-in fade-in slide-in-from-bottom-8 duration-500 fill-mode-both'
+                  }`}
+                  onLoad={(e) => {
+                    const img = e.currentTarget
+                    setImageDimensions({
+                      width: img.naturalWidth,
+                      height: img.naturalHeight
+                    })
+                    setIsLoading(false)
+                  }}
+                  onError={() => setIsLoading(false)}
+                />
+              )}
             </div>
 
             {/* Top Controls */}
@@ -201,6 +225,12 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
                         <Calendar className="h-4 w-4 text-muted-foreground" />
                         <span className="text-muted-foreground min-w-16">Taken:</span>
                         <span>{formatDate(image.dateTaken)}</span>
+                      </div>
+                    )}
+                    {image.duration && (
+                      <div className="flex items-center gap-2">
+                        <span className="text-muted-foreground min-w-16">Duration:</span>
+                        <span>{Math.floor(image.duration / 60)}:{String(Math.floor(image.duration % 60)).padStart(2, '0')}</span>
                       </div>
                     )}
                   </div>

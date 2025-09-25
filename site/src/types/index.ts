@@ -13,6 +13,8 @@ export interface ImageMetadata {
   person?: string[]
   product?: string[]
   hierarchical?: string[]
+  duration?: number
+  isVideo?: boolean
 }
 
 export interface EditPayload {

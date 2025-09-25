@@ -24,6 +24,8 @@ interface ManifestEntry {
   person?: string[]
   product?: string[]
   hierarchical?: string[]
+  duration?: number
+  isVideo?: boolean
 }
 
 async function extractMetadata(filePath: string): Promise<ManifestEntry | null> {
@@ -36,11 +38,26 @@ async function extractMetadata(filePath: string): Promise<ManifestEntry | null> 
 
     const exif = data[0]
 
+    // Check if this is a video file
+    const isVideo = /\.(mp4|mov|webm|avi)$/i.test(filePath)
+
     const entry: ManifestEntry = {
       path: filePath.replace(/^\.\//, ''),
-      w: exif['EXIF:ImageWidth'] || exif['File:ImageWidth'] || exif['PNG:ImageWidth'] || exif['EXIF:ExifImageWidth'] || 0,
-      h: exif['EXIF:ImageHeight'] || exif['File:ImageHeight'] || exif['PNG:ImageHeight'] || exif['EXIF:ExifImageHeight'] || 0,
+      w: exif['EXIF:ImageWidth'] || exif['File:ImageWidth'] || exif['PNG:ImageWidth'] || exif['EXIF:ExifImageWidth'] ||
+         exif['QuickTime:ImageWidth'] || exif['QuickTime:SourceImageWidth'] || exif['Composite:ImageWidth'] || 0,
+      h: exif['EXIF:ImageHeight'] || exif['File:ImageHeight'] || exif['PNG:ImageHeight'] || exif['EXIF:ExifImageHeight'] ||
+         exif['QuickTime:ImageHeight'] || exif['QuickTime:SourceImageHeight'] || exif['Composite:ImageHeight'] || 0,
       bytes: exif['File:FileSize'] || exif['System:FileSize'] || 0,
+    }
+
+    // Add video-specific fields
+    if (isVideo) {
+      entry.isVideo = true
+      // Duration in seconds
+      const duration = exif['QuickTime:Duration'] || exif['Composite:Duration'] || exif['Matroska:Duration']
+      if (duration) {
+        entry.duration = typeof duration === 'string' ? parseFloat(duration) : duration
+      }
     }
 
     if (exif['EXIF:DateTimeOriginal'] || exif['EXIF:CreateDate']) {
@@ -136,6 +153,10 @@ async function main() {
     'assets/**/*.{png,PNG}',
     'assets/**/*.{webp,WEBP}',
     'assets/**/*.{heic,HEIC}',
+    'assets/**/*.{mp4,MP4}',
+    'assets/**/*.{mov,MOV}',
+    'assets/**/*.{webm,WEBM}',
+    'assets/**/*.{avi,AVI}',
   ]
 
   const files: string[] = []

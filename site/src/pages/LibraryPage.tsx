@@ -6,7 +6,7 @@ import { useFilter } from '@/components/app-sidebar'
 import { useSidebar } from '@/components/ui/sidebar'
 import { ImageLightbox } from '@/components/image-lightbox'
 import { MetadataEditor } from '@/components/metadata-editor'
-import { Check } from 'lucide-react'
+import { Check, Play } from 'lucide-react'
 import type { ImageMetadata } from '@/types'
 
 // Utility function to get thumbnail path - memoized
@@ -71,7 +71,7 @@ const ImageGridItem = memo(({ image, isSelected, onToggleSelect, onOpenLightbox 
         </div>
       </div>
 
-      <div className="aspect-square bg-gray-100 dark:bg-gray-900 rounded-xl">
+      <div className="aspect-square bg-gray-100 dark:bg-gray-900 rounded-xl relative">
         <img
           src={thumbnailPath}
           alt={image.subject || fileName}
@@ -82,6 +82,14 @@ const ImageGridItem = memo(({ image, isSelected, onToggleSelect, onOpenLightbox 
             e.currentTarget.src = `/${image.path}`
           }}
         />
+        {/* Video play icon overlay */}
+        {image.isVideo && (
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div className="bg-black/60 rounded-full p-3 backdrop-blur-sm">
+              <Play className="h-8 w-8 text-white fill-white" />
+            </div>
+          </div>
+        )}
       </div>
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-xl">
         <div className="absolute bottom-2 left-2 right-2">

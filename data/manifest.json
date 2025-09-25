@@ -629,5 +629,13 @@
     "w": 2731,
     "h": 2731,
     "bytes": 8422508
+  },
+  {
+    "path": "assets/Video/supplier-explorer-preview-device.mp4",
+    "w": 0,
+    "h": 0,
+    "bytes": 7496566,
+    "isVideo": true,
+    "duration": 10.03334
   }
 ]

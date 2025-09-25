@@ -28,6 +28,31 @@ function getOutputPath(inputPath: string): string {
   return `${outputDir}/${nameWithoutExt}.jpg`
 }
 
+async function generateVideoThumbnail(inputPath: string, outputPath: string): Promise<boolean> {
+  try {
+    // Get video duration
+    const durationCmd = `ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "${inputPath}"`
+    const durationOutput = execSync(durationCmd, { encoding: 'utf-8' })
+    const duration = parseFloat(durationOutput.trim())
+
+    if (isNaN(duration) || duration <= 0) {
+      throw new Error('Could not determine video duration')
+    }
+
+    // Calculate midpoint
+    const midpoint = duration / 2
+
+    // Extract frame at midpoint and resize to 800px width
+    const ffmpegCmd = `ffmpeg -ss ${midpoint} -i "${inputPath}" -vframes 1 -vf "scale=800:-1" -q:v 2 "${outputPath}" -y`
+    execSync(ffmpegCmd, { stdio: 'pipe' })
+
+    return true
+  } catch (error) {
+    console.error(`Error generating video thumbnail for ${inputPath}:`, error)
+    return false
+  }
+}
+
 async function generateThumbnail(inputPath: string): Promise<ThumbnailResult> {
   const outputPath = getOutputPath(inputPath)
 
@@ -48,17 +73,28 @@ async function generateThumbnail(inputPath: string): Promise<ThumbnailResult> {
       mkdirSync(outputDir, { recursive: true })
     }
 
-    // Generate JPG thumbnail at 800px width with high quality
-    // -resize 800x800> only resizes if image is larger than 800px
-    // -quality 90 for high quality JPG compression
-    const args = [
-      inputPath,
-      '-resize', '800x800>',
-      '-quality', '90',
-      outputPath
-    ]
+    // Check if this is a video file
+    const isVideo = /\.(mp4|mov|webm|avi)$/i.test(inputPath)
 
-    execSync(`convert ${args.map(arg => `"${arg}"`).join(' ')}`, { stdio: 'inherit' })
+    if (isVideo) {
+      // Generate video thumbnail at 50% duration
+      const success = await generateVideoThumbnail(inputPath, outputPath)
+      if (!success) {
+        throw new Error('Failed to generate video thumbnail')
+      }
+    } else {
+      // Generate image thumbnail
+      // -resize 800x800> only resizes if image is larger than 800px
+      // -quality 90 for high quality JPG compression
+      const args = [
+        inputPath,
+        '-resize', '800x800>',
+        '-quality', '90',
+        outputPath
+      ]
+
+      execSync(`convert ${args.map(arg => `"${arg}"`).join(' ')}`, { stdio: 'inherit' })
+    }
 
     return {
       original: inputPath,
@@ -79,13 +115,17 @@ async function generateThumbnail(inputPath: string): Promise<ThumbnailResult> {
 async function main() {
   console.log('Generating thumbnails...')
 
-  // Find all image files in assets directory
+  // Find all image and video files in assets directory
   const patterns = [
     'assets/**/*.{jpg,jpeg,JPG,JPEG}',
     'assets/**/*.{tif,tiff,TIF,TIFF}',
     'assets/**/*.{png,PNG}',
     'assets/**/*.{webp,WEBP}',
     'assets/**/*.{heic,HEIC}',
+    'assets/**/*.{mp4,MP4}',
+    'assets/**/*.{mov,MOV}',
+    'assets/**/*.{webm,WEBM}',
+    'assets/**/*.{avi,AVI}',
   ]
 
   const files: string[] = []
