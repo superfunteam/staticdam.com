@@ -36,3 +36,6 @@ coverage
 # Dependencies lock files (keep one)
 package-lock.json
 yarn.lock
+
+# Exiftool backup files
+*_original
