@@ -214,7 +214,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 isActive={selectedFilter === null}
               >
                 <Image className="h-4 w-4" />
-                <span>All Images ({images.length})</span>
+                <span className="flex-1">All Images</span>
+                <span className="ml-auto bg-muted px-1.5 py-0.5 rounded-md text-xs text-muted-foreground">
+                  {images.length}
+                </span>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
@@ -234,7 +237,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                       isActive={selectedFilter === `folder:${folder}`}
                     >
                       <Folder className="h-4 w-4" />
-                      <span>{folder} ({count})</span>
+                      <span className="flex-1">{folder}</span>
+                      <span className="ml-auto bg-muted px-1.5 py-0.5 rounded-md text-xs text-muted-foreground">
+                        {count}
+                      </span>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 )
@@ -254,8 +260,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <CollapsibleTrigger asChild>
                     <SidebarMenuButton tooltip="Categories">
                       <Hash className="h-4 w-4" />
-                      <span>Categories ({metadata.categories.length})</span>
-                      <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                      <span className="flex-1">Categories</span>
+                      <span className="bg-muted px-1.5 py-0.5 rounded-md text-xs text-muted-foreground">
+                        {metadata.categories.length}
+                      </span>
+                      <ChevronRight className="ml-2 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                     </SidebarMenuButton>
                   </CollapsibleTrigger>
                   <CollapsibleContent>
@@ -268,7 +277,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                               onClick={() => setSelectedFilter(`category:${category}`)}
                               isActive={selectedFilter === `category:${category}`}
                             >
-                              <span>{category} ({count})</span>
+                              <span className="flex-1">{category}</span>
+                              <span className="ml-auto bg-muted px-1.5 py-0.5 rounded-md text-xs text-muted-foreground">
+                                {count}
+                              </span>
                             </SidebarMenuSubButton>
                           </SidebarMenuSubItem>
                         )
@@ -286,8 +298,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <CollapsibleTrigger asChild>
                     <SidebarMenuButton tooltip="People">
                       <User className="h-4 w-4" />
-                      <span>People ({metadata.people.length})</span>
-                      <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                      <span className="flex-1">People</span>
+                      <span className="bg-muted px-1.5 py-0.5 rounded-md text-xs text-muted-foreground">
+                        {metadata.people.length}
+                      </span>
+                      <ChevronRight className="ml-2 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                     </SidebarMenuButton>
                   </CollapsibleTrigger>
                   <CollapsibleContent>
@@ -300,7 +315,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                               onClick={() => setSelectedFilter(`person:${person}`)}
                               isActive={selectedFilter === `person:${person}`}
                             >
-                              <span>{person} ({count})</span>
+                              <span className="flex-1">{person}</span>
+                              <span className="ml-auto bg-muted px-1.5 py-0.5 rounded-md text-xs text-muted-foreground">
+                                {count}
+                              </span>
                             </SidebarMenuSubButton>
                           </SidebarMenuSubItem>
                         )
@@ -318,8 +336,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <CollapsibleTrigger asChild>
                     <SidebarMenuButton tooltip="Tags">
                       <Tag className="h-4 w-4" />
-                      <span>Tags ({metadata.tags.length})</span>
-                      <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                      <span className="flex-1">Tags</span>
+                      <span className="bg-muted px-1.5 py-0.5 rounded-md text-xs text-muted-foreground">
+                        {metadata.tags.length}
+                      </span>
+                      <ChevronRight className="ml-2 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                     </SidebarMenuButton>
                   </CollapsibleTrigger>
                   <CollapsibleContent>
@@ -332,7 +353,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                               onClick={() => setSelectedFilter(`tag:${tag}`)}
                               isActive={selectedFilter === `tag:${tag}`}
                             >
-                              <span>{tag} ({count})</span>
+                              <span className="flex-1">{tag}</span>
+                              <span className="ml-auto bg-muted px-1.5 py-0.5 rounded-md text-xs text-muted-foreground">
+                                {count}
+                              </span>
                             </SidebarMenuSubButton>
                           </SidebarMenuSubItem>
                         )
@@ -350,8 +374,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <CollapsibleTrigger asChild>
                     <SidebarMenuButton tooltip="Products">
                       <Package className="h-4 w-4" />
-                      <span>Products ({metadata.products.length})</span>
-                      <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                      <span className="flex-1">Products</span>
+                      <span className="bg-muted px-1.5 py-0.5 rounded-md text-xs text-muted-foreground">
+                        {metadata.products.length}
+                      </span>
+                      <ChevronRight className="ml-2 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                     </SidebarMenuButton>
                   </CollapsibleTrigger>
                   <CollapsibleContent>
@@ -364,7 +391,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                               onClick={() => setSelectedFilter(`product:${product}`)}
                               isActive={selectedFilter === `product:${product}`}
                             >
-                              <span>{product} ({count})</span>
+                              <span className="flex-1">{product}</span>
+                              <span className="ml-auto bg-muted px-1.5 py-0.5 rounded-md text-xs text-muted-foreground">
+                                {count}
+                              </span>
                             </SidebarMenuSubButton>
                           </SidebarMenuSubItem>
                         )
