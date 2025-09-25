@@ -174,7 +174,7 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate }: Im
       </div>
 
       {/* Metadata Sidebar */}
-      <div className="w-80 bg-white p-6 overflow-y-auto">
+      <div className="w-80 bg-white dark:bg-black p-6 overflow-y-auto">
         <div className="space-y-6">
           {/* File Info */}
           <div>
