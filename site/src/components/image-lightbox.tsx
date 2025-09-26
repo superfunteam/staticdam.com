@@ -224,10 +224,10 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
           <div className="w-80 bg-white dark:bg-black flex flex-col animate-in slide-in-from-right duration-500">
 
             <div className="flex-1 px-6 py-6 overflow-y-auto">
-              <div className="space-y-6">
+              <div>
                 {/* File Info */}
                 <div>
-                  <h3 className="font-medium text-gray-900 dark:text-white">Information</h3>
+                  <h3 className="font-medium text-gray-900 dark:text-white">File Info</h3>
                   <dl className="mt-2 divide-y divide-gray-200 border-t border-b border-gray-200 dark:divide-white/10 dark:border-white/10">
                     <div className="flex justify-between py-3 text-sm font-medium">
                       <dt className="text-gray-500 dark:text-gray-400">Name</dt>
@@ -238,7 +238,7 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
                       <dd className="text-gray-900 dark:text-white">{getFolder()}</dd>
                     </div>
                     <div className="flex justify-between py-3 text-sm font-medium">
-                      <dt className="text-gray-500 dark:text-gray-400">Dimensions</dt>
+                      <dt className="text-gray-500 dark:text-gray-400">Frame</dt>
                       <dd className="text-gray-900 dark:text-white">
                         {imageDimensions.width || image.w || 0} × {imageDimensions.height || image.h || 0}
                       </dd>
@@ -265,63 +265,60 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
                 </div>
 
                 {/* Share URLs */}
-                <Separator />
-                <div>
+                <div className="mt-6">
                   <h3 className="font-semibold mb-3">Share URLs</h3>
                   <div className="space-y-3 text-sm">
                     {/* DAM */}
                     <div className="flex items-center gap-2">
                       <StaticDAMLogo className="h-4 w-4 text-muted-foreground flex-shrink-0" />
-                      <span className="text-muted-foreground flex-shrink-0">DAM</span>
-                      <input
-                        type="text"
-                        value={damUrl}
-                        readOnly
-                        className="flex-1 px-2 py-1 text-xs border rounded bg-muted/50 text-muted-foreground"
-                        onClick={(e) => e.currentTarget.select()}
-                      />
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="px-2 flex-shrink-0"
-                        onClick={() => copyToClipboard(damUrl, 'DAM URL')}
-                      >
-                        <Copy className="h-3 w-3" />
-                      </Button>
+                      <span className="text-muted-foreground flex-shrink-0 w-10">DAM</span>
+                      <div className="relative flex-1">
+                        <input
+                          type="text"
+                          value={damUrl}
+                          readOnly
+                          className="w-full px-2 pr-8 py-1 text-xs border rounded bg-muted/50 text-muted-foreground"
+                          onClick={(e) => e.currentTarget.select()}
+                        />
+                        <button
+                          className="absolute right-1 top-1/2 -translate-y-1/2 p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors"
+                          onClick={() => copyToClipboard(damUrl, 'DAM URL')}
+                        >
+                          <Copy className="h-3 w-3 text-muted-foreground" />
+                        </button>
+                      </div>
                     </div>
 
                     {/* Asset */}
                     <div className="flex items-center gap-2">
                       <Image className="h-4 w-4 text-muted-foreground flex-shrink-0" />
-                      <span className="text-muted-foreground flex-shrink-0">Asset</span>
-                      <input
-                        type="text"
-                        value={assetUrl}
-                        readOnly
-                        className="flex-1 px-2 py-1 text-xs border rounded bg-muted/50 text-muted-foreground"
-                        onClick={(e) => e.currentTarget.select()}
-                      />
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="px-2 flex-shrink-0"
-                        onClick={() => copyToClipboard(assetUrl, 'Asset URL')}
-                      >
-                        <Copy className="h-3 w-3" />
-                      </Button>
+                      <span className="text-muted-foreground flex-shrink-0 w-10">Asset</span>
+                      <div className="relative flex-1">
+                        <input
+                          type="text"
+                          value={assetUrl}
+                          readOnly
+                          className="w-full px-2 pr-8 py-1 text-xs border rounded bg-muted/50 text-muted-foreground"
+                          onClick={(e) => e.currentTarget.select()}
+                        />
+                        <button
+                          className="absolute right-1 top-1/2 -translate-y-1/2 p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors"
+                          onClick={() => copyToClipboard(assetUrl, 'Asset URL')}
+                        >
+                          <Copy className="h-3 w-3 text-muted-foreground" />
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
 
                 {/* Camera Info */}
                 {image.camera && (
-                  <>
-                    <Separator />
-                    <div>
-                      <h3 className="font-semibold mb-3 flex items-center gap-2">
-                        <Camera className="h-4 w-4" />
-                        Camera
-                      </h3>
+                  <div className="mt-6">
+                    <h3 className="font-semibold mb-3 flex items-center gap-2">
+                      <Camera className="h-4 w-4" />
+                      Camera
+                    </h3>
                       <div className="space-y-2 text-sm">
                         {image.camera.make && (
                           <div className="flex items-center gap-2">
@@ -337,18 +334,15 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
                         )}
                       </div>
                     </div>
-                  </>
                 )}
 
                 {/* Category */}
                 {image.category && image.category.length > 0 && (
-                  <>
-                    <Separator />
-                    <div>
-                      <h3 className="font-semibold mb-3 flex items-center gap-2">
-                        <Hash className="h-4 w-4" />
-                        Categories
-                      </h3>
+                  <div className="mt-6">
+                    <h3 className="font-semibold mb-3 flex items-center gap-2">
+                      <Hash className="h-4 w-4" />
+                      Categories
+                    </h3>
                       <div className="flex flex-wrap gap-2">
                         {image.category.map((cat, index) => (
                           <Badge
@@ -367,18 +361,15 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
                         ))}
                       </div>
                     </div>
-                  </>
                 )}
 
                 {/* Tags */}
                 {image.tags && image.tags.length > 0 && (
-                  <>
-                    <Separator />
-                    <div>
-                      <h3 className="font-semibold mb-3 flex items-center gap-2">
-                        <Tag className="h-4 w-4" />
-                        Tags
-                      </h3>
+                  <div className="mt-6">
+                    <h3 className="font-semibold mb-3 flex items-center gap-2">
+                      <Tag className="h-4 w-4" />
+                      Tags
+                    </h3>
                       <div className="flex flex-wrap gap-2">
                         {image.tags.map((tag, index) => (
                           <Badge
@@ -397,18 +388,15 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
                         ))}
                       </div>
                     </div>
-                  </>
                 )}
 
                 {/* Person */}
                 {image.person && image.person.length > 0 && (
-                  <>
-                    <Separator />
-                    <div>
-                      <h3 className="font-semibold mb-3 flex items-center gap-2">
-                        <User className="h-4 w-4" />
-                        People
-                      </h3>
+                  <div className="mt-6">
+                    <h3 className="font-semibold mb-3 flex items-center gap-2">
+                      <User className="h-4 w-4" />
+                      People
+                    </h3>
                       <div className="flex flex-wrap gap-2">
                         {image.person.map((person, index) => (
                           <Badge
@@ -427,15 +415,12 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
                         ))}
                       </div>
                     </div>
-                  </>
                 )}
 
                 {/* Hierarchical */}
                 {image.hierarchical && image.hierarchical.length > 0 && (
-                  <>
-                    <Separator />
-                    <div>
-                      <h3 className="font-semibold mb-3">Hierarchical Keywords</h3>
+                  <div className="mt-6">
+                    <h3 className="font-semibold mb-3">Hierarchical Keywords</h3>
                       <div className="space-y-1">
                         {image.hierarchical.map((keyword, index) => (
                           <div key={index} className="text-sm text-muted-foreground">
@@ -444,18 +429,15 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
                         ))}
                       </div>
                     </div>
-                  </>
                 )}
 
                 {/* Products */}
                 {image.product && image.product.length > 0 && (
-                  <>
-                    <Separator />
-                    <div>
-                      <h3 className="font-semibold mb-3 flex items-center gap-2">
-                        <Package className="h-4 w-4" />
-                        Products
-                      </h3>
+                  <div className="mt-6">
+                    <h3 className="font-semibold mb-3 flex items-center gap-2">
+                      <Package className="h-4 w-4" />
+                      Products
+                    </h3>
                       <div className="flex flex-wrap gap-2">
                         {image.product.map((product, index) => (
                           <Badge
@@ -474,13 +456,12 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
                         ))}
                       </div>
                     </div>
-                  </>
                 )}
               </div>
             </div>
 
             {/* Footer with Edit Metadata and Download buttons */}
-            <SheetFooter className="px-6 pb-6 space-y-2">
+            <SheetFooter className="px-6 pb-6 flex flex-col gap-3">
               {onEditMetadata && (
                 <Button onClick={onEditMetadata} variant="outline" className="w-full">
                   <Edit className="h-4 w-4 mr-2" />
