@@ -30,9 +30,20 @@
     "path": "assets/Product Images/SIO-hero=Data Enrichment.png",
     "w": 2748,
     "h": 1556,
-    "bytes": 3996993,
+    "bytes": 3997395,
+    "category": [
+      "Hero",
+      "Product Bit"
+    ],
+    "tags": [
+      "computer",
+      "desk"
+    ],
+    "person": [
+      "Jill"
+    ],
     "product": [
-      "ai"
+      "Data Enrichment,Procurement"
     ]
   },
   {
