@@ -3,18 +3,22 @@
     "path": "assets/Product Images/SIO-hero=Benchmarking 2.png",
     "w": 2748,
     "h": 1556,
-    "bytes": 5593724
+    "bytes": 5594206,
+    "product": [
+      "Benchmarking",
+      "Diversity"
+    ]
   },
   {
     "path": "assets/Product Images/SIO-hero=Benchmarking-1.png",
     "w": 2748,
     "h": 1556,
-    "bytes": 5461602,
+    "bytes": 5461571,
     "person": [
       "Sasha"
     ],
     "product": [
-      "procurement"
+      "Benchmarking"
     ]
   },
   {
@@ -51,43 +55,56 @@
     "path": "assets/Product Images/SIO-hero=Diversity Analytics.png",
     "w": 2748,
     "h": 1556,
-    "bytes": 5048320
+    "bytes": 5048799,
+    "product": [
+      "Diversity",
+      "Analytics"
+    ]
   },
   {
     "path": "assets/Product Images/SIO-hero=GHG Emissions.png",
     "w": 2748,
     "h": 1556,
-    "bytes": 2497736,
+    "bytes": 2497695,
     "product": [
-      "supplier diversity"
+      "Emissions"
     ]
   },
   {
     "path": "assets/Product Images/SIO-hero=Online Data Enrichment.png",
     "w": 2748,
     "h": 1556,
-    "bytes": 4548839,
+    "bytes": 4548820,
     "product": [
-      "ai"
+      "Data Enrichment"
     ]
   },
   {
     "path": "assets/Product Images/SIO-hero=program-impact.png",
     "w": 2748,
     "h": 1556,
-    "bytes": 5187242
+    "bytes": 5187687,
+    "product": [
+      "Impact"
+    ]
   },
   {
     "path": "assets/Product Images/SIO-hero=Supplier Explorer.png",
     "w": 2748,
     "h": 1556,
-    "bytes": 5664395
+    "bytes": 5664851,
+    "product": [
+      "Supplier Explorer"
+    ]
   },
   {
     "path": "assets/Product Images/SIO-hero=Supplier Registration.png",
     "w": 2748,
     "h": 1556,
-    "bytes": 5725201
+    "bytes": 5725661,
+    "product": [
+      "Supplier Registration"
+    ]
   },
   {
     "path": "assets/Product Images/SIO-hero=Supplier-Registration-Supplier.png",
@@ -105,25 +122,32 @@
     "path": "assets/Product Images/SIO-hero=Sustainability & ESG Reporting.png",
     "w": 2748,
     "h": 1556,
-    "bytes": 4555156,
+    "bytes": 4555193,
     "product": [
-      "procurement"
+      "Emissions",
+      "Sustainability",
+      "ESG Reporting"
     ]
   },
   {
     "path": "assets/Product Images/SIO-hero=Tier 2 reporting for suppliers.png",
     "w": 2748,
     "h": 1556,
-    "bytes": 3421956,
+    "bytes": 3421949,
     "product": [
-      "supplier diversity"
+      "Tier 2",
+      "Spend Reporting"
     ]
   },
   {
     "path": "assets/Product Images/SIO-hero=Tier 2 Spend Reporting.png",
     "w": 2748,
     "h": 1556,
-    "bytes": 3934959
+    "bytes": 3935441,
+    "product": [
+      "Tier 2",
+      "Spend Reporting"
+    ]
   },
   {
     "path": "assets/Purchased Stock/AdobeStock_1004057177.jpeg",
