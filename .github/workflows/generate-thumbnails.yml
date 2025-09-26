@@ -35,11 +35,18 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y imagemagick libwebp-dev
 
-      - name: Verify ImageMagick installation and WebP support
+      - name: Install FFmpeg for video processing
+        run: |
+          sudo apt-get install -y ffmpeg
+
+      - name: Verify ImageMagick and FFmpeg installations
         run: |
           convert -version
           echo "ImageMagick convert command is available"
           convert -list format | grep -i webp || echo "WebP not found in ImageMagick delegates"
+          ffmpeg -version
+          ffprobe -version
+          echo "All media processing tools are ready"
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile=false
