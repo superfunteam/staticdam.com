@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { toast } from 'sonner'
-import { X, Plus, Save } from 'lucide-react'
+import { Plus, Save } from 'lucide-react'
 import type { ImageMetadata } from '@/types'
 
 // Utility function to get thumbnail path
@@ -210,18 +211,13 @@ export function MetadataEditor({ selectedImages, images, isOpen, onClose, onSave
                         <Label className="text-xs">Category</Label>
                         <div className="flex flex-wrap gap-2 mt-2 mb-2">
                           {currentCategories.map((category: string) => (
-                            <span
+                            <Badge
                               key={category}
-                              className="inline-flex items-center gap-1 px-2 py-1 bg-green-100 text-green-800 text-xs rounded"
+                              variant="category"
+                              onRemove={() => removeCategory(image.path, category)}
                             >
                               {category}
-                              <button
-                                onClick={() => removeCategory(image.path, category)}
-                                className="text-green-600 hover:text-green-800"
-                              >
-                                <X className="h-3 w-3" />
-                              </button>
-                            </span>
+                            </Badge>
                           ))}
                         </div>
                         <div className="flex gap-2">
@@ -247,18 +243,13 @@ export function MetadataEditor({ selectedImages, images, isOpen, onClose, onSave
                         <Label className="text-xs">People</Label>
                         <div className="flex flex-wrap gap-2 mt-2 mb-2">
                           {currentPersons.map((person: string) => (
-                            <span
+                            <Badge
                               key={person}
-                              className="inline-flex items-center gap-1 px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded"
+                              variant="person"
+                              onRemove={() => removePerson(image.path, person)}
                             >
                               {person}
-                              <button
-                                onClick={() => removePerson(image.path, person)}
-                                className="text-purple-600 hover:text-purple-800"
-                              >
-                                <X className="h-3 w-3" />
-                              </button>
-                            </span>
+                            </Badge>
                           ))}
                         </div>
                         <div className="flex gap-2">
@@ -284,18 +275,13 @@ export function MetadataEditor({ selectedImages, images, isOpen, onClose, onSave
                         <Label className="text-xs">Product</Label>
                         <div className="flex flex-wrap gap-2 mt-2 mb-2">
                           {currentProducts.map((product: string) => (
-                            <span
+                            <Badge
                               key={product}
-                              className="inline-flex items-center gap-1 px-2 py-1 bg-orange-100 text-orange-800 text-xs rounded"
+                              variant="product"
+                              onRemove={() => removeProduct(image.path, product)}
                             >
                               {product}
-                              <button
-                                onClick={() => removeProduct(image.path, product)}
-                                className="text-orange-600 hover:text-orange-800"
-                              >
-                                <X className="h-3 w-3" />
-                              </button>
-                            </span>
+                            </Badge>
                           ))}
                         </div>
                         <div className="flex gap-2">
@@ -321,18 +307,13 @@ export function MetadataEditor({ selectedImages, images, isOpen, onClose, onSave
                         <Label className="text-xs">Tags</Label>
                         <div className="flex flex-wrap gap-2 mt-2 mb-2">
                           {currentTags.map((tag: string) => (
-                            <span
+                            <Badge
                               key={tag}
-                              className="inline-flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded"
+                              variant="tag"
+                              onRemove={() => removeTag(image.path, tag)}
                             >
                               {tag}
-                              <button
-                                onClick={() => removeTag(image.path, tag)}
-                                className="text-blue-600 hover:text-blue-800"
-                              >
-                                <X className="h-3 w-3" />
-                              </button>
-                            </span>
+                            </Badge>
                           ))}
                         </div>
                         <div className="flex gap-2">

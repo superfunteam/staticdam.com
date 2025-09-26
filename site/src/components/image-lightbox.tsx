@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { ChevronLeft, ChevronRight, Download, Tag, Calendar, Camera, Hash, Folder, Loader2, User, Copy, Image } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Download, Tag, Camera, Hash, Loader2, User, Copy, Image, Package } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import { toast } from 'sonner'
 import {
@@ -236,41 +237,41 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
               <div className="space-y-6">
                 {/* File Info */}
                 <div>
-                  <h3 className="font-semibold mb-3">File Information</h3>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex items-center gap-2">
-                      <span className="text-muted-foreground min-w-16">Name:</span>
-                      <span className="break-all">{fileName}</span>
+                  <h3 className="font-medium text-gray-900 dark:text-white">Information</h3>
+                  <dl className="mt-2 divide-y divide-gray-200 border-t border-b border-gray-200 dark:divide-white/10 dark:border-white/10">
+                    <div className="flex justify-between py-3 text-sm font-medium">
+                      <dt className="text-gray-500 dark:text-gray-400">Name</dt>
+                      <dd className="text-gray-900 dark:text-white text-right break-all max-w-[60%]">{fileName}</dd>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <Folder className="h-4 w-4 text-muted-foreground" />
-                      <span className="text-muted-foreground min-w-16">Folder:</span>
-                      <span>{getFolder()}</span>
+                    <div className="flex justify-between py-3 text-sm font-medium">
+                      <dt className="text-gray-500 dark:text-gray-400">Folder</dt>
+                      <dd className="text-gray-900 dark:text-white">{getFolder()}</dd>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-muted-foreground min-w-16">Size:</span>
-                      <span>
-                        {imageDimensions.width || image.w || 0} × {imageDimensions.height || image.h || 0} px
-                      </span>
+                    <div className="flex justify-between py-3 text-sm font-medium">
+                      <dt className="text-gray-500 dark:text-gray-400">Dimensions</dt>
+                      <dd className="text-gray-900 dark:text-white">
+                        {imageDimensions.width || image.w || 0} × {imageDimensions.height || image.h || 0}
+                      </dd>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-muted-foreground min-w-16">File Size:</span>
-                      <span>{formatFileSize(image.bytes)}</span>
+                    <div className="flex justify-between py-3 text-sm font-medium">
+                      <dt className="text-gray-500 dark:text-gray-400">File size</dt>
+                      <dd className="text-gray-900 dark:text-white">{formatFileSize(image.bytes)}</dd>
                     </div>
                     {image.dateTaken && (
-                      <div className="flex items-center gap-2">
-                        <Calendar className="h-4 w-4 text-muted-foreground" />
-                        <span className="text-muted-foreground min-w-16">Taken:</span>
-                        <span>{formatDate(image.dateTaken)}</span>
+                      <div className="flex justify-between py-3 text-sm font-medium">
+                        <dt className="text-gray-500 dark:text-gray-400">Date taken</dt>
+                        <dd className="text-gray-900 dark:text-white">{formatDate(image.dateTaken)}</dd>
                       </div>
                     )}
                     {image.duration && (
-                      <div className="flex items-center gap-2">
-                        <span className="text-muted-foreground min-w-16">Duration:</span>
-                        <span>{Math.floor(image.duration / 60)}:{String(Math.floor(image.duration % 60)).padStart(2, '0')}</span>
+                      <div className="flex justify-between py-3 text-sm font-medium">
+                        <dt className="text-gray-500 dark:text-gray-400">Duration</dt>
+                        <dd className="text-gray-900 dark:text-white">
+                          {Math.floor(image.duration / 60)}:{String(Math.floor(image.duration % 60)).padStart(2, '0')}
+                        </dd>
                       </div>
                     )}
-                  </div>
+                  </dl>
                 </div>
 
                 {/* Share Links */}
@@ -368,12 +369,9 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
                       </h3>
                       <div className="flex flex-wrap gap-2">
                         {image.category.map((cat, index) => (
-                          <span
-                            key={index}
-                            className="inline-block bg-secondary text-secondary-foreground px-2 py-1 rounded text-sm"
-                          >
+                          <Badge key={index} variant="category">
                             {cat}
-                          </span>
+                          </Badge>
                         ))}
                       </div>
                     </div>
@@ -391,12 +389,9 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
                       </h3>
                       <div className="flex flex-wrap gap-2">
                         {image.tags.map((tag, index) => (
-                          <span
-                            key={index}
-                            className="inline-block bg-secondary text-secondary-foreground px-2 py-1 rounded text-sm"
-                          >
+                          <Badge key={index} variant="tag">
                             {tag}
-                          </span>
+                          </Badge>
                         ))}
                       </div>
                     </div>
@@ -414,12 +409,9 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
                       </h3>
                       <div className="flex flex-wrap gap-2">
                         {image.person.map((person, index) => (
-                          <span
-                            key={index}
-                            className="inline-block bg-primary text-primary-foreground px-2 py-1 rounded text-sm"
-                          >
+                          <Badge key={index} variant="person">
                             {person}
-                          </span>
+                          </Badge>
                         ))}
                       </div>
                     </div>
@@ -448,15 +440,15 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
                   <>
                     <Separator />
                     <div>
-                      <h3 className="font-semibold mb-3">Products</h3>
+                      <h3 className="font-semibold mb-3 flex items-center gap-2">
+                        <Package className="h-4 w-4" />
+                        Products
+                      </h3>
                       <div className="flex flex-wrap gap-2">
                         {image.product.map((product, index) => (
-                          <span
-                            key={index}
-                            className="inline-block bg-primary text-primary-foreground px-2 py-1 rounded text-sm"
-                          >
+                          <Badge key={index} variant="product">
                             {product}
-                          </span>
+                          </Badge>
                         ))}
                       </div>
                     </div>
