@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { ChevronLeft, ChevronRight, Download, Tag, Camera, Hash, Loader2, User, Copy, Image, Package } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Download, Tag, Camera, Hash, Loader2, User, Copy, Image, Package, Edit } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
@@ -34,9 +34,10 @@ interface ImageLightboxProps {
   onClose: () => void
   onNavigate: (direction: 'prev' | 'next') => void
   onEditMetadata?: () => void
+  onFilterSelect?: (filter: string) => void
 }
 
-export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEditMetadata }: ImageLightboxProps) {
+export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEditMetadata, onFilterSelect }: ImageLightboxProps) {
   const [isLoading, setIsLoading] = useState(true)
   const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0 })
   const imgRef = useRef<HTMLImageElement>(null)
@@ -212,17 +213,6 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
               )}
             </div>
 
-            {/* Top Controls */}
-            <div className="absolute top-4 right-4 flex gap-2 z-10">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="bg-black/50 hover:bg-black/70 text-white border-white/20"
-                onClick={handleDownload}
-              >
-                <Download className="h-4 w-4" />
-              </Button>
-            </div>
 
             {/* Image Counter */}
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/50 text-white px-3 py-1 rounded-full text-sm">
@@ -241,7 +231,7 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
                   <dl className="mt-2 divide-y divide-gray-200 border-t border-b border-gray-200 dark:divide-white/10 dark:border-white/10">
                     <div className="flex justify-between py-3 text-sm font-medium">
                       <dt className="text-gray-500 dark:text-gray-400">Name</dt>
-                      <dd className="text-gray-900 dark:text-white text-right break-all max-w-[60%]">{fileName}</dd>
+                      <dd className="text-gray-900 dark:text-white text-right truncate max-w-[60%]" title={fileName}>{fileName}</dd>
                     </div>
                     <div className="flex justify-between py-3 text-sm font-medium">
                       <dt className="text-gray-500 dark:text-gray-400">Folder</dt>
@@ -274,59 +264,51 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
                   </dl>
                 </div>
 
-                {/* Share Links */}
+                {/* Share URLs */}
                 <Separator />
                 <div>
-                  <h3 className="font-semibold mb-3">Share Links</h3>
+                  <h3 className="font-semibold mb-3">Share URLs</h3>
                   <div className="space-y-3 text-sm">
-                    {/* DAM URL */}
-                    <div>
-                      <div className="flex items-center gap-2 mb-2">
-                        <StaticDAMLogo className="h-4 w-4 text-muted-foreground" />
-                        <span className="text-muted-foreground">DAM URL</span>
-                      </div>
-                      <div className="flex gap-2">
-                        <input
-                          type="text"
-                          value={damUrl}
-                          readOnly
-                          className="flex-1 px-2 py-1 text-xs border rounded bg-muted/50 text-muted-foreground"
-                          onClick={(e) => e.currentTarget.select()}
-                        />
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="px-2"
-                          onClick={() => copyToClipboard(damUrl, 'DAM URL')}
-                        >
-                          <Copy className="h-3 w-3" />
-                        </Button>
-                      </div>
+                    {/* DAM */}
+                    <div className="flex items-center gap-2">
+                      <StaticDAMLogo className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                      <span className="text-muted-foreground flex-shrink-0">DAM</span>
+                      <input
+                        type="text"
+                        value={damUrl}
+                        readOnly
+                        className="flex-1 px-2 py-1 text-xs border rounded bg-muted/50 text-muted-foreground"
+                        onClick={(e) => e.currentTarget.select()}
+                      />
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="px-2 flex-shrink-0"
+                        onClick={() => copyToClipboard(damUrl, 'DAM URL')}
+                      >
+                        <Copy className="h-3 w-3" />
+                      </Button>
                     </div>
 
-                    {/* Asset URL */}
-                    <div>
-                      <div className="flex items-center gap-2 mb-2">
-                        <Image className="h-4 w-4 text-muted-foreground" />
-                        <span className="text-muted-foreground">Asset URL</span>
-                      </div>
-                      <div className="flex gap-2">
-                        <input
-                          type="text"
-                          value={assetUrl}
-                          readOnly
-                          className="flex-1 px-2 py-1 text-xs border rounded bg-muted/50 text-muted-foreground"
-                          onClick={(e) => e.currentTarget.select()}
-                        />
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="px-2"
-                          onClick={() => copyToClipboard(assetUrl, 'Asset URL')}
-                        >
-                          <Copy className="h-3 w-3" />
-                        </Button>
-                      </div>
+                    {/* Asset */}
+                    <div className="flex items-center gap-2">
+                      <Image className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                      <span className="text-muted-foreground flex-shrink-0">Asset</span>
+                      <input
+                        type="text"
+                        value={assetUrl}
+                        readOnly
+                        className="flex-1 px-2 py-1 text-xs border rounded bg-muted/50 text-muted-foreground"
+                        onClick={(e) => e.currentTarget.select()}
+                      />
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="px-2 flex-shrink-0"
+                        onClick={() => copyToClipboard(assetUrl, 'Asset URL')}
+                      >
+                        <Copy className="h-3 w-3" />
+                      </Button>
                     </div>
                   </div>
                 </div>
@@ -369,7 +351,17 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
                       </h3>
                       <div className="flex flex-wrap gap-2">
                         {image.category.map((cat, index) => (
-                          <Badge key={index} variant="category">
+                          <Badge
+                            key={index}
+                            variant="category"
+                            clickable={!!onFilterSelect}
+                            onClick={() => {
+                              if (onFilterSelect) {
+                                onFilterSelect(`category:${cat}`)
+                                onClose()
+                              }
+                            }}
+                          >
                             {cat}
                           </Badge>
                         ))}
@@ -389,7 +381,17 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
                       </h3>
                       <div className="flex flex-wrap gap-2">
                         {image.tags.map((tag, index) => (
-                          <Badge key={index} variant="tag">
+                          <Badge
+                            key={index}
+                            variant="tag"
+                            clickable={!!onFilterSelect}
+                            onClick={() => {
+                              if (onFilterSelect) {
+                                onFilterSelect(`tag:${tag}`)
+                                onClose()
+                              }
+                            }}
+                          >
                             {tag}
                           </Badge>
                         ))}
@@ -409,7 +411,17 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
                       </h3>
                       <div className="flex flex-wrap gap-2">
                         {image.person.map((person, index) => (
-                          <Badge key={index} variant="person">
+                          <Badge
+                            key={index}
+                            variant="person"
+                            clickable={!!onFilterSelect}
+                            onClick={() => {
+                              if (onFilterSelect) {
+                                onFilterSelect(`person:${person}`)
+                                onClose()
+                              }
+                            }}
+                          >
                             {person}
                           </Badge>
                         ))}
@@ -446,7 +458,17 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
                       </h3>
                       <div className="flex flex-wrap gap-2">
                         {image.product.map((product, index) => (
-                          <Badge key={index} variant="product">
+                          <Badge
+                            key={index}
+                            variant="product"
+                            clickable={!!onFilterSelect}
+                            onClick={() => {
+                              if (onFilterSelect) {
+                                onFilterSelect(`product:${product}`)
+                                onClose()
+                              }
+                            }}
+                          >
                             {product}
                           </Badge>
                         ))}
@@ -457,14 +479,22 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
               </div>
             </div>
 
-            {/* Footer with Edit Metadata button */}
-            {onEditMetadata && (
-              <SheetFooter className="px-6 pb-6">
-                <Button onClick={onEditMetadata} className="w-full">
+            {/* Footer with Edit Metadata and Download buttons */}
+            <SheetFooter className="px-6 pb-6 space-y-2">
+              {onEditMetadata && (
+                <Button onClick={onEditMetadata} variant="outline" className="w-full">
+                  <Edit className="h-4 w-4 mr-2" />
                   Edit Metadata
                 </Button>
-              </SheetFooter>
-            )}
+              )}
+              <Button
+                onClick={handleDownload}
+                className="w-full bg-gray-900 hover:bg-gray-800 dark:bg-white dark:hover:bg-gray-100 dark:text-gray-900 text-white"
+              >
+                <Download className="h-4 w-4 mr-2" />
+                Download
+              </Button>
+            </SheetFooter>
           </div>
         </div>
       </SheetContent>

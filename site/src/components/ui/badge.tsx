@@ -5,6 +5,7 @@ import { X } from "lucide-react"
 export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
   variant?: "category" | "tag" | "person" | "product"
   onRemove?: () => void
+  clickable?: boolean
 }
 
 const variantColors = {
@@ -15,7 +16,7 @@ const variantColors = {
 }
 
 const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
-  ({ className, variant = "tag", children, onRemove, ...props }, ref) => {
+  ({ className, variant = "tag", children, onRemove, clickable, onClick, ...props }, ref) => {
     const dotColor = variantColors[variant]
 
     return (
@@ -25,8 +26,10 @@ const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
           "inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs font-medium",
           "text-gray-900 dark:text-white",
           "inset-ring inset-ring-gray-200 dark:inset-ring-white/10",
+          clickable && "cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors",
           className
         )}
+        onClick={onClick}
         {...props}
       >
         <svg

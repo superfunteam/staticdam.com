@@ -117,7 +117,7 @@ export default function LibraryPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [showMetadataEditor, setShowMetadataEditor] = useState(false)
   const [lightboxImage, setLightboxImage] = useState<ImageMetadata | null>(null)
-  const { selectedFilter, filteredImages } = useFilter()
+  const { selectedFilter, filteredImages, setSelectedFilter } = useFilter()
   const { state: sidebarState } = useSidebar()
   const navigate = useNavigate()
   const { encodedPath } = useParams()
@@ -386,6 +386,7 @@ export default function LibraryPage() {
           onClose={closeLightbox}
           onNavigate={navigateLightbox}
           onEditMetadata={handleLightboxEdit}
+          onFilterSelect={setSelectedFilter}
         />
       )}
 
