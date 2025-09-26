@@ -86,7 +86,10 @@ async function extractMetadata(filePath: string): Promise<ManifestEntry | null> 
       if (typeof categories === 'string') {
         entry.category = categories.split(',').map(c => c.trim()).filter(Boolean)
       } else if (Array.isArray(categories)) {
-        entry.category = categories.filter(Boolean)
+        // Also split any comma-separated values within the array
+        entry.category = categories.flatMap(c =>
+          typeof c === 'string' ? c.split(',').map(s => s.trim()) : c
+        ).filter(Boolean)
       }
     }
 
@@ -96,11 +99,21 @@ async function extractMetadata(filePath: string): Promise<ManifestEntry | null> 
       if (typeof keywords === 'string') {
         entry.tags = keywords.split(',').map(k => k.trim()).filter(Boolean)
       } else if (Array.isArray(keywords)) {
-        entry.tags = keywords.filter(Boolean)
+        // Also split any comma-separated values within the array
+        entry.tags = keywords.flatMap(k =>
+          typeof k === 'string' ? k.split(',').map(s => s.trim()) : k
+        ).filter(Boolean)
       }
     } else if (exif['XMP-dc:Keywords']) {
       const keywords = exif['XMP-dc:Keywords']
-      entry.tags = Array.isArray(keywords) ? keywords : [keywords].filter(Boolean)
+      if (Array.isArray(keywords)) {
+        // Split any comma-separated values within the array
+        entry.tags = keywords.flatMap(k =>
+          typeof k === 'string' ? k.split(',').map(s => s.trim()) : k
+        ).filter(Boolean)
+      } else if (typeof keywords === 'string') {
+        entry.tags = keywords.split(',').map(k => k.trim()).filter(Boolean)
+      }
     }
 
     // People from dedicated field
@@ -109,14 +122,20 @@ async function extractMetadata(filePath: string): Promise<ManifestEntry | null> 
       if (typeof persons === 'string') {
         entry.person = persons.split(',').map(p => p.trim()).filter(Boolean)
       } else if (Array.isArray(persons)) {
-        entry.person = persons.filter(Boolean)
+        // Also split any comma-separated values within the array
+        entry.person = persons.flatMap(p =>
+          typeof p === 'string' ? p.split(',').map(s => s.trim()) : p
+        ).filter(Boolean)
       }
     } else if (exif['IPTC:PersonInImage']) {
       const persons = exif['IPTC:PersonInImage']
       if (typeof persons === 'string') {
         entry.person = persons.split(',').map(p => p.trim()).filter(Boolean)
       } else if (Array.isArray(persons)) {
-        entry.person = persons.filter(Boolean)
+        // Also split any comma-separated values within the array
+        entry.person = persons.flatMap(p =>
+          typeof p === 'string' ? p.split(',').map(s => s.trim()) : p
+        ).filter(Boolean)
       }
     }
 
@@ -124,9 +143,13 @@ async function extractMetadata(filePath: string): Promise<ManifestEntry | null> 
     if (exif['XMP-lr:HierarchicalSubject']) {
       const products = exif['XMP-lr:HierarchicalSubject']
       if (Array.isArray(products)) {
-        entry.product = products.filter(Boolean)
+        // Split any comma-separated values within the array
+        entry.product = products.flatMap(p =>
+          typeof p === 'string' ? p.split(',').map(s => s.trim()) : p
+        ).filter(Boolean)
       } else if (typeof products === 'string') {
-        entry.product = [products].filter(Boolean)
+        // Split comma-separated values
+        entry.product = products.split(',').map(p => p.trim()).filter(Boolean)
       }
     }
 
