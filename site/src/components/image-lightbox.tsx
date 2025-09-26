@@ -275,8 +275,6 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
 
                 {/* Share URLs */}
                 
-               
-                
                 <div className="mt-4">
                   <h3 className="font-semibold mb-2">Share URLs</h3>
                   <div className="space-y-3 text-sm">
