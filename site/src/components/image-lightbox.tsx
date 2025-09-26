@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { ChevronLeft, ChevronRight, Download, Tag, Camera, Hash, Loader2, User, Copy, Image, Package, Edit } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Download, Tag, Camera, Hash, Loader2, User, Copy, Image, Package, Edit, Info } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
@@ -139,28 +139,6 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
         <div className="flex h-full">
           {/* Image Area - No animation on container to prevent interference */}
           <div className="flex-1 flex items-center justify-center p-4 relative">
-            {/* Navigation Buttons */}
-            {hasPrev && (
-              <Button
-                variant="ghost"
-                size="icon"
-                className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white border-white/20 z-10"
-                onClick={() => onNavigate('prev')}
-              >
-                <ChevronLeft className="h-6 w-6" />
-              </Button>
-            )}
-
-            {hasNext && (
-              <Button
-                variant="ghost"
-                size="icon"
-                className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white border-white/20 z-10"
-                onClick={() => onNavigate('next')}
-              >
-                <ChevronRight className="h-6 w-6" />
-              </Button>
-            )}
 
             {/* Main Media (Image or Video) */}
             <div className="max-w-full max-h-full flex items-center justify-center relative">
@@ -214,47 +192,78 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
             </div>
 
 
-            {/* Image Counter */}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/50 text-white px-3 py-1 rounded-full text-sm">
-              {currentIndex + 1} of {images.length}
+            {/* Navigation Bar */}
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-4 bg-black/50 text-white px-4 py-2 rounded-full">
+              {hasPrev ? (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-8 w-8 p-0 hover:bg-white/20 text-white"
+                  onClick={() => onNavigate('prev')}
+                >
+                  <ChevronLeft className="h-5 w-5" />
+                </Button>
+              ) : (
+                <div className="h-8 w-8" />
+              )}
+
+              <span className="text-sm font-medium">
+                {currentIndex + 1} of {images.length}
+              </span>
+
+              {hasNext ? (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-8 w-8 p-0 hover:bg-white/20 text-white"
+                  onClick={() => onNavigate('next')}
+                >
+                  <ChevronRight className="h-5 w-5" />
+                </Button>
+              ) : (
+                <div className="h-8 w-8" />
+              )}
             </div>
           </div>
 
           {/* Metadata Sidebar */}
-          <div className="w-80 bg-white dark:bg-black flex flex-col animate-in slide-in-from-right duration-500">
+          <div className="w-96 bg-white dark:bg-black flex flex-col animate-in slide-in-from-right duration-500">
 
             <div className="flex-1 px-6 py-6 overflow-y-auto">
               <div>
                 {/* File Info */}
                 <div>
-                  <h3 className="font-medium text-gray-900 dark:text-white">File Info</h3>
-                  <dl className="mt-2 divide-y divide-gray-200 border-t border-b border-gray-200 dark:divide-white/10 dark:border-white/10">
-                    <div className="flex justify-between py-3 text-sm font-medium">
+                  <h3 className="font-medium text-gray-900 dark:text-white flex items-center gap-2">
+                    <Info className="h-4 w-4" />
+                    File Info
+                  </h3>
+                  <dl className="mt-2 space-y-3">
+                    <div className="flex justify-between text-sm font-medium">
                       <dt className="text-gray-500 dark:text-gray-400">Name</dt>
                       <dd className="text-gray-900 dark:text-white text-right truncate max-w-[60%]" title={fileName}>{fileName}</dd>
                     </div>
-                    <div className="flex justify-between py-3 text-sm font-medium">
+                    <div className="flex justify-between text-sm font-medium">
                       <dt className="text-gray-500 dark:text-gray-400">Folder</dt>
                       <dd className="text-gray-900 dark:text-white">{getFolder()}</dd>
                     </div>
-                    <div className="flex justify-between py-3 text-sm font-medium">
+                    <div className="flex justify-between text-sm font-medium">
                       <dt className="text-gray-500 dark:text-gray-400">Frame</dt>
                       <dd className="text-gray-900 dark:text-white">
                         {imageDimensions.width || image.w || 0} × {imageDimensions.height || image.h || 0}
                       </dd>
                     </div>
-                    <div className="flex justify-between py-3 text-sm font-medium">
+                    <div className="flex justify-between text-sm font-medium">
                       <dt className="text-gray-500 dark:text-gray-400">File size</dt>
                       <dd className="text-gray-900 dark:text-white">{formatFileSize(image.bytes)}</dd>
                     </div>
                     {image.dateTaken && (
-                      <div className="flex justify-between py-3 text-sm font-medium">
+                      <div className="flex justify-between text-sm font-medium">
                         <dt className="text-gray-500 dark:text-gray-400">Date taken</dt>
                         <dd className="text-gray-900 dark:text-white">{formatDate(image.dateTaken)}</dd>
                       </div>
                     )}
                     {image.duration && (
-                      <div className="flex justify-between py-3 text-sm font-medium">
+                      <div className="flex justify-between text-sm font-medium">
                         <dt className="text-gray-500 dark:text-gray-400">Duration</dt>
                         <dd className="text-gray-900 dark:text-white">
                           {Math.floor(image.duration / 60)}:{String(Math.floor(image.duration % 60)).padStart(2, '0')}
@@ -265,6 +274,7 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
                 </div>
 
                 {/* Share URLs */}
+                <Separator />
                 <div className="mt-6">
                   <h3 className="font-semibold mb-3">Share URLs</h3>
                   <div className="space-y-3 text-sm">
@@ -314,7 +324,9 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
 
                 {/* Camera Info */}
                 {image.camera && (
-                  <div className="mt-6">
+                  <>
+                    <Separator />
+                    <div className="mt-6">
                     <h3 className="font-semibold mb-3 flex items-center gap-2">
                       <Camera className="h-4 w-4" />
                       Camera
@@ -334,11 +346,14 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
                         )}
                       </div>
                     </div>
+                  </>
                 )}
 
                 {/* Category */}
                 {image.category && image.category.length > 0 && (
-                  <div className="mt-6">
+                  <>
+                    <Separator />
+                    <div className="mt-6">
                     <h3 className="font-semibold mb-3 flex items-center gap-2">
                       <Hash className="h-4 w-4" />
                       Categories
@@ -361,11 +376,14 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
                         ))}
                       </div>
                     </div>
+                  </>
                 )}
 
                 {/* Tags */}
                 {image.tags && image.tags.length > 0 && (
-                  <div className="mt-6">
+                  <>
+                    <Separator />
+                    <div className="mt-6">
                     <h3 className="font-semibold mb-3 flex items-center gap-2">
                       <Tag className="h-4 w-4" />
                       Tags
@@ -388,11 +406,14 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
                         ))}
                       </div>
                     </div>
+                  </>
                 )}
 
                 {/* Person */}
                 {image.person && image.person.length > 0 && (
-                  <div className="mt-6">
+                  <>
+                    <Separator />
+                    <div className="mt-6">
                     <h3 className="font-semibold mb-3 flex items-center gap-2">
                       <User className="h-4 w-4" />
                       People
@@ -415,11 +436,14 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
                         ))}
                       </div>
                     </div>
+                  </>
                 )}
 
                 {/* Hierarchical */}
                 {image.hierarchical && image.hierarchical.length > 0 && (
-                  <div className="mt-6">
+                  <>
+                    <Separator />
+                    <div className="mt-6">
                     <h3 className="font-semibold mb-3">Hierarchical Keywords</h3>
                       <div className="space-y-1">
                         {image.hierarchical.map((keyword, index) => (
@@ -429,11 +453,14 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
                         ))}
                       </div>
                     </div>
+                  </>
                 )}
 
                 {/* Products */}
                 {image.product && image.product.length > 0 && (
-                  <div className="mt-6">
+                  <>
+                    <Separator />
+                    <div className="mt-6">
                     <h3 className="font-semibold mb-3 flex items-center gap-2">
                       <Package className="h-4 w-4" />
                       Products
@@ -456,6 +483,7 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
                         ))}
                       </div>
                     </div>
+                  </>
                 )}
               </div>
             </div>
@@ -465,7 +493,7 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
               {onEditMetadata && (
                 <Button onClick={onEditMetadata} variant="outline" className="w-full">
                   <Edit className="h-4 w-4 mr-2" />
-                  Edit Metadata
+                  Edit Data
                 </Button>
               )}
               <Button
