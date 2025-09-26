@@ -274,8 +274,10 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
                 </div>
 
                 {/* Share URLs */}
-                <Separator />
-                <div className="mt-6">
+                
+                <Separator className="mt-3" />
+                
+                <div className="mt-3">
                   <h3 className="font-semibold mb-3">Share URLs</h3>
                   <div className="space-y-3 text-sm">
                     {/* DAM */}
@@ -325,8 +327,8 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
                 {/* Camera Info */}
                 {image.camera && (
                   <>
-                    <Separator />
-                    <div className="mt-6">
+                    <Separator className="mt-2" />
+                    <div className="mt-2">
                     <h3 className="font-semibold mb-3 flex items-center gap-2">
                       <Camera className="h-4 w-4" />
                       Camera
@@ -352,9 +354,9 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
                 {/* Category */}
                 {image.category && image.category.length > 0 && (
                   <>
-                    <Separator />
-                    <div className="mt-6">
-                    <h3 className="font-semibold mb-3 flex items-center gap-2">
+                    <Separator className="mt-3" />
+                    <div className="mt-3">
+                    <h3 className="font-semibold mb-1 flex items-center gap-1">
                       <Hash className="h-4 w-4" />
                       Categories
                     </h3>
@@ -383,9 +385,9 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
                 {/* Tags */}
                 {image.tags && image.tags.length > 0 && (
                   <>
-                    <Separator />
-                    <div className="mt-6">
-                    <h3 className="font-semibold mb-3 flex items-center gap-2">
+                    <Separator className="mt-3" />
+                    <div className="mt-3">
+                    <h3 className="font-semibold mb-1 flex items-center gap-1">
                       <Tag className="h-4 w-4" />
                       Tags
                     </h3>
@@ -413,9 +415,9 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
                 {/* Person */}
                 {image.person && image.person.length > 0 && (
                   <>
-                    <Separator />
-                    <div className="mt-6">
-                    <h3 className="font-semibold mb-3 flex items-center gap-2">
+                    <Separator className="mt-3" />
+                    <div className="mt-3">
+                    <h3 className="font-semibold mb-1 flex items-center gap-1">
                       <User className="h-4 w-4" />
                       People
                     </h3>
@@ -443,9 +445,9 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
                 {/* Hierarchical */}
                 {image.hierarchical && image.hierarchical.length > 0 && (
                   <>
-                    <Separator />
-                    <div className="mt-6">
-                    <h3 className="font-semibold mb-3">Hierarchical Keywords</h3>
+                    <Separator className="mt-3" />
+                    <div className="mt-2">
+                    <h3 className="font-semibold mb-1">Hierarchical Keywords</h3>
                       <div className="space-y-1">
                         {image.hierarchical.map((keyword, index) => (
                           <div key={index} className="text-sm text-muted-foreground">
@@ -460,9 +462,9 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
                 {/* Products */}
                 {image.product && image.product.length > 0 && (
                   <>
-                    <Separator />
-                    <div className="mt-6">
-                    <h3 className="font-semibold mb-3 flex items-center gap-2">
+                      <Separator className="mt-3" />
+                    <div className="mt-2">
+                    <h3 className="font-semibold mb-1 flex items-center gap-1">
                       <Package className="h-4 w-4" />
                       Products
                     </h3>
