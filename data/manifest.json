@@ -3,7 +3,10 @@
     "path": "assets/Product Images/SIO-hero=Benchmarking 2.png",
     "w": 2748,
     "h": 1556,
-    "bytes": 5594206,
+    "bytes": 5594440,
+    "person": [
+      "Sasha"
+    ],
     "product": [
       "Benchmarking",
       "Diversity"
@@ -25,7 +28,10 @@
     "path": "assets/Product Images/SIO-hero=Carbon Analytics.png",
     "w": 2748,
     "h": 1556,
-    "bytes": 1632902,
+    "bytes": 1633103,
+    "person": [
+      "Jeff"
+    ],
     "product": [
       "Carbon Analytics"
     ]
@@ -55,7 +61,10 @@
     "path": "assets/Product Images/SIO-hero=Diversity Analytics.png",
     "w": 2748,
     "h": 1556,
-    "bytes": 5048799,
+    "bytes": 5049033,
+    "person": [
+      "David"
+    ],
     "product": [
       "Diversity",
       "Analytics"
@@ -65,7 +74,10 @@
     "path": "assets/Product Images/SIO-hero=GHG Emissions.png",
     "w": 2748,
     "h": 1556,
-    "bytes": 2497695,
+    "bytes": 2497929,
+    "person": [
+      "Emily"
+    ],
     "product": [
       "Emissions"
     ]
@@ -83,7 +95,10 @@
     "path": "assets/Product Images/SIO-hero=program-impact.png",
     "w": 2748,
     "h": 1556,
-    "bytes": 5187687,
+    "bytes": 5187920,
+    "person": [
+      "Demi"
+    ],
     "product": [
       "Impact"
     ]
@@ -92,7 +107,10 @@
     "path": "assets/Product Images/SIO-hero=Supplier Explorer.png",
     "w": 2748,
     "h": 1556,
-    "bytes": 5664851,
+    "bytes": 5665085,
+    "person": [
+      "Rhoda"
+    ],
     "product": [
       "Supplier Explorer"
     ]
@@ -101,7 +119,10 @@
     "path": "assets/Product Images/SIO-hero=Supplier Registration.png",
     "w": 2748,
     "h": 1556,
-    "bytes": 5725661,
+    "bytes": 5725894,
+    "person": [
+      "Nick"
+    ],
     "product": [
       "Supplier Registration"
     ]
@@ -122,7 +143,10 @@
     "path": "assets/Product Images/SIO-hero=Sustainability & ESG Reporting.png",
     "w": 2748,
     "h": 1556,
-    "bytes": 4555193,
+    "bytes": 4555427,
+    "person": [
+      "Emily"
+    ],
     "product": [
       "Emissions",
       "Sustainability",
@@ -133,7 +157,10 @@
     "path": "assets/Product Images/SIO-hero=Tier 2 reporting for suppliers.png",
     "w": 2748,
     "h": 1556,
-    "bytes": 3421949,
+    "bytes": 3422183,
+    "person": [
+      "Elise"
+    ],
     "product": [
       "Tier 2",
       "Spend Reporting"
@@ -143,7 +170,10 @@
     "path": "assets/Product Images/SIO-hero=Tier 2 Spend Reporting.png",
     "w": 2748,
     "h": 1556,
-    "bytes": 3935441,
+    "bytes": 3935673,
+    "person": [
+      "Kai"
+    ],
     "product": [
       "Tier 2",
       "Spend Reporting"
@@ -153,11 +183,7 @@
     "path": "assets/Purchased Stock/AdobeStock_1004057177.jpeg",
     "w": 6471,
     "h": 4315,
-    "bytes": 4829081,
-    "category": [
-      "photography",
-      "stock"
-    ],
+    "bytes": 4829059,
     "tags": [
       "business",
       "technology",
@@ -168,27 +194,15 @@
     "path": "assets/Purchased Stock/AdobeStock_118799701.jpeg",
     "w": 5677,
     "h": 3785,
-    "bytes": 6076433,
-    "category": [
-      "corporate",
-      "people"
-    ],
-    "tags": [
-      "business",
-      "finance"
-    ],
-    "person": [
-      "Michael"
-    ]
+    "bytes": 6076131
   },
   {
     "path": "assets/Purchased Stock/AdobeStock_1215496859.jpeg",
     "w": 6913,
     "h": 4609,
-    "bytes": 8494909,
+    "bytes": 8494907,
     "category": [
-      "photography",
-      "architecture"
+      "people"
     ],
     "tags": [
       "technology",
@@ -199,26 +213,21 @@
     "path": "assets/Purchased Stock/AdobeStock_130637542.jpeg",
     "w": 5542,
     "h": 3695,
-    "bytes": 5475202,
+    "bytes": 5474941,
     "category": [
-      "corporate",
-      "stock"
+      "food"
     ],
     "tags": [
       "business",
       "teamwork"
-    ],
-    "person": [
-      "Abel"
     ]
   },
   {
     "path": "assets/Purchased Stock/AdobeStock_1321189556.jpeg",
     "w": 5888,
     "h": 3328,
-    "bytes": 1949915,
+    "bytes": 1949917,
     "category": [
-      "photography",
       "people"
     ],
     "tags": [
@@ -230,60 +239,25 @@
     "path": "assets/Purchased Stock/AdobeStock_136009640.jpeg",
     "w": 2564,
     "h": 1875,
-    "bytes": 1690251,
-    "category": [
-      "corporate",
-      "architecture"
-    ],
-    "tags": [
-      "business",
-      "innovation"
-    ]
+    "bytes": 1690209
   },
   {
     "path": "assets/Purchased Stock/AdobeStock_146025396.jpeg",
     "w": 7360,
     "h": 4912,
-    "bytes": 11911406,
-    "category": [
-      "stock",
-      "people"
-    ],
-    "tags": [
-      "technology",
-      "teamwork"
-    ]
+    "bytes": 11911374
   },
   {
     "path": "assets/Purchased Stock/AdobeStock_200536843.jpeg",
     "w": 5472,
     "h": 3648,
-    "bytes": 5242012,
-    "category": [
-      "corporate",
-      "photography"
-    ],
-    "tags": [
-      "finance",
-      "teamwork"
-    ]
+    "bytes": 5241974
   },
   {
     "path": "assets/Purchased Stock/AdobeStock_207342473.jpeg",
     "w": 1688,
     "h": 1125,
-    "bytes": 605230,
-    "category": [
-      "stock",
-      "architecture"
-    ],
-    "tags": [
-      "innovation",
-      "business"
-    ],
-    "person": [
-      "Jill"
-    ]
+    "bytes": 604927
   },
   {
     "path": "assets/Purchased Stock/AdobeStock_216888065.jpeg",
@@ -301,31 +275,46 @@
     "path": "assets/Purchased Stock/AdobeStock_220105682.jpeg",
     "w": 8688,
     "h": 5792,
-    "bytes": 18604410
+    "bytes": 18604644,
+    "person": [
+      "Rhoda"
+    ]
   },
   {
     "path": "assets/Purchased Stock/AdobeStock_220313424.jpeg",
     "w": 7710,
     "h": 4312,
-    "bytes": 11771083
+    "bytes": 11773974,
+    "person": [
+      "Rhoda"
+    ]
   },
   {
     "path": "assets/Purchased Stock/AdobeStock_220829245.jpeg",
     "w": 8281,
     "h": 5521,
-    "bytes": 12971351
+    "bytes": 12971585,
+    "person": [
+      "Rhoda"
+    ]
   },
   {
     "path": "assets/Purchased Stock/AdobeStock_224334998.jpeg",
     "w": 6046,
     "h": 4035,
-    "bytes": 7045468
+    "bytes": 7045700,
+    "person": [
+      "Kai"
+    ]
   },
   {
     "path": "assets/Purchased Stock/AdobeStock_227360110.jpeg",
     "w": 8363,
     "h": 5575,
-    "bytes": 16922822
+    "bytes": 16925713,
+    "person": [
+      "Rhoda"
+    ]
   },
   {
     "path": "assets/Purchased Stock/AdobeStock_233961393.jpeg",
@@ -343,7 +332,10 @@
     "path": "assets/Purchased Stock/AdobeStock_242711927.jpeg",
     "w": 8688,
     "h": 5792,
-    "bytes": 13041412
+    "bytes": 13044303,
+    "person": [
+      "Rhoda"
+    ]
   },
   {
     "path": "assets/Purchased Stock/AdobeStock_243500089.jpeg",
@@ -355,9 +347,9 @@
     "path": "assets/Purchased Stock/AdobeStock_244031424.jpeg",
     "w": 6144,
     "h": 4080,
-    "bytes": 10230562,
+    "bytes": 10230529,
     "person": [
-      "Sarah"
+      "Nick"
     ]
   },
   {
@@ -376,13 +368,19 @@
     "path": "assets/Purchased Stock/AdobeStock_302682764 2023-03-01 19.39.48.jpeg",
     "w": 5500,
     "h": 3665,
-    "bytes": 7399332
+    "bytes": 7399569,
+    "person": [
+      "Patricia"
+    ]
   },
   {
     "path": "assets/Purchased Stock/AdobeStock_302682764.jpeg",
     "w": 5500,
     "h": 3665,
-    "bytes": 7399332
+    "bytes": 7399569,
+    "person": [
+      "Patricia"
+    ]
   },
   {
     "path": "assets/Purchased Stock/AdobeStock_306244942.jpeg",
@@ -406,10 +404,7 @@
     "path": "assets/Purchased Stock/AdobeStock_317539258.jpeg",
     "w": 6000,
     "h": 3388,
-    "bytes": 9473459,
-    "person": [
-      "Jessica"
-    ]
+    "bytes": 9473191
   },
   {
     "path": "assets/Purchased Stock/AdobeStock_325735908.jpeg",
@@ -439,7 +434,10 @@
     "path": "assets/Purchased Stock/AdobeStock_396840673.jpeg",
     "w": 1688,
     "h": 1125,
-    "bytes": 760037
+    "bytes": 760270,
+    "person": [
+      "Jill"
+    ]
   },
   {
     "path": "assets/Purchased Stock/AdobeStock_405179606.jpeg",
@@ -469,16 +467,16 @@
     "path": "assets/Purchased Stock/AdobeStock_466864618-Man-White-Hard-Hat-Wind.jpeg",
     "w": 2560,
     "h": 1703,
-    "bytes": 169214
+    "bytes": 172104,
+    "person": [
+      "Jeff"
+    ]
   },
   {
     "path": "assets/Purchased Stock/AdobeStock_468349390.jpeg",
     "w": 5120,
     "h": 2880,
-    "bytes": 3948710,
-    "person": [
-      "Emma"
-    ]
+    "bytes": 3948445
   },
   {
     "path": "assets/Purchased Stock/AdobeStock_496931632.jpeg",
@@ -490,7 +488,10 @@
     "path": "assets/Purchased Stock/AdobeStock_519791377 2023-03-01 19.39.48.jpeg",
     "w": 6720,
     "h": 4480,
-    "bytes": 8140578
+    "bytes": 8140812,
+    "person": [
+      "David"
+    ]
   },
   {
     "path": "assets/Purchased Stock/AdobeStock_519791377.jpeg",
@@ -517,7 +518,10 @@
     "path": "assets/Purchased Stock/AdobeStock_525190666.jpeg",
     "w": 6720,
     "h": 4480,
-    "bytes": 10834500
+    "bytes": 10834734,
+    "person": [
+      "Sasha"
+    ]
   },
   {
     "path": "assets/Purchased Stock/AdobeStock_530613586.jpeg",
@@ -547,7 +551,10 @@
     "path": "assets/Purchased Stock/AdobeStock_560004188.jpeg",
     "w": 7554,
     "h": 5198,
-    "bytes": 9943952
+    "bytes": 9944185,
+    "person": [
+      "Demi"
+    ]
   },
   {
     "path": "assets/Purchased Stock/AdobeStock_622454761.jpeg",
@@ -577,9 +584,9 @@
     "path": "assets/Purchased Stock/alternate-sourcing-business.jpg",
     "w": 2731,
     "h": 2731,
-    "bytes": 3906253,
+    "bytes": 3906219,
     "person": [
-      "James"
+      "Kai"
     ]
   },
   {
@@ -598,7 +605,10 @@
     "path": "assets/Purchased Stock/lgbt-woman.jpg",
     "w": 2130,
     "h": 1421,
-    "bytes": 1291088
+    "bytes": 1293979,
+    "person": [
+      "Elise"
+    ]
   },
   {
     "path": "assets/Purchased Stock/pickawood-6tAIO3pxde4-unsplash.jpg",
@@ -664,13 +674,24 @@
     "path": "assets/Purchased Stock/sustainability-man-woman-greenhouse.jpg",
     "w": 3001,
     "h": 2000,
-    "bytes": 3735115
+    "bytes": 3738006,
+    "person": [
+      "Emily"
+    ]
   },
   {
     "path": "assets/Purchased Stock/sustainable-buildings.jpg",
     "w": 2731,
     "h": 2731,
     "bytes": 8422508
+  },
+  {
+    "path": "assets/Video/supplier-brand.mp4",
+    "w": 0,
+    "h": 0,
+    "bytes": 70760277,
+    "isVideo": true,
+    "duration": 60.133
   },
   {
     "path": "assets/Video/supplier-explorer-preview-device.mp4",
