@@ -61,7 +61,9 @@ export function FilterProvider({ children }: { children: React.ReactNode }) {
 
   // Function to update both state and URL
   const setSelectedFilter = React.useCallback((filter: string | null) => {
+    console.log('setSelectedFilter called with:', filter)
     const newUrl = filter ? filterToUrl(filter) : '/'
+    console.log('Navigating to URL:', newUrl)
     navigate(newUrl, { replace: true })
     // State will be updated by the useEffect above
   }, [navigate])

@@ -366,6 +366,7 @@ export function ImageLightbox({ image, images, isOpen, onClose, onNavigate, onEd
                             clickable={!!onFilterSelect}
                             onClick={() => {
                               if (onFilterSelect) {
+                                console.log('Filtering by category:', `category:${cat}`)
                                 onFilterSelect(`category:${cat}`)
                                 onClose()
                               }
